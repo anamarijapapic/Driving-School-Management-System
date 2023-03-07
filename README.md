@@ -10,7 +10,7 @@
 
 ## General Info
 
-Driving School Management System is a web application that is used by driving school students, lecturers, instructors and administration. It handles driving school processes step-by-step - enrollment, course appointments and attendance tracking, and driving lessons scheduling. 🚗📝  
+Driving School Management System is a web application that is used by driving school students, driving instructors and administration. It handles driving lessons scheduling and attendance tracking. 🚗📝  
 
 > Project created as a college seminar:  
 > *SRC136 - C# Programming*  
@@ -22,54 +22,18 @@ Driving School Management System is a web application that is used by driving sc
 
 - Roles:
     - Student - Atendee
-    - Lecturer
     - Instructor
     - Admin
 - Registration
-    - Medical profession checkbox
-    - Documentation upload (ID card (required), driving license for other category, medical certificate (required))
 - Authentication (login/logout)
 
 ### Driving School Processes Management
 
 - Anonymous user registers on the site, and enrolls in the driving school by selecting a category:
     - A
-        - If student already possesses a driving license for B category, he directly enrolls in UV course
-            - Skipping PPSP & PPP courses - they are tracked as passed
     - B
-        - Student enrolls in one of the upcoming PPSP courses
 
-#### Stage 1 - Prometni propisi i sigurnosna pravila (PPSP)
-
-- Predetermined appointments (x10 - 2 weeks on working days)
-- Max `num` students on course
-- Course lecturer tracks students that are present
-- Student can see their attendance statistics  
-
-- Students with 70% attendance completed the course and are sent to PPSP exam  
-
-- Administration tracks if student passed the PPSP exam (external information - provided by HAK)
-
-#### Stage 2 - Pružanje prve pomoći osobama ozlijeđenim u prometnoj nesreći (PPP)
-
-* Note: If student has a medical profession he doesn't enroll in PPP, but directly in UV course - PPP exam tracked as passed  
-
-- PPP enrollment requirements:
-    - passed PPSP exam
-
-- Predetermined appointments (x3 - 2 theoretical, 1 practical)
-- Max `num` students on course
-- Course lecturer tracks students that are present
-- Student can see their attendance statistics  
-
-- Students with 100% attendance completed the course and are sent to PPP exam  
-
-- Administration tracks if student passed the PPP exam (external information - provided by HAK)
-
-#### Stage 3 - Upravljanje vozilom (UV)
-
-- UV enrollment requirements:
-    - passed PPSP & PPP exam
+#### Driving Lessons Course - "Upravljanje vozilom (UV)"
 
 - Student chooses his driving instructor
     - Student can change his instructor later if he is not satisfied
@@ -78,34 +42,32 @@ Driving School Management System is a web application that is used by driving sc
     - Student and instructor can cancel reserved appointment
 - Instructor tracks completed driving appointments (x35 mandatory)  
 
-- Students who attended all 35 driving appointments and paid all expenses to driving school are sent to UV exam  
-
-- Administration tracks if student passed the UV exam (external information - provided by HAK)
-
 ##### Instructor Feedback
 
 - On driving instructor's profile his students can leave ratings and reviews (anonymous or not)
+    - Other students can mark specific reviews useful or not
 
 ### Bonus Features - If Time Allows
 
 - Mail sending
-    - 'Welcome' email with total receipt sent to student when he registers and enrolls in driving school
+    - 'Welcome' email sent to student when he registers and enrolls in driving school
 
 - Payment processing integration with [Stripe](https://stripe.com/)
-    - Driving school enrollment receipt handling
     - Additional driving lessons (no. 35+) are to be charged
     - Late canceled/no show driving lesson appointments (student-side) are to be charged
 
 ## Technologies
 
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
-![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)  
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)  
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)  
 
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white)
 
 ## Database Model
 
-`TO-DO`
+[![Draw.io - Database Model](https://user-images.githubusercontent.com/92815435/223580120-74558f55-952f-4da0-90b3-ed1007501b70.png "Draw.io - Database Model")](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Driving-School-Management-System.drawio#R7V1bc%2BI4Fv41qep5YMp34JEk9HR20klvIDM9%2B%2BbGDnjX4IxtOsn8%2BpXBMliSsQSyMJaquqrBMZItfTrfuenoyrxZvv8Wu6%2BLr5Hnh1eG5r1fmbdXhmHomgb%2By658bK%2FopjPYXpnHgZdf212YBP%2F4%2BcX8h%2FN14PlJ6cY0isI0eC1fnEWrlT9LS9fcOI7eyre9RGG511d37mMXJjM3xK%2F%2BGXjpYnt1YPR317%2F4wXwBe9ad4fYvSxfenL9JsnC96G3vkjm%2BMm%2FiKEq3n5bvN36YjR4cl%2B3vPlf8tXiw2F%2BlND%2F4T%2Frl%2BmM6en5%2BDZ6%2F%2Fet6ffc4%2BLNnaua2nZ9uuM5fOX%2Fc9AOOge%2BBIcm%2FRnG6iObRyg3Hu6vXcbReeX7WkQa%2B7e65j6JXcFEHF%2F%2Frp%2BlHPr%2FuOo3ApUW6DPO%2Fem6y2Pw%2B%2B4K%2FWf6ySbSOZ%2F6B14EIceO5nx64D8zT9s7s1fa6yEfuNz9a%2Bmn8AW6I%2FdBNg59lNLg5qObFfbtxBx%2FyoWeYBh2bhOfEjxNsJgCGXrOPqftjM%2B4JeNM0H1QzG3qwDFI3WPlxPpSzKAzd1yTY3L69sghC7979iNYpbAh%2Bu34J3n3vabtm9M20vt2DxpJ8Xl9A4xAH2Z%2FdMJivwOcZmKesx%2BvYT8Cz3LtJmt%2BxN8OVk%2FrTj1P%2F%2FeAk5H%2B14FL6KMTL9vvbbmUWy22xtypNU6ueuLy7JyA93NUcvFzRn2mX%2BzPx7vqk3pDO3BCMzspN%2FetslSQYWIoXPR4%2FRv0iLkHnKRNE14soDv7JABPmE7wPp833t2AZuisg4VwPuXQdbUT6BhZBGN5EYZRhbhWtfAx22U1eHL1O4bLMLrxGwSrdjJB9Df6BMbvRfrWvbPCsN%2BC7vvsO%2FmW3x%2BlNtErSGMA7a8MHKHvzM6RdpxshkzUa%2Bi%2Bw%2FTifkOzzjyhNo2UlEA8uyXp0VqODDMYDWDxJiOCS%2FNvvlTAA758GbrhD%2FUZ2ZBTq7iaNMLPEsS7GFx14VGJEYDhfwg0LLgLP84H0uH5bBKk%2FeXU3gv0NqBF1cuPgCqifrr35MRmnhyAqGFsTIAssIpfceeDap8n46W50%2F8uZUQF5Y3vvdQLmPljN77e%2FdBDY2C2BzftV1SrXh1xhRNWcCE7RB4pESCSiNUgizrlJBMAPkx%2Bfz00jvhfA9hpmEYh5xSO9And7SHiKQn%2FLJHcP0%2FFv46fWU0k7sCIdedjKIDk7lwzPzSUOPQg6xiM29Vx1nUX6uDYRxEn64C6z5%2F30x%2Bjp5stIZhqhh4p0JGIq0hBOGrpxbtYwTVlYAuJb0UTPxL1WWRhB0cQRWJGPJ5SjSjxP2GfniaE0PKGcUkVwA%2FdJ3YIOH1%2Bugxg8KqCK29F0LDNPKKdUtceuWmIonmiKJwZn5wmtctY7xhMQ34oneiaeUTVeukE48rzYTxJlUzDiRT6ucBRXiOYK%2Bny%2BxqLffWm4wqGena5zhQFV5r3EOTdJ3qLYUzzBiBX5eKLaW614oimesM7OE5Y0PGFSz07neQJPavkWR2Aq%2FW%2FBLF3HKlLBihj52KLaF6HYoim26J%2BdLfTKWe8aW2jUs9N5toAB2x1bPAY%2FFEUwwkQ6itCrXRCKIhqiCFM7N0Uc2GvTMYqA%2BFYU0SNstbnzbtzYe1gvf%2Fix4gpGvEjHFRYe5cp26Ki6AWVAOHC6DviPijj1%2FpQOmxL3Fq4cKtY%2FccO%2BdQTt08GgMda3pN6yXywCpQlYePrzbqul2rR%2FPHAOqAQ2X5WApjkRSFI7L7nbk%2BzMQtjGL5hZ5N17aanNl8VQ4LsvM1pRu2qOwIp0TGLjOskN6HAOmEJZmAgqdKRSnEHaRakzWpgEmOTdDcq9kdhGawmIlDrC3dAtFuZJpelIaGxMHbFxdUQiQ9dWGkkxFLhGkpPKhzJ2TwXPARWF1fioUVFomhOBJjxzV7HLicYuO7uQataJZRc8jnZm%2BSGu0JDaGlxUm9IwFEBqUQbvEXiRjk0GOIDuMsG7nqVRnHTT9iWhCofSyfawRcrBbMweJu051q2WgAwP2SuVpUplYZdvxRq%2BHNt4YGCIyGzjm8%2B%2FnzttmMZCZpYlh1cFkxrjcKUhmtZECAg8J2DHQpdVe5fGSBaOn%2FfybHffjz%2FA%2FfiKcapcsCIY5%2Bz28oCwkW3LOOe2mwUyDr2bo%2FOMgzvnyz5ZxTcnoEc6vhniCswf%2FiKYqbxkFBN9PV950BQh1FQkppoXBi6bmexY5f50glXeksz2oVJauMeNh%2FQbsw8kSLPupDhJUxmSNZXW6yh8nLXDo3SUTjr3h7iOkpOKChufip0Djn6%2B%2Bi5VcyLAhCchKHI5MWzMTi4kjVgsueDZA%2FKcdDZU23CLoSBsw71Qj2sr8CIdn%2BiaKhYqnj8Ix5uJ5Q9dIxxuJQ2BFKBXDALGAlclLtOF2g68SMggeO6RohThlEI6%2FEw0pzDkB3WOUehDqd1nFAPDwa2fzOLgNQ2iVUYp0%2FH3qdR8Qo8WCfkED8IpPhHPJ7QBvQb5hCGQ1jk%2BUbWrd2OBR9LyAMq3RZRGV2p3BCNiJOQU3E86mS18bx36kzBKVXZHGRmDfg4m6K%2BCaXd1W18K1mDdBFHur%2B8Q%2BqMpaioCSzDfUekn%2FPI7dgv0cirg6Tpu70qU4bFbB0pF0XXc5M14RSV4nAwd6WoX6bqyf7nbv0fwy9nr4Ok6bv9KFKPTlQW8GwvcAt5L87i9UlE6RsRIyCoMVTUVqzTGKqTMD8GswpBB2jlOUXkfu7HA8z4m2dqeBtuCM7ej6Xh693UsNaNwyfvoKqMwlK5SjNIYoxATP8RSSnEmmoyUQj9hnacUA3eIjleeIpSj0CIfoZi4lTt63Ujspb9SMTp0Vz6yI5oco7PxqT0yRmf3y%2F21OkZnKmuXf4zOpC%2FneyhGR4Bkc6qJiVu7MsXoTGXw7sYCN3j36EWF6k5G0CGNhXHR12ksFM0JgZQygfmbwOw0QwzVCaUZC7eAJQrVmcoG3iEBt4En6dorGEbF6VjgIh%2BlqON1W0EpxDidWErB04AkohR1wO7eWOB5QLvkQsUnLFiRkE%2FUKXZt4BNylE4soeA%2BUZkIRR1ktxsL3Ck6Sd10nahUQna0SEgpxMwhAB9VJRkBhQU3OkAW0CzKjXSHDhM6kQaUz5J%2FaMyiP5usNdvXYBhY0tCYpZyWOyiQnJYbhWBjY6qo2AngkS%2BPx1YuTP4mJzvDnH8Dm82wk7Fr9maxCBS96DbBgbmhF3W47TF4kY9RHFw%2F%2Bez73g939r%2FDzCKdxdk3yxanQ1u5xbDYYAKzUJ1yfxYpK1RrC4yUYsLf9HXoMdoa09fBFROZTN9iHSjdRHcIRRZyalHG78nwkVBVUfFW%2FsYvO8ec3%2Fh1pA63OircuhsLPNyqDuk5BTESsgoeclWsIp5Vzl%2B9xcGjtzKxCr0TvPOsAg9AVhsNeMBFPkrpM5zWoiilMUppQfmWPoNbtGuM0qefsO4zCu4VnQZpqCJ0zFCRj02gxFLkIZQ8SIf0iCWPgS4NV8CBVVwBxgLXGcBiSbMRVOe7sSBFPqro9xVVnIEqBmeniv5AGqro0x8533mq6OMuyyc3BbJYealYsSIhWViKLMSThaGfnyxsecjCop6f7pMFnjVxE%2FugT2%2B0sSxUEWEmvMhHGENC2k2ez%2Ffku7PsBPJO7VImYQoHEvvOZRhehNV%2BDTyv24AHNJeqCxtsGIL9aeX%2BbI2QR94ajDEcoSK9lnKEgBvS1xytTiknorM5fWWIZ%2BhkKeU3n38%2Ft4OUJrGcWaDULAwmTYbvmdNtOXJ6SMjUKSWWX4rpS5NZLh4%2F7%2BXZ3qcJi3Hh12g2NM0JAJQBGVKxDsXuJSGsQwCfWNYxNPIR1IB1qrHRNdbZLQzFOoaGx%2BUuMitQHOmwwEdC0lGHUbfM1CHkoIsmHXzL5JnFCYWvlpewOOpU6o5yDeFU6uQ58V%2FW2W8%2FXT8%2B3o9HD62nmnagRUJqwQ3kkbcMVhhe4uwZfEgTbjzLeUTXKqZnb%2FYwX%2BpGsch%2F3wff56GbQEcsPq3MflMdqfjokNK7SfUwDpXfOE1c67jduNt%2BKHawOQzwAJ7o1aIBrjzy4%2BJG1xq0Dr5DCg3UX3mjON6I8Jwj9satPOb%2Be5B%2B3%2Fv8V%2Fb5Vzv%2Fdvu%2B96dbqIaC8Yw%2Fvu9%2F2ftV9nX3s803%2BLvKCUmidTzzD7w1LPWbQr226sZBLsx9b%2B4fnODYD900%2BOmXnuMAe3zLlOg9uWaVgWFryIRvXyn%2F1W7O8YaQAkUWehrl9pWxhsD8uh97t%2BVKfvUDG%2BV%2BjHx%2FceVzIffbVul%2B8GH7BHw5cIir0ni4YBP%2B21OJapQTROHJFn8wc8NRfhkqStRKDFyAZd0MXGO2m3v5u52IxZ6OQCZ6eUn8FJkuThOE67gPvCYo11LbNEOsE3SiaKc4pZVFtB8ppiEl6AyUcLxohxsmakV7obg1LdtNhPQtdH3RynYLkaEWqhVwku1oWXU7T1ZoWFbjUX9uooCbrHZaJqvN8kSJk9t4OJ4bsfKT29xmS7DcpjhC4AiVnEX%2BilfJDX1AKbjheVRNy217WCNuaeV23z5ObvNarSYhtN0%2B0To8m2g9abWahBhxC0Uht9EVPLhsonCWeRuDGZ0WuxNmf5VkGVmyeW6y2DRysJJwvdYJ36hWeu25hEiJmfDaqUIOLWh8rOPBQQ18tCFOyqlpkR%2B40vHgHLy%2FGWXWJDiFLxy31NbSheFWRzKxHTRWwwm3g0Gf%2BMAN45CiCtGpqiSdIqmLUyQ1SkxDi7NxRRL1yaKnj9FidYg6ANDNAJywOkSCQJYhwFlr6gaG1bY5a4v1dHFaqo6HeVrnaOU4uny8K7pV%2FkVzDhUTdtWgoNYvVlAXxWsbD8NpiHbZHxyrVhhaTUtNG%2F06Hlppnzi1LlWc4qGVFopTbqPLSZw6wsSpwWZ%2FdSP0VezvoRCohhiBiqq%2Bw2NjX86wpqGmxamBW1Jt86EWqL84cQpXZ5t9qBxHV%2FDgcs7w4h0aopBWA0HSCk3POzrigzopG4rU9zVyP5XPhSqlQxFOKKP9WVjFIrk80XkBGVQcR1fw4LYrg4olqbZS3Nbb5RqtXV6kZjeeQoWm%2FTtHCma07grWEK8UKkTvHdREqdD7%2B4z3I4K%2FKUHe%2FhStYsm2JkWrB12vIszeC0jL4jhDgsmgRWlZbXTSQpw3TQZDm5OWrqObJZpS03UNpZ0aPR37wcBm%2FIGuOSIYAQ5gq1X7S80sMxt0OfGT5mfLLKtYCX1hbGviXquTCOEynMww%2FZaCEARtsHAQMa4X4GP22wzrWmrazWw2GKfnJVAh7s%2BvYsNpEhenNxv0ZXGTyfwmSDDhURzufbJA1SnFqRhni24OKcWpOGcLVpv2SGmKBv%2BwhhrarzZwapwnFd6khlXlBlMGuEl2uy2SHXWefMDvwvYmmybu7WqhqOc2Y4JFPcWJ253b46ZbtMJetwRlvBmIM8UwkU2k1AkaqBKuUybS81uvuH%2Budb4ICPuL80VYuKOnfb4IfqMreHBJuzScMBuThV4aYufvdZRdzmoT9ZJNcaIRuMG0Xt834wT%2FDj7N8%2F9DeP9JDYFJ%2Bhms5r3JbBFFYe%2Bru3Ln%2FhLMR2%2FykaT%2BEnYEBmDbV7l%2FcDl7k%2FLFinc7%2FS2MQdVbuAAUbpKVbPsaeX7I9tQI2gGU0jLIkzSO%2Fucj5fQIFfbyInlX29qr%2Bbfppuxez9AqVgupjl6ZBPdrrSUL19vce5CxGCpXoduttl%2F3yyZC1Yz6uIoTFw0prWk7b17wkwiTH1Hs%2BXFvtp2N0ebH8adeb%2F%2F6LwcRuObc7o2b%2BvMoDrLDSkZ7sFsToLh5K%2BRxwobeMww4N7z%2FclnjDXd3fbC7bIDDunVNu5hrSA4ltSVYu5tanKT1zH%2BhFt%2FrKsyh2xM4LlTS1pa9hYqtsO2FSeqm6%2BSEhYFDbHvlaTwZP%2F0xvq1FZL5EH79%2Bux9P6e8fPdyM76lvf3jsTb48%2FiktXlEDRNcswtFEpJq8Q7sxxJL8kJdGLU9R2H1Wuf169yCWWe4eJtOn55vp45PYfifT59vxw1RaOTEYUBCb1RCxPT5%2F%2F%2BvvsbMY6Z%2F%2F%2BTv8Nrzr%2FXvdIxltl%2BTBQlxLDVdS1TWHPL%2BcoxX6samhaLQCa4hXARMkxlxXORW9Hx4US%2F0eNfc76AAy3m%2FZfIsDENeaga01wa49apdSeRlVCw7xjj3is%2BBGtOgYh7iRFTqwuNEzXsVRGC5Jdcs7eUBqzQTWzBViFhSZhvvnsjB7nPLuCAek0vRHVC%2BaPdqBCC2KLAl1ZhAuq44XKxYZqh9lBNQhk8eJQcTHwxMLunY06jGTZpMnrUPHBhFfG09akPuAOo7QeS9PdKdOeyeOA0WOhiIaXCVqimhI56EKJRo8waJrp6EeM2kDOYmGUOI0j2Z%2BKKo5FTzSUY1erasqatmBryzoGuIZ0hGoQnmGUAkUhjjA8l1dkSIrmxSgt%2FzpssDKKoqXGU4IsZTPv%2B9FTLYtVsRMJKIxvcIh03kew12gu%2FMbL5fJtLbgRz4qa6aUK8t%2BpJYGBlk0oJNrTSJRtv6Ree1oQ7aNNMSrRgAStjPKpbnqD3rUBIThzl9Tlmu0qEIN4r2FqYktS%2BQXOn9VWoHzIzScp%2BN%2B1ZOEOllA14jn43f6s4r0Q3En2p2q%2FFM9kEwI89ji3LZR01BDqR4wNaNZGY17bQXvM%2BUqA%2Fp8ZfRpQqDBHWbnkK%2BHx5ZTPRZh7Cem5ne7RTR0o9Ge59S4jMbOH6eW0eihiQ0dZI4ddmse1rvRQ3jtmspcFnqyO%2BdiA%2BSl0GDlKPEcYFRA9SwcAIVKRzigZmw5DS34GkeZC3YHcvDmi%2B0eTHP8fw%3D%3D)  
 
 ## Credits
 
