@@ -111,5 +111,6 @@ Driving School Management System is a web application that is used by driving sc
 
  ✍️ **no-ap-team** members: 
 
+* [Nikola Bošnjak](https://github.com/LunarStrain94)
 * [Nikola Occidentale](https://github.com/nikolaoccid)
 * [Anamarija Papić](https://github.com/anamarijapapic)
