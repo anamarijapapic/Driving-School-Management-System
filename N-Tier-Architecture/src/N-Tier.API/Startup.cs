@@ -1,9 +1,11 @@
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using N_Tier.API.Filters;
 using N_Tier.API.Middleware;
 using N_Tier.Application;
 using N_Tier.Application.Models.Validators;
 using N_Tier.DataAccess;
+using Npgsql;
 
 namespace N_Tier.API;
 

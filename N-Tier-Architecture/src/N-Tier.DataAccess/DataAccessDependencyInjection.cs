@@ -32,6 +32,7 @@ public static class DataAccessDependencyInjection
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         var databaseConfig = configuration.GetSection("Database").Get<DatabaseConfiguration>();
+        var connectionString = string.IsNullOrEmpty(databaseConfig.ConnectionString) ? configuration["CONNECTION_STRING"] : databaseConfig.ConnectionString;
 
         if (databaseConfig.UseInMemoryDatabase)
             services.AddDbContext<DatabaseContext>(options =>
@@ -41,7 +42,7 @@ public static class DataAccessDependencyInjection
             });
         else
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(databaseConfig.ConnectionString,
+                options.UseNpgsql(connectionString,
                     opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
     }
 
