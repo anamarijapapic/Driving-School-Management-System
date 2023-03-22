@@ -4,8 +4,10 @@
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>N_Tier.API</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <UserSecretsId>515698f4-bcd7-41d4-8588-e70f0094a00e</UserSecretsId>
+        <DockerfileContext>..\..</DockerfileContext>
+        <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
     </PropertyGroup>
 
     <ItemGroup>
