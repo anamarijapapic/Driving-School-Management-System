@@ -6,7 +6,8 @@
     <ProjectGuid>a5119961-95f9-4e8f-8fa4-c7ba35e58306</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>n-tier.api</DockerServiceName>
+    <DockerServiceName>dsms.api</DockerServiceName>
+    <DockerLaunchBrowser>true</DockerLaunchBrowser>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
