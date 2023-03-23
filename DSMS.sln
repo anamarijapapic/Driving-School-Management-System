@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.API", "src\DSMS.API\DSMS.API.csproj", "{82838190-1934-4EA8-8F64-E37A2601A5E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMS.API", "src\DSMS.API\DSMS.API.csproj", "{82838190-1934-4EA8-8F64-E37A2601A5E5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.Application", "src\DSMS.Application\DSMS.Application.csproj", "{5E06FE1C-2A7C-44DC-A885-42610E597397}"
 EndProject
@@ -22,6 +22,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.Api.IntegrationTests", "tests\DSMS.Api.IntegrationTests\DSMS.Api.IntegrationTests.csproj", "{FD31F369-27D3-48B3-9FF7-F4A357F73B1E}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A5119961-95F9-4E8F-8FA4-C7BA35E58306}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{963D74BD-E961-4377-B7C9-9FEC97255F26}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

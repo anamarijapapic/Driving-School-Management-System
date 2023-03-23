@@ -2,7 +2,7 @@
 
 services:
   DSMS.api:
-    image: ${DOCKER_REGISTRY-}DSMSapi
+    image: ${DOCKER_REGISTRY-}dsmsapi
     build:
       context: .
       dockerfile: src/DSMS.API/Dockerfile
