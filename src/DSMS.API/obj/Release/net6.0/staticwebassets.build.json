@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "xXTqUcGlRovDEU40ljaAeOisZM8OovSJ3wFE1lVjIys=",
+  "Source": "DSMS.API",
+  "BasePath": "_content/DSMS.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

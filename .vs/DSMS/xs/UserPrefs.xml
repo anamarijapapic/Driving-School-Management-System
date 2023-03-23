@@ -1,0 +1,40 @@
+﻿<Properties StartupConfiguration="{82838190-1934-4EA8-8F64-E37A2601A5E5}|N_Tier.API">
+  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.src.DSMS.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/DSMS.DataAccess/Persistence/AutomatedMigration.cs">
+    <Files>
+      <File FileName="../../../../Applications/Visual Studio.app/Contents/MonoBundle/AddIns/MonoDevelop.Docker/MSbuild/Sdks/Microsoft.Docker.Sdk/build/Microsoft.VisualStudio.Docker.Compose.targets" Line="402" Column="5" />
+      <File FileName="docker-compose.yml" Line="15" Column="28" />
+      <File FileName="src/DSMS.DataAccess/Persistence/AutomatedMigration.cs" Line="14" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DSMS" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="DSMS.API" expanded="True" />
+              <Node name="DSMS.DataAccess" expanded="True">
+                <Node name="Persistence" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="tests" expanded="True" />
+            <Node name="docker-compose" expanded="True">
+              <Node name="docker-compose.yml" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="DSMS" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

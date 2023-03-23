@@ -1,0 +1,10 @@
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/bin/Release/netstandard2.1/DSMS.Shared.deps.json
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/bin/Release/netstandard2.1/DSMS.Shared.dll
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/bin/Release/netstandard2.1/DSMS.Shared.pdb
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.csproj.AssemblyReference.cache
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.AssemblyInfoInputs.cache
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.AssemblyInfo.cs
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.csproj.CoreCompileInputs.cache
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.dll
+/Users/nikolaoccid/dev/Driving-School-Management-System/src/DSMS.Shared/obj/Release/netstandard2.1/DSMS.Shared.pdb

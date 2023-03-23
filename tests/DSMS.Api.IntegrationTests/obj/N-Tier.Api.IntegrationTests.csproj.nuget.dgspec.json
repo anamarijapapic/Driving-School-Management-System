@@ -1,0 +1,87 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/nikolaoccid/dev/Driving-School-Management-System/tests/N-Tier.Api.IntegrationTests/N-Tier.Api.IntegrationTests.csproj": {}
+  },
+  "projects": {
+    "/Users/nikolaoccid/dev/Driving-School-Management-System/tests/N-Tier.Api.IntegrationTests/N-Tier.Api.IntegrationTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nikolaoccid/dev/Driving-School-Management-System/tests/N-Tier.Api.IntegrationTests/N-Tier.Api.IntegrationTests.csproj",
+        "projectName": "N-Tier.Api.IntegrationTests",
+        "projectPath": "/Users/nikolaoccid/dev/Driving-School-Management-System/tests/N-Tier.Api.IntegrationTests/N-Tier.Api.IntegrationTests.csproj",
+        "packagesPath": "/Users/nikolaoccid/.nuget/packages/",
+        "outputPath": "/Users/nikolaoccid/dev/Driving-School-Management-System/tests/N-Tier.Api.IntegrationTests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nikolaoccid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.2.0, )"
+            },
+            "Microsoft.AspNetCore.TestHost": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.0.0, )"
+            },
+            "NBuilder": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "nunit": {
+              "target": "Package",
+              "version": "[3.13.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
