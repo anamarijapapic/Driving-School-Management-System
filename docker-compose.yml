@@ -1,7 +1,7 @@
 ﻿version: '3.4'
 
 services:
-  DSMS.api:
+  dsms.api:
     image: ${DOCKER_REGISTRY-}dsmsapi
     build:
       context: .
