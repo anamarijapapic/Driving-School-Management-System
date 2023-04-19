@@ -1,13 +1,16 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class ScheduleSlot : BaseEntity
     {
-        private Guid InstructorId { get; set; }
+        public ApplicationUser Instructor { get; set; } = null!;
 
-        private DateTime StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
-        private DateTime EndTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public ICollection<Appointment> Appointments { get; } = new List<Appointment>();
     }
 }

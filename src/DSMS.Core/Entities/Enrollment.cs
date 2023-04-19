@@ -1,13 +1,14 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class Enrollment : BaseEntity
     {
-        private Guid StudentId { get; set; }
+        public ApplicationUser Student { get; set; } = null!;
 
-        private Guid CategoryId { get; set; }
+        public ApplicationUser Instructor { get; set; } = null!;
 
-        private Guid InstructorId { get; set; }
+        public Category Category { get; set; }
     }
 }

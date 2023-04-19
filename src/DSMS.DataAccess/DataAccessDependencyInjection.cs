@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DSMS.Core.Entities.Identity;
+using DSMS.DataAccess.Persistence;
+using DSMS.DataAccess.Repositories;
+using DSMS.DataAccess.Repositories.Impl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DSMS.DataAccess.Identity;
-using DSMS.DataAccess.Persistence;
-using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
 
 namespace DSMS.DataAccess;
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DSMS.Application.Models.User;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Application.MappingProfiles;
 

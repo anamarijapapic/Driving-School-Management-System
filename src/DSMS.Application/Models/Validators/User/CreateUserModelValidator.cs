@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using DSMS.Application.Models.User;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Application.Models.Validators.User;
 

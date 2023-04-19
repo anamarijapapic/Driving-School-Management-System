@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Application.Helpers;
 

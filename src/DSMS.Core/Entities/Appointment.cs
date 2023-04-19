@@ -1,13 +1,14 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class Appointment : BaseEntity
     {
-        private Guid StudentId { get; set; }
+        public ApplicationUser Student { get; set; } = null!;
 
-        private Guid SlotId { get; set; }
+        public ScheduleSlot ScheduleSlot { get; set; }
 
-        private Guid StatusId { get; set; }
+        public Status Status { get; set; }
     }
 }

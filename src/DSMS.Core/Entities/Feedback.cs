@@ -1,20 +1,21 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class Feedback : BaseEntity, IAuditedEntity
     {
-        private Guid InstructorId { get; set; }
+        public ApplicationUser Instructor { get; set; } = null!;
 
-        private Guid StudentId { get; set; }
+        public ApplicationUser Student { get; set; }
 
-        private string Title { get; set; }
+        public string Title { get; set; }
 
-        private string Content { get; set; }
+        public string Content { get; set; }
 
-        private int Rating { get; set; }
+        public int Rating { get; set; }
 
-        private Boolean IsAnonymous { get; set; }
+        public bool IsAnonymous { get; set; }
 
         public string CreatedBy { get; set; }
 
@@ -23,5 +24,7 @@ namespace DSMS.Core.Entities
         public string UpdatedBy { get; set; }
 
         public DateTime? UpdatedOn { get; set; }
+
+        public ICollection<Reaction> Reactions { get; } = new List<Reaction>();
     }
 }

@@ -1,15 +1,18 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class Vehicle : BaseEntity
     {
-        private Guid InstructorId { get; set; }
+#nullable enable
+        public ApplicationUser? Instructor { get; set; }
+#nullable disable
 
-        private Guid CategoryId { get; set; }
+        public Category Category { get; set; }
 
-        private string Description { get; set; }
+        public string Description { get; set; }
 
-        private byte[] Image { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

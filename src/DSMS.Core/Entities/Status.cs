@@ -1,12 +1,13 @@
-﻿using DSMS.Core.Common;
-using DSMS.Core.Enums;
+﻿using DSMS.Core.Enums;
 
 namespace DSMS.Core.Entities
 {
-    public class Status : BaseEntity
+    public class Status
     {
-        private Guid StatusId { get; set; }
+        public StatusId Id { get; set; }
 
-        private StatusName Name { get; set; }
+        public string Name { get; set; }
+
+        public ICollection<Appointment> Appointments { get; } = new List<Appointment>();
     }
 }

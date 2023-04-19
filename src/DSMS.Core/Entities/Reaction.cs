@@ -1,11 +1,14 @@
 ﻿using DSMS.Core.Common;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Core.Entities
 {
     public class Reaction : BaseEntity
     {
-        Guid StudentId { get; set; }
+        public Feedback Feedback { get; set; } = null!;
 
-        Boolean IsUseful { get; set; }
+        public ApplicationUser Student { get; set; } = null!;
+
+        public bool IsUseful { get; set; }
     }
 }
