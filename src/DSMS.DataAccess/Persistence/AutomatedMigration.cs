@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DSMS.Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DSMS.DataAccess.Identity;
 
 namespace DSMS.DataAccess.Persistence;
 
@@ -15,6 +15,8 @@ public static class AutomatedMigration
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        await DatabaseContextSeed.SeedDatabaseAsync(context, userManager);
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        await DatabaseContextSeed.SeedDatabaseAsync(context, roleManager, userManager);
     }
 }

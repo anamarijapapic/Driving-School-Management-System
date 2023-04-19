@@ -29,4 +29,8 @@
         <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Persistence\Migrations\" />
+    </ItemGroup>
+
 </Project>

@@ -14,7 +14,7 @@ using DSMS.Api.IntegrationTests.Config.Constants;
 using DSMS.Api.IntegrationTests.Helpers.Services;
 using DSMS.Application.Helpers;
 using DSMS.Application.Services;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Persistence;
 using NUnit.Framework;
 

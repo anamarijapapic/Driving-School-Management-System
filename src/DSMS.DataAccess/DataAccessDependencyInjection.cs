@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DSMS.Core.Entities.Identity;
+using DSMS.DataAccess.Persistence;
+using DSMS.DataAccess.Repositories;
+using DSMS.DataAccess.Repositories.Impl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DSMS.DataAccess.Identity;
-using DSMS.DataAccess.Persistence;
-using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
 
 namespace DSMS.DataAccess;
 
@@ -37,7 +37,7 @@ public static class DataAccessDependencyInjection
         if (databaseConfig.UseInMemoryDatabase)
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseInMemoryDatabase("NDSMSDatabase");
+                options.UseInMemoryDatabase("DSMSDatabase");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
         else
@@ -48,8 +48,9 @@ public static class DataAccessDependencyInjection
 
     private static void AddIdentity(this IServiceCollection services)
     {
-        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<DatabaseContext>();
+        services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<DatabaseContext>()
+            .AddRoles<IdentityRole>();
 
         services.Configure<IdentityOptions>(options =>
         {

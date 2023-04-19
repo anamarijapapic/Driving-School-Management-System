@@ -8,7 +8,7 @@ using DSMS.Application.Helpers;
 using DSMS.Application.Models;
 using DSMS.Application.Models.User;
 using DSMS.Application.Templates;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.Application.Services.Impl;
 

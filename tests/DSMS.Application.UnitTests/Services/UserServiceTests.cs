@@ -12,7 +12,7 @@ using DSMS.Application.Exceptions;
 using DSMS.Application.Models.User;
 using DSMS.Application.Services;
 using DSMS.Application.Services.Impl;
-using DSMS.DataAccess.Identity;
+using DSMS.Core.Entities.Identity;
 using NSubstitute;
 using Xunit;
 

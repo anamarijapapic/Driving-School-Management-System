@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: src/DSMS.API/Dockerfile
     environment:
-       CONNECTION_STRING: "Host=postgres;Port=5432;Database=postgres;Username=admin;Password=root;Integrated Security=true;Pooling=true;"
+      CONNECTION_STRING: "Host=postgres;Port=5432;Database=postgres;Username=admin;Password=root;Integrated Security=true;Pooling=true;"
 
   postgres:
     image: postgres:alpine
