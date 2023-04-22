@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMS.API", "src\DSMS.API\DSMS.API.csproj", "{82838190-1934-4EA8-8F64-E37A2601A5E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.API", "src\DSMS.API\DSMS.API.csproj", "{82838190-1934-4EA8-8F64-E37A2601A5E5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.Application", "src\DSMS.Application\DSMS.Application.csproj", "{5E06FE1C-2A7C-44DC-A885-42610E597397}"
 EndProject
@@ -26,8 +26,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{963D74BD-E961-4377-B7C9-9FEC97255F26}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		.gitignore = .gitignore
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMS.Frontend", "src\DSMS.Frontend\DSMS.Frontend.csproj", "{2A210292-A207-484C-A1AD-2F64508BA12A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5E06FE1C-2A7C-44DC-A885-42610E597397} = {5E06FE1C-2A7C-44DC-A885-42610E597397}
 	EndProjectSection
 EndProject
 Global
@@ -68,6 +73,10 @@ Global
 		{A5119961-95F9-4E8F-8FA4-C7BA35E58306}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5119961-95F9-4E8F-8FA4-C7BA35E58306}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5119961-95F9-4E8F-8FA4-C7BA35E58306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A210292-A207-484C-A1AD-2F64508BA12A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A210292-A207-484C-A1AD-2F64508BA12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A210292-A207-484C-A1AD-2F64508BA12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A210292-A207-484C-A1AD-2F64508BA12A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +89,7 @@ Global
 		{BEDAB5A5-6552-4FAE-9446-96E6EBA3BFF0} = {7ED14D1A-A758-41DB-ACCA-1917FE909102}
 		{2D2C88FF-4129-4A10-ABDF-DD438B282DA1} = {EF8183C1-207C-4A67-B1B9-B07F892E8635}
 		{FD31F369-27D3-48B3-9FF7-F4A357F73B1E} = {EF8183C1-207C-4A67-B1B9-B07F892E8635}
+		{2A210292-A207-484C-A1AD-2F64508BA12A} = {7ED14D1A-A758-41DB-ACCA-1917FE909102}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {330BD50E-D6E2-49BE-890F-2BA859172C9D}

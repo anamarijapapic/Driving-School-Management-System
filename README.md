@@ -80,6 +80,7 @@ Driving School Management System is a web application that is used by driving sc
 title: src
 ---
 flowchart TD
+    DSMS.Frontend --> DSMS.Application
     DSMS.API --> DSMS.Application
     DSMS.Application --> DSMS.DataAccess
     DSMS.DataAccess --> DSMS.Core

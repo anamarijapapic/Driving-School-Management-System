@@ -3,8 +3,14 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "dsms.frontend",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
-        "dsms.api": "StartDebugging"
+        "dsms.api": "StartDebugging",
+        "dsms.frontend": "StartDebugging",
+        "pgadmin4": "StartWithoutDebugging",
+        "postgres": "StartWithoutDebugging"
       }
     }
   }
