@@ -1,6 +1,14 @@
 ﻿version: '3.4'
 
 services:
+  dsms.frontend:
+    image: ${DOCKER_REGISTRY-}dsmsfrontend
+    build:
+      context: .
+      dockerfile: src/DSMS.Frontend/Dockerfile
+    environment:
+      CONNECTION_STRING: "Host=postgres;Port=5432;Database=postgres;Username=admin;Password=root;Integrated Security=true;Pooling=true;"
+
   dsms.api:
     image: ${DOCKER_REGISTRY-}dsmsapi
     build:
