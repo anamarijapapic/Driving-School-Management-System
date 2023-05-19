@@ -18,7 +18,13 @@ public static class DatabaseContextSeed
 
         if (!userManager.Users.Any())
         {
-            var user = new ApplicationUser { UserName = "admin", Email = "admin@admin.com", EmailConfirmed = true, FirstName = "Admin", LastName = "Admin" };
+            var user = new ApplicationUser { 
+                UserName = "admin@admin.com", 
+                Email = "admin@admin.com", 
+                EmailConfirmed = true, 
+                FirstName = "Admin", 
+                LastName = "Admin" 
+            };
 
             await userManager.CreateAsync(user, "Admin123.?");
 
