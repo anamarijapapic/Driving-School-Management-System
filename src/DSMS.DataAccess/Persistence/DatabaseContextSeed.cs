@@ -18,17 +18,44 @@ public static class DatabaseContextSeed
 
         if (!userManager.Users.Any())
         {
-            var user = new ApplicationUser { 
-                UserName = "admin@admin.com", 
-                Email = "admin@admin.com", 
-                EmailConfirmed = true, 
-                FirstName = "Admin", 
-                LastName = "Admin" 
+            var admin = new ApplicationUser
+            {
+                UserName = "admin@admin.com",
+                Email = "admin@admin.com",
+                EmailConfirmed = true,
+                FirstName = "Admin",
+                LastName = "Admin"
             };
 
-            await userManager.CreateAsync(user, "Admin123.?");
+            await userManager.CreateAsync(admin, "Admin123.?");
 
-            await userManager.AddToRoleAsync(user, "Administrator");
+            await userManager.AddToRoleAsync(admin, "Administrator");
+
+            var instructor = new ApplicationUser
+            {
+                UserName = "instructor@instructor.com",
+                Email = "instructor@instructor.com",
+                EmailConfirmed = true,
+                FirstName = "Instructor",
+                LastName = "Instructor"
+            };
+
+            await userManager.CreateAsync(instructor, "Instructor123.?");
+
+            await userManager.AddToRoleAsync(instructor, "Instructor");
+
+            var student = new ApplicationUser
+            {
+                UserName = "student@student.com",
+                Email = "student@student.com",
+                EmailConfirmed = true,
+                FirstName = "Student",
+                LastName = "Student"
+            };
+
+            await userManager.CreateAsync(student, "Student123.?");
+
+            await userManager.AddToRoleAsync(student, "Student");
         }
 
         await context.SaveChangesAsync();
