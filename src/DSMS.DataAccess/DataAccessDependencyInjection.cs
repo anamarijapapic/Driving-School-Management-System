@@ -42,9 +42,13 @@ public static class DataAccessDependencyInjection
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
         else
+        {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(connectionString,
                     opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
     }
 
     private static void AddIdentity(this IServiceCollection services)
