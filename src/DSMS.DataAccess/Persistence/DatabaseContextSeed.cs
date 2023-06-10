@@ -24,12 +24,15 @@ public static class DatabaseContextSeed
                 Email = "admin@admin.com",
                 EmailConfirmed = true,
                 FirstName = "Admin",
-                LastName = "Admin"
+                LastName = "Admin",
+                DateOfBirth = new DateTime(1980, 1, 1),
+                Oib = "00000000000",
+                IdCardNumber = "000000000"
             };
 
             await userManager.CreateAsync(admin, "Admin123.?");
 
-            await userManager.AddToRoleAsync(admin, "Administrator");
+            await userManager.AddToRoleAsync(admin, ApplicationRole.Administrator.ToString());
 
             var instructor = new ApplicationUser
             {
@@ -37,12 +40,15 @@ public static class DatabaseContextSeed
                 Email = "instructor@instructor.com",
                 EmailConfirmed = true,
                 FirstName = "Instructor",
-                LastName = "Instructor"
+                LastName = "Instructor",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Oib = "11111111111",
+                IdCardNumber = "111111111"
             };
 
             await userManager.CreateAsync(instructor, "Instructor123.?");
 
-            await userManager.AddToRoleAsync(instructor, "Instructor");
+            await userManager.AddToRoleAsync(instructor, ApplicationRole.Instructor.ToString());
 
             var student = new ApplicationUser
             {
@@ -50,12 +56,15 @@ public static class DatabaseContextSeed
                 Email = "student@student.com",
                 EmailConfirmed = true,
                 FirstName = "Student",
-                LastName = "Student"
+                LastName = "Student",
+                DateOfBirth = new DateTime(2000, 1, 1),
+                Oib = "22222222222",
+                IdCardNumber = "222222222"
             };
 
             await userManager.CreateAsync(student, "Student123.?");
 
-            await userManager.AddToRoleAsync(student, "Student");
+            await userManager.AddToRoleAsync(student, ApplicationRole.Student.ToString());
         }
 
         await context.SaveChangesAsync();
