@@ -18,7 +18,7 @@ namespace DSMS.Application.Models.User
 
         public DateTime DateOfBirth { get; set; }
 
-        public byte[] ProfilePicture { get; set; }
+        public byte[] Photo { get; set; }
 
         public string Oib { get; set; }
 

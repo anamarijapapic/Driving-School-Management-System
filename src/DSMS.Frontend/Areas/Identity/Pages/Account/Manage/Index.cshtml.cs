@@ -2,14 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using DSMS.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
 {
@@ -52,13 +49,39 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date Of Birth")]
+            public DateTime DateOfBirth { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(11, ErrorMessage = "The {0} must be {1} characters long.", MinimumLength = 11)]
+            [Display(Name = "OIB")]
+            public string Oib { get; set; }
+
+            [Required]
+            [StringLength(9, ErrorMessage = "The {0} must be {1} characters long.", MinimumLength = 9)]
+            [DataType(DataType.Text)]
+            [Display(Name = "ID Card Number")]
+            public string IdCardNumber { get; set; }
+
+            [Display(Name = "Profile Photo")]
+            public byte[] Photo { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            //[Phone]
+            //[Display(Name = "Phone Number")]
+            //public string PhoneNumber { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -66,11 +89,24 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            var dateOfBirth = user.DateOfBirth;
+            var oib = user.Oib;
+            var idCardNumber = user.IdCardNumber;
+            var photo = user.Photo;
+
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                //PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Oib = oib,
+                IdCardNumber = idCardNumber,
+                Photo = photo
             };
         }
 
@@ -100,16 +136,62 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var firstName = user.FirstName;
+            if (Input.FirstName != firstName)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
+                user.FirstName = Input.FirstName;
+                await _userManager.UpdateAsync(user);
             }
+
+            var lastName = user.LastName;
+            if (Input.LastName != lastName)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var dateOfBirth = user.DateOfBirth;
+            if (Input.DateOfBirth != dateOfBirth)
+            {
+                user.DateOfBirth = Input.DateOfBirth;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var oib = user.Oib;
+            if (Input.Oib != oib)
+            {
+                user.Oib = Input.Oib;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var idCardNumber = user.IdCardNumber;
+            if (Input.IdCardNumber != idCardNumber)
+            {
+                user.IdCardNumber = Input.IdCardNumber;
+                await _userManager.UpdateAsync(user);
+            }
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    user.Photo = dataStream.ToArray();
+                }
+                await _userManager.UpdateAsync(user);
+            }
+
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //if (Input.PhoneNumber != phoneNumber)
+            //{
+            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //    if (!setPhoneResult.Succeeded)
+            //    {
+            //        StatusMessage = "Unexpected error when trying to set phone number.";
+            //        return RedirectToPage();
+            //    }
+            //}
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
