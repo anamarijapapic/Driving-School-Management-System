@@ -1,59 +1,38 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿#nullable disable
 
 using DSMS.Core.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
+namespace DSMS.Frontend.Pages.Users
 {
-    public class IndexModel : PageModel
+    [Authorize(Roles = ("Administrator"))]
+    public class EditModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+        public EditModel(
+            UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
-        public string Role { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
+            [Required]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
+            [Required]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
@@ -77,20 +56,13 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Profile Photo")]
             public byte[] Photo { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            //[Phone]
-            //[Display(Name = "Phone Number")]
-            //public string PhoneNumber { get; set; }
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var dateOfBirth = user.DateOfBirth;
@@ -100,40 +72,37 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
 
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.First().ToString();
-            Role = role;
-
-            Username = userName;
 
             Input = new InputModel
             {
-                //PhoneNumber = phoneNumber,
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
                 Oib = oib,
                 IdCardNumber = idCardNumber,
                 Photo = photo,
+                Role = role
             };
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string Id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return base.NotFound($"Unable to load user with ID '{Id}'.");
             }
 
             await LoadAsync(user);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string Id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return base.NotFound($"Unable to load user with ID '{Id}'.");
             }
 
             if (!ModelState.IsValid)
@@ -188,20 +157,15 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account.Manage
                 await _userManager.UpdateAsync(user);
             }
 
-            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            //if (Input.PhoneNumber != phoneNumber)
-            //{
-            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            //    if (!setPhoneResult.Succeeded)
-            //    {
-            //        StatusMessage = "Unexpected error when trying to set phone number.";
-            //        return RedirectToPage();
-            //    }
-            //}
+            var role = _userManager.GetRolesAsync(user).Result.First();
+            if (Input.Role != role)
+            {
+                await _userManager.RemoveFromRoleAsync(user, role);
+                await _userManager.AddToRoleAsync(user, Input.Role);
+            }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+            StatusMessage = "User details have been updated";
+            return Page();
         }
     }
 }

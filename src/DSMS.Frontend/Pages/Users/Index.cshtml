@@ -19,6 +19,7 @@
                 <th scope="col">Date Of Birth</th>
                 <th scope="col">OIB</th>
                 <th scope="col">ID Card Number</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +41,12 @@
                     <td class="align-middle">@user.DateOfBirth.ToString("dd.MM.yyyy.")</td>
                     <td class="align-middle">@user.Oib</td>
                     <td class="align-middle">@user.IdCardNumber</td>
+                    <td>
+                        <a asp-page="/Users/Edit" asp-route-id="@user.Id" class="btn btn-warning">
+                            <i class="bi bi-pen"></i>
+                            Edit
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

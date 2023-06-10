@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMS.Frontend", "src\DSMS.Frontend\DSMS.Frontend.csproj", "{3B43A66A-FFBF-4AD5-82DE-0EF8E82FFED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMS.Frontend", "src\DSMS.Frontend\DSMS.Frontend.csproj", "{3B43A66A-FFBF-4AD5-82DE-0EF8E82FFED4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5E06FE1C-2A7C-44DC-A885-42610E597397} = {5E06FE1C-2A7C-44DC-A885-42610E597397}
 	EndProjectSection
