@@ -2,23 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace DSMS.Frontend.Areas.Identity.Pages.Account
 {
@@ -71,6 +65,36 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date Of Birth")]
+            public DateTime DateOfBirth { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [StringLength(11, ErrorMessage = "The {0} must be {1} characters long.", MinimumLength = 11)]
+            [Display(Name = "OIB")]
+            public string Oib { get; set; }
+
+            [Required]
+            [StringLength(9, ErrorMessage = "The {0} must be {1} characters long.", MinimumLength = 9)]
+            [DataType(DataType.Text)]
+            [Display(Name = "ID Card Number")]
+            public string IdCardNumber { get; set; }
+
+            [Display(Name = "Profile Photo")]
+            public byte[] Photo { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -113,7 +137,24 @@ namespace DSMS.Frontend.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    DateOfBirth = Input.DateOfBirth,
+                    Oib = Input.Oib,
+                    IdCardNumber = Input.IdCardNumber,
+                };
+
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files.FirstOrDefault();
+                    using var dataStream = new MemoryStream();
+                    await file.CopyToAsync(dataStream);
+                    user.Photo = dataStream.ToArray();
+                }
+
+                await _userManager.AddToRoleAsync(user, ApplicationRole.Student.ToString());
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

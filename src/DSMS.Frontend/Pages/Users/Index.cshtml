@@ -1,0 +1,68 @@
+﻿@page
+@model DSMS.Frontend.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = "Users | Index";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @*<th scope="col">#</th>*@
+                <th scope="col">Photo</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Date Of Birth</th>
+                <th scope="col">OIB</th>
+                <th scope="col">ID Card Number</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    @*<td class="align-middle">@user.Id</td>*@
+                    <td>
+                        @if (@user.Photo.Count() != 0)
+                        {
+                            <img style="width:30px; height:30px;" class="rounded-circle"
+                                 src="data:image/*;base64,@(Convert.ToBase64String(@user.Photo))">
+                        }
+                    </td>
+                    <td class="align-middle">@user.FirstName</td>
+                    <td class="align-middle">@user.LastName</td>
+                    <td class="align-middle">@user.Email</td>
+                    <td class="align-middle">@user.Role</td>
+                    <td class="align-middle">@user.DateOfBirth.ToString("dd.MM.yyyy.")</td>
+                    <td class="align-middle">@user.Oib</td>
+                    <td class="align-middle">@user.IdCardNumber</td>
+                    <td>
+                        <a asp-page="/Users/Edit" asp-route-id="@user.Id" class="btn btn-warning">
+                            <i class="bi bi-pen"></i>
+                            Edit
+                        </a>
+                        @if (@User.Identity?.Name == user.Username)
+                        {
+                            <a asp-page="/Users/Delete" asp-route-id="@user.Id" class="btn btn-danger disabled">
+                                <i class="bi bi-trash3"></i>
+                                Delete
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Users/Delete" asp-route-id="@user.Id" class="btn btn-danger">
+                                <i class="bi bi-trash3"></i>
+                                Delete
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -27,6 +27,7 @@ public static class DataAccessDependencyInjection
     {
         services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         services.AddScoped<ITodoListRepository, TodoListRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -41,9 +42,13 @@ public static class DataAccessDependencyInjection
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
         else
+        {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(connectionString,
                     opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
     }
 
     private static void AddIdentity(this IServiceCollection services)

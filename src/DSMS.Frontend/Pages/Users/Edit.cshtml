@@ -1,24 +1,16 @@
 ﻿@page
-@model IndexModel
+@using DSMS.Core.Enums;
+@model DSMS.Frontend.Pages.Users.EditModel
 @{
-    ViewData["Title"] = "Profile";
-    ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewData["Title"] = "Users | Edit";
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<form id="profile-form" method="post" enctype="multipart/form-data">
+<h1>@ViewData["Title"]</h1>
+
+<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+<form id="edit-form" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Username" class="form-control" disabled />
-                <label asp-for="Username" class="form-label"></label>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Role" class="form-control" disabled />
-                <label asp-for="Role" class="form-label"></label>
-            </div>
             <div class="form-floating">
                 <input asp-for="Input.FirstName" class="form-control" autocomplete="first-name" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
@@ -44,15 +36,17 @@
                 <label asp-for="Input.IdCardNumber"></label>
                 <span asp-validation-for="Input.IdCardNumber" class="text-danger"></span>
             </div>
-@*            <div class="form-floating">
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>*@
+            <div class="form-floating">
+                <select asp-for="Input.Role" class="form-control"
+                    asp-items="@Html.GetEnumSelectList<ApplicationRole>().Select(i=>{i.Value=((ApplicationRole)int.Parse(i.Value)).ToString(); return i;})">
+                </select>
+                <label asp-for="Input.Role"></label>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
         </div>
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="Input.Photo"></label>
                 @if (Model.Input.Photo != null)
                 {
@@ -64,12 +58,12 @@
                 }
                 <div class="mb-3">
                     <input asp-for="Input.Photo" class="form-control" type="file" accept=".png,.jpg,.jpeg,.gif,.tif"
-                           onchange="document.getElementById('photo').src = window.URL.createObjectURL(this.files[0])" />
+                        onchange="document.getElementById('photo').src = window.URL.createObjectURL(this.files[0])" />
                     <span asp-validation-for="Input.Photo" class="text-danger"></span>
                 </div>
             </div>
         </div>
-        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary mt-3">Save</button>
+        <button id="update-user-button" type="submit" class="w-100 btn btn-lg btn-warning mt-3">Update</button>
     </div>
 </form>
 

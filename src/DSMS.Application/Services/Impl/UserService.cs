@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using DSMS.Application.Common.Email;
 using DSMS.Application.Exceptions;
 using DSMS.Application.Helpers;
@@ -9,6 +6,11 @@ using DSMS.Application.Models;
 using DSMS.Application.Models.User;
 using DSMS.Application.Templates;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
+using DSMS.DataAccess.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DSMS.Application.Services.Impl;
 
@@ -20,13 +22,15 @@ public class UserService : IUserService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ITemplateService _templateService;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserRepository _userRepository;
 
     public UserService(IMapper mapper,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IConfiguration configuration,
         ITemplateService templateService,
-        IEmailService emailService)
+        IEmailService emailService,
+        IUserRepository userRepository)
     {
         _mapper = mapper;
         _userManager = userManager;
@@ -34,6 +38,7 @@ public class UserService : IUserService
         _configuration = configuration;
         _templateService = templateService;
         _emailService = emailService;
+        _userRepository = userRepository;
     }
 
     public async Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel)
@@ -117,5 +122,30 @@ public class UserService : IUserService
         {
             Id = Guid.Parse(user.Id)
         };
+    }
+
+    public async Task<IEnumerable<UserIndexModel>> GetAllAsync()
+    {
+        var response = await _userRepository.GetAllAsync();
+        var users = new List<UserIndexModel>();
+
+        foreach (var user in response)
+        {
+            var userDto = _mapper.Map<UserIndexModel>(user);
+
+            try
+            {
+                var role = _userManager.GetRolesAsync(user).Result.First();
+                userDto.Role = (ApplicationRole)Enum.Parse(typeof(ApplicationRole), role);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            users.Add(userDto);
+        }
+
+        return users;
     }
 }
