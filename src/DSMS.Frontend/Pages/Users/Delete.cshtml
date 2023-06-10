@@ -1,0 +1,27 @@
+﻿@page
+@model DSMS.Frontend.Pages.Users.DeleteModel
+@{
+    ViewData["Title"] = "Users | Delete";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>By deleting this user you will permanently remove their account and data, and this cannot be recovered.</strong>
+    </p>
+</div>
+
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (@User.Identity?.Name == Model.Username)
+        {
+            <button class="w-100 btn btn-lg btn-danger disabled" type="submit">Delete user @Model.Username</button>
+        }
+        else
+        {
+            <button class="w-100 btn btn-lg btn-danger" type="submit">Delete user @Model.Username</button>
+        }
+    </form>
+</div>
