@@ -11,11 +11,10 @@
         <thead>
             <tr>
                 @*<th scope="col">#</th>*@
+                <th scope="col">Photo</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
-                <th scope="col">Username</th>
                 <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
                 <th scope="col">Role</th>
                 <th scope="col">Date Of Birth</th>
                 <th scope="col">OIB</th>
@@ -26,16 +25,21 @@
             @foreach (var user in Model.Users)
             {
                 <tr>
-                    @*<td>@user.Id</td>*@
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>@user.Username</td>
-                    <td>@user.Email</td>
-                    <td>@user.PhoneNumber</td>
-                    <td>@user.Role</td>
-                    <td>@user.DateOfBirth</td>
-                    <td>@user.Oib</td>
-                    <td>@user.IdCardNumber</td>
+                    @*<td class="align-middle">@user.Id</td>*@
+                    <td>
+                        @if (@user.Photo.Count() != 0)
+                        {
+                            <img style="width:30px; height:30px;" class="rounded-circle"
+                                 src="data:image/*;base64,@(Convert.ToBase64String(@user.Photo))">
+                        }
+                    </td>
+                    <td class="align-middle">@user.FirstName</td>
+                    <td class="align-middle">@user.LastName</td>
+                    <td class="align-middle">@user.Email</td>
+                    <td class="align-middle">@user.Role</td>
+                    <td class="align-middle">@user.DateOfBirth.ToString("dd.MM.yyyy.")</td>
+                    <td class="align-middle">@user.Oib</td>
+                    <td class="align-middle">@user.IdCardNumber</td>
                 </tr>
             }
         </tbody>
