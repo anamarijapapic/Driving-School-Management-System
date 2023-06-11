@@ -1,5 +1,4 @@
 ﻿using DSMS.Core.Entities.Identity;
-using System.Linq.Expressions;
 
 namespace DSMS.DataAccess.Repositories
 {

@@ -1,10 +1,6 @@
 ﻿using DSMS.Core.Entities.Identity;
-using DSMS.Core.Exceptions;
 using DSMS.DataAccess.Persistence;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace DSMS.DataAccess.Repositories.Impl
 {

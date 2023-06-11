@@ -1,10 +1,9 @@
-﻿using DSMS.Core.Common;
-using DSMS.Core.Entities.Identity;
+﻿using DSMS.Core.Entities.Identity;
 using DSMS.Core.Enums;
 
-namespace DSMS.Core.Entities
+namespace DSMS.Application.Models.Vehicle
 {
-    public class Vehicle : BaseEntity
+    public class VehicleResponseModel : BaseResponseModel
     {
         public ApplicationUser Instructor { get; set; }
 

@@ -11,7 +11,9 @@ public interface IUserService
 
     Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel);
 
-    Task<IEnumerable<UserIndexModel>> GetAllAsync();
+    Task<IEnumerable<UserResponseModel>> GetAllAsync();
+
+    Task<IEnumerable<UserResponseModel>> GetAllInstructorsAsync();
 
     Task<LoginResponseModel> LoginAsync(LoginUserModel loginUserModel);
 }

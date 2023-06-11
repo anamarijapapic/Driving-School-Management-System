@@ -20,8 +20,6 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Appointment> Appointments { get; set; }
 
-    public DbSet<Category> Categories { get; set; }
-
     public DbSet<Enrollment> Enrollments { get; set; }
 
     public DbSet<Feedback> Feedbacks { get; set; }
@@ -44,22 +42,6 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(builder);
 
         builder
-            .Entity<Category>()
-            .Property(e => e.Id)
-            .HasConversion<int>();
-
-        builder
-            .Entity<Category>().HasData(
-                Enum.GetValues(typeof(CategoryId))
-                    .Cast<CategoryId>()
-                    .Select(e => new Category()
-                    {
-                        Id = e,
-                        Name = e.ToString()
-                    })
-            );
-
-        builder
             .Entity<Status>()
             .Property(e => e.Id)
             .HasConversion<int>();
@@ -74,11 +56,6 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
                         Name = e.ToString()
                     })
             );
-
-        builder.Entity<Category>()
-            .HasMany(e => e.Instructors)
-            .WithMany(e => e.Categories)
-            .UsingEntity("CategoryInstructor");
 
         builder.Entity<Enrollment>()
             .HasOne(e => e.Student)

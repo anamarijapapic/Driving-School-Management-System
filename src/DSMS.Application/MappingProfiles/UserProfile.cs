@@ -9,6 +9,6 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<CreateUserModel, ApplicationUser>();
-        CreateMap<ApplicationUser, UserIndexModel>();
+        CreateMap<ApplicationUser, UserResponseModel>();
     }
 }
