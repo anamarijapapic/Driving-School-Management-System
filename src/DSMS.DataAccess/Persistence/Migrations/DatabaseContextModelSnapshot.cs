@@ -22,21 +22,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryInstructor", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("InstructorsId")
-                        .HasColumnType("text");
-
-                    b.HasKey("CategoriesId", "InstructorsId");
-
-                    b.HasIndex("InstructorsId");
-
-                    b.ToTable("CategoryInstructor");
-                });
-
             modelBuilder.Entity("DSMS.Core.Entities.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,38 +48,13 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("DSMS.Core.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "A"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "B"
-                        });
-                });
-
             modelBuilder.Entity("DSMS.Core.Entities.Enrollment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("Category")
                         .HasColumnType("integer");
 
                     b.Property<string>("InstructorId")
@@ -104,8 +64,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("InstructorId");
 
@@ -127,7 +85,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("InstructorId")
                         .IsRequired()
@@ -150,7 +108,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -174,7 +132,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -274,13 +232,13 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("InstructorId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -339,7 +297,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
@@ -356,7 +314,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -375,7 +333,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -386,7 +344,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -399,7 +357,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("Category")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -412,8 +370,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasColumnType("bytea");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("InstructorId");
 
@@ -552,21 +508,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryInstructor", b =>
-                {
-                    b.HasOne("DSMS.Core.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("InstructorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DSMS.Core.Entities.Appointment", b =>
                 {
                     b.HasOne("DSMS.Core.Entities.ScheduleSlot", "ScheduleSlot")
@@ -590,10 +531,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("DSMS.Core.Entities.Enrollment", b =>
                 {
-                    b.HasOne("DSMS.Core.Entities.Category", "Category")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", "Instructor")
                         .WithMany("InstructorEnrollments")
                         .HasForeignKey("InstructorId")
@@ -603,8 +540,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .WithMany("StudentEnrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Category");
 
                     b.Navigation("Instructor");
 
@@ -666,15 +601,9 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("DSMS.Core.Entities.Vehicle", b =>
                 {
-                    b.HasOne("DSMS.Core.Entities.Category", "Category")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", "Instructor")
                         .WithMany("Vehicles")
                         .HasForeignKey("InstructorId");
-
-                    b.Navigation("Category");
 
                     b.Navigation("Instructor");
                 });
@@ -728,13 +657,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.Category", b =>
-                {
-                    b.Navigation("Enrollments");
-
-                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Feedback", b =>

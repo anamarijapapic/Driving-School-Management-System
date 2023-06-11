@@ -124,14 +124,14 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<IEnumerable<UserIndexModel>> GetAllAsync()
+    public async Task<IEnumerable<UserResponseModel>> GetAllAsync()
     {
         var response = await _userRepository.GetAllAsync();
-        var users = new List<UserIndexModel>();
+        var users = new List<UserResponseModel>();
 
         foreach (var user in response)
         {
-            var userDto = _mapper.Map<UserIndexModel>(user);
+            var userDto = _mapper.Map<UserResponseModel>(user);
 
             try
             {
@@ -147,5 +147,30 @@ public class UserService : IUserService
         }
 
         return users;
+    }
+
+    public async Task<IEnumerable<UserResponseModel>> GetAllInstructorsAsync()
+    {
+        var response = await _userRepository.GetAllAsync();
+        var instructors = new List<UserResponseModel>();
+
+        foreach (var user in response)
+        {
+            var userDto = _mapper.Map<UserResponseModel>(user);
+            try
+            {
+                var role = _userManager.GetRolesAsync(user).Result.First();
+                userDto.Role = (ApplicationRole)Enum.Parse(typeof(ApplicationRole), role);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (userDto.Role == ApplicationRole.Instructor)
+            {
+                instructors.Add(userDto);
+            }
+        }
+        return instructors;
     }
 }

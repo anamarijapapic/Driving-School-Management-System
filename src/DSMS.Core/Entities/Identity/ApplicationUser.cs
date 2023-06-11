@@ -18,8 +18,6 @@ public class ApplicationUser : IdentityUser
 
     public ICollection<Appointment> Appointments { get; } = new List<Appointment>();
 
-    public List<Category> Categories { get; } = new();
-
     public ICollection<Enrollment> StudentEnrollments { get; } = new List<Enrollment>();
 
     public ICollection<Enrollment> InstructorEnrollments { get; } = new List<Enrollment>();

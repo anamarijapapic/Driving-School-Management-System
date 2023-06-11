@@ -2,7 +2,7 @@
 
 namespace DSMS.Application.Models.User
 {
-    public class UserIndexModel : BaseResponseModel
+    public class UserResponseModel : BaseResponseModel
     {
         public ApplicationRole Role { get; set; }
 

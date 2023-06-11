@@ -1,16 +1,23 @@
-﻿namespace DSMS.Application.Models.Vehicle;
+﻿using DSMS.Core.Enums;
+using System.ComponentModel.DataAnnotations;
 
-public class CreateVehicleModel
+namespace DSMS.Application.Models.Vehicle;
+
+public class CreateVehicleModel : BaseResponseModel
 {
-    private Guid VehicleId { get; set; }
+    [Display(Name = "Instructor")]
+    public string InstructorId { get; set; }
 
-    private Guid InstructorId { get; set; }
+    [Required]
+    [Display(Name = "Category")]
+    public Category Category { get; set; }
 
-    private Guid CategoryId { get; set; }
+    [Required]
+    [Display(Name = "Description")]
+    public string Description { get; set; }
 
-    private string Description { get; set; }
-
-    private byte[] Image { get; set; }
+    [Display(Name = "Photo")]
+    public byte[] Photo { get; set; }
 }
 
 public class CreateVehicleResponseModel : BaseResponseModel { }

@@ -1,0 +1,20 @@
+﻿@page
+@model DSMS.Frontend.Pages.Vehicles.DeleteModel
+@{
+    ViewData["Title"] = "Vehicles | Delete";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>This action cannot be recovered, vehicle will be permanently deleted.</strong>
+    </p>
+</div>
+
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete vehicle @Model.Description</button>
+    </form>
+</div>

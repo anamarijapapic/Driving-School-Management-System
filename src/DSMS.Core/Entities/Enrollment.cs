@@ -1,5 +1,6 @@
 ﻿using DSMS.Core.Common;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
 
 namespace DSMS.Core.Entities
 {

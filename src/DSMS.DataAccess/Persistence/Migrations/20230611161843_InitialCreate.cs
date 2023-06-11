@@ -31,7 +31,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Photo = table.Column<byte[]>(type: "bytea", nullable: true),
                     Oib = table.Column<string>(type: "text", nullable: true),
                     IdCardNumber = table.Column<string>(type: "text", nullable: true),
@@ -56,18 +56,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Statuses",
                 columns: table => new
                 {
@@ -86,9 +74,9 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -202,6 +190,32 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Enrollments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StudentId = table.Column<string>(type: "text", nullable: true),
+                    InstructorId = table.Column<string>(type: "text", nullable: true),
+                    Category = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enrollments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Enrollments_AspNetUsers_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Enrollments_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedbacks",
                 columns: table => new
                 {
@@ -213,9 +227,9 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     Rating = table.Column<int>(type: "integer", nullable: false),
                     IsAnonymous = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -240,8 +254,8 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     InstructorId = table.Column<string>(type: "text", nullable: true),
-                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,67 +268,12 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryInstructor",
-                columns: table => new
-                {
-                    CategoriesId = table.Column<int>(type: "integer", nullable: false),
-                    InstructorsId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoryInstructor", x => new { x.CategoriesId, x.InstructorsId });
-                    table.ForeignKey(
-                        name: "FK_CategoryInstructor_AspNetUsers_InstructorsId",
-                        column: x => x.InstructorsId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CategoryInstructor_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Enrollments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StudentId = table.Column<string>(type: "text", nullable: true),
-                    InstructorId = table.Column<string>(type: "text", nullable: true),
-                    CategoryId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enrollments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enrollments_AspNetUsers_InstructorId",
-                        column: x => x.InstructorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Enrollments_AspNetUsers_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Enrollments_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Vehicles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     InstructorId = table.Column<string>(type: "text", nullable: true),
-                    CategoryId = table.Column<int>(type: "integer", nullable: true),
+                    Category = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Photo = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
@@ -325,11 +284,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         name: "FK_Vehicles_AspNetUsers_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
                         principalColumn: "Id");
                 });
 
@@ -343,9 +297,9 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     IsDone = table.Column<bool>(type: "boolean", nullable: false),
                     ListId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -412,15 +366,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 0, "A" },
-                    { 1, "B" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Statuses",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -484,16 +429,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryInstructor_InstructorsId",
-                table: "CategoryInstructor",
-                column: "InstructorsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_CategoryId",
-                table: "Enrollments",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Enrollments_InstructorId",
                 table: "Enrollments",
                 column: "InstructorId");
@@ -534,11 +469,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 column: "ListId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_CategoryId",
-                table: "Vehicles",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_InstructorId",
                 table: "Vehicles",
                 column: "InstructorId");
@@ -563,9 +493,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "CategoryInstructor");
 
             migrationBuilder.DropTable(
                 name: "Enrollments");
@@ -593,9 +520,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "TodoLists");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

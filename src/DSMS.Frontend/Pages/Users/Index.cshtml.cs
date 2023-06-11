@@ -11,7 +11,7 @@ namespace DSMS.Frontend.Pages.Users
 
         private readonly IUserService _userService;
 
-        public IEnumerable<UserIndexModel> Users { get; private set; } = new List<UserIndexModel>();
+        public IEnumerable<UserResponseModel> Users { get; private set; } = new List<UserResponseModel>();
 
         public IndexModel(IUserService userService)
         {
