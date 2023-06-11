@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using DSMS.Application.Models.TodoList;
 using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
 using Microsoft.AspNetCore.Identity;
 
 namespace DSMS.Application.Services.Impl
@@ -68,11 +66,6 @@ namespace DSMS.Application.Services.Impl
             }
 
             return filteredVehicles;
-        }
-
-        public Task<VehicleResponseModel> CreateAsync(CreateVehicleResponseModel createVehicleModel)
-        {
-            throw new NotImplementedException();
         }
     }
 }
