@@ -19,5 +19,10 @@ namespace DSMS.DataAccess.Repositories.Impl
         {
             return await DbSet.ToListAsync();
         }
+
+        public async Task<ApplicationUser> GetByIdAsync(string id)
+        {
+            return await DbSet.Include(u => u.Vehicles).Include(u => u.InstructorFeedbacks).FirstOrDefaultAsync(user => user.Id == id);
+        }
     }
 }
