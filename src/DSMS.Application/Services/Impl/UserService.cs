@@ -173,4 +173,30 @@ public class UserService : IUserService
         }
         return instructors;
     }
+
+    public async Task<IEnumerable<UserResponseModel>> GetAllUsersByRoleAsync(ApplicationRole applicationRole)
+    {
+        var response = await _userRepository.GetAllAsync();
+        var filteredUsers = new List<UserResponseModel>();
+
+        foreach (var user in response)
+        {
+            var userDto = _mapper.Map<UserResponseModel>(user);
+            try
+            {
+                var role = _userManager.GetRolesAsync(user).Result.First();
+                userDto.Role = (ApplicationRole)Enum.Parse(typeof(ApplicationRole), role);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (userDto.Role == applicationRole)
+            {
+                filteredUsers.Add(userDto);
+            }
+        }
+        return filteredUsers;
+
+    }
 }

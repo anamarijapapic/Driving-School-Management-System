@@ -11,5 +11,102 @@
 
     <h1>@ViewData["Title"]</h1>
 
-   
+    <form asp-action="OnGetAsync" method="get">
+        <div class="row">
+            <div class="input-group">
+                <input type="search" class="form-control" placeholder="Search..."
+                       name="searchString" value="@keyword">
+                <select class="form-select" name="currentFilter">
+                    <option value="">All categories</option>
+                    @foreach (var category in Enum.GetNames(typeof(Category)))
+                    {
+                        <option value="@category" selected="@(category == currentFilter)">@category</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+                <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <a class="btn btn-success my-3" asp-area="" asp-page="/Enrollments/Create">
+                    <i class="bi bi-plus-lg"></i>
+                    Create New
+                </a>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Instructor name</th>
+                <th scope="col">Instructor surname</th>
+                <th scope="col">Student name</th>
+                <th scope="col">Student surname</th>
+                <th scope="col">Category</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var enrollment in Model.Enrollments)
+            {
+                <tr>
+                    <td class="align-middle">@enrollment.Instructor?.FirstName</td>
+                    <td class="align-middle">@enrollment.Instructor?.LastName</td>
+                    <td class="align-middle">@enrollment.Student?.FirstName</td>
+                    <td class="align-middle">@enrollment.Student?.LastName</td>
+                    <td class="align-middle">@enrollment.Category</td>
+                    <td class="align-middle">
+                        <a asp-page="/Vehicles/Edit" asp-route-id="@enrollment.Id" class="btn btn-warning">
+                            <i class="bi bi-pen"></i>
+                            Edit
+                        </a>
+                        <a asp-page="/Vehicles/Delete" asp-route-id="@enrollment.Id" class="btn btn-danger">
+                            <i class="bi bi-trash3"></i>
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item">
+                <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Enrollments.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link btn @previous"
+               role="button">
+                    Previous
+                </a>
+            </li>
+            @for (var i = 1; i <= Model.Enrollments.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Enrollments.PageIndex ? "active" : "")">
+                    <a asp-page="./Index"
+               asp-route-pageIndex="@i"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+            <li class="page-item">
+                <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Enrollments.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link btn @next"
+               role="button">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </div>
+  
 }
