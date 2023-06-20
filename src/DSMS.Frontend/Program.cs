@@ -38,6 +38,9 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<SmtpSettings>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 
+builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

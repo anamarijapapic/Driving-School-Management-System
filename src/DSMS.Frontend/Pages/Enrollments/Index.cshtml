@@ -1,4 +1,15 @@
 ﻿@page
+@using DSMS.Core.Enums;
 @model DSMS.Frontend.Pages.Enrollments.IndexModel
 @{
+    ViewData["Title"] = "Enrollments | Index";
+
+    var keyword = ViewData["Keyword"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
+    var previous = Model.Enrollments.HasPreviousPage ? "" : "disabled";
+    var next = Model.Enrollments.HasNextPage ? "" : "disabled";
+
+    <h1>@ViewData["Title"]</h1>
+
+   
 }

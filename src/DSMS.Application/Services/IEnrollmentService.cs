@@ -1,5 +1,5 @@
-﻿
-using DSMS.Application.Models.Enrollments;
+﻿using DSMS.Application.Models.Enrollments;
+
 namespace DSMS.Application.Services
 {
     public interface IEnrollmentService
@@ -8,7 +8,7 @@ namespace DSMS.Application.Services
 
         Task<IEnumerable<EnrollmentResponseModel>> GetAllAsync();
 
-        IEnumerable<EnrollmentResponseModel> Search(IEnumerable<EnrollmentResponseModel> enrollments, string searchTerm);
+        IEnumerable<EnrollmentResponseModel> Search(IEnumerable<EnrollmentResponseModel> enrollments, string searchString);
 
         IEnumerable<EnrollmentResponseModel> Filter(IEnumerable<EnrollmentResponseModel> enrollments, string currentFilter);
     }
