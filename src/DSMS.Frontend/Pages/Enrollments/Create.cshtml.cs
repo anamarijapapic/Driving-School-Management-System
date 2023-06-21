@@ -1,29 +1,25 @@
 ﻿#nullable disable
+using DSMS.Application.Models.Enrollments;
+using DSMS.Application.Models.User;
+using DSMS.Application.Services;
+using DSMS.Core.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using AutoMapper;
-using DSMS.Application.Models.User;
-using DSMS.Application.Models.Enrollments;
-using DSMS.Application.Services;
-using DSMS.Core.Entities;
-using Microsoft.AspNetCore.Authorization;
-using DSMS.Core.Enums;
 
 namespace DSMS.Frontend.Pages.Enrollments
 {
     [Authorize(Roles = ("Administrator"))]
     public class CreateModel : PageModel
     {
-        private readonly IMapper _mapper;
         private readonly IEnrollmentService _enrollmentService;
         private readonly IUserService _userService;
 
         public IEnumerable<UserResponseModel> Instructors { get; private set; } = new List<UserResponseModel>();
         public IEnumerable<UserResponseModel> Students { get; private set; } = new List<UserResponseModel>();
 
-        public CreateModel(IMapper mapper, IEnrollmentService enrollmentService, IUserService userService)
+        public CreateModel(IEnrollmentService enrollmentService, IUserService userService)
         {
-            _mapper = mapper;
             _enrollmentService = enrollmentService;
             _userService = userService;
         }
@@ -41,17 +37,17 @@ namespace DSMS.Frontend.Pages.Enrollments
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if(!ModelState.IsValid) return Page();
+            if (!ModelState.IsValid) return Page();
 
-            var enrollment = _mapper.Map<CreateEnrollmentModel>(Input);
             try
             {
-                await _enrollmentService.CreateAsync(enrollment);
+                await _enrollmentService.CreateAsync(Input);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
             return Redirect("~/Enrollments/Index");
         }
     }

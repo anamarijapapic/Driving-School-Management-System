@@ -4,7 +4,6 @@ namespace DSMS.Application.Models.Enrollments
 {
     public class EnrollmentResponseModel : BaseResponseModel
     {
-
         public ApplicationUser Instructor { get; set; }
         public ApplicationUser Student { get; set; }
         public Category Category { get; set; }

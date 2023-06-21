@@ -6,10 +6,12 @@ namespace DSMS.Application.Models.Enrollments
     public class CreateEnrollmentModel : BaseResponseModel
     {
         [Required]
+        [DataType(DataType.Text)]
         [Display(Name = "Instructor")]
         public string InstructorId { get; set; }
 
         [Required]
+        [DataType(DataType.Text)]
         [Display(Name = "Student")]
         public string StudentId { get; set; }
 

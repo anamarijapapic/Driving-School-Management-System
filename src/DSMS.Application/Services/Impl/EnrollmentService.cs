@@ -47,7 +47,7 @@ namespace DSMS.Application.Services.Impl
         {
             IEnumerable<EnrollmentResponseModel> searchedEnrollments = enrollments;
 
-            if(!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 var searchStringTrim = searchString.ToLower().Trim();
                 searchedEnrollments = enrollments
@@ -56,6 +56,7 @@ namespace DSMS.Application.Services.Impl
                     .Where(e => e.Student.FirstName.Contains(searchStringTrim))
                     .Where(e => e.Student.LastName.Contains(searchStringTrim));
             }
+
             return searchedEnrollments;
         }
 
@@ -63,16 +64,13 @@ namespace DSMS.Application.Services.Impl
         {
             IEnumerable<EnrollmentResponseModel> filteredEnrollments = enrollments;
 
-            if(!string.IsNullOrEmpty(currentFilter))
+            if (!string.IsNullOrEmpty(currentFilter))
             {
                 var currentFilterTrim = currentFilter.Trim();
                 filteredEnrollments = enrollments.Where(e => e.Category.ToString() == currentFilterTrim);
             }
+
             return filteredEnrollments;
         }
-
-
-
-
     }
 }
