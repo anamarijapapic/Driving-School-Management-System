@@ -49,12 +49,12 @@ namespace DSMS.Application.Services.Impl
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var searchStringTrim = searchString.ToLower().Trim();
+                var searchStringTrim = searchString.ToUpper().Trim();
                 searchedEnrollments = enrollments
-                    .Where(e => e.Instructor.FirstName.Contains(searchStringTrim))
-                    .Where(e => e.Instructor.LastName.Contains(searchStringTrim))
-                    .Where(e => e.Student.FirstName.Contains(searchStringTrim))
-                    .Where(e => e.Student.LastName.Contains(searchStringTrim));
+                    .Where(e => e.Instructor.FirstName.Contains(searchStringTrim) || 
+                    e.Instructor.LastName.ToUpper().Contains(searchStringTrim) || 
+                    e.Student.FirstName.ToUpper().Contains(searchStringTrim) || 
+                    e.Student.LastName.ToUpper().Contains(searchStringTrim));
             }
 
             return searchedEnrollments;
