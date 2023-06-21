@@ -60,11 +60,11 @@
                     <td class="align-middle">@enrollment.Student?.LastName</td>
                     <td class="align-middle">@enrollment.Category</td>
                     <td class="align-middle">
-                        <a asp-page="/Vehicles/Edit" asp-route-id="@enrollment.Id" class="btn btn-warning">
+                        <a asp-page="/Enrollments/Edit" asp-route-id="@enrollment.Id" class="btn btn-warning">
                             <i class="bi bi-pen"></i>
                             Edit
                         </a>
-                        <a asp-page="/Vehicles/Delete" asp-route-id="@enrollment.Id" class="btn btn-danger">
+                        <a asp-page="/Enrollments/Delete" asp-route-id="@enrollment.Id" class="btn btn-danger">
                             <i class="bi bi-trash3"></i>
                             Delete
                         </a>
