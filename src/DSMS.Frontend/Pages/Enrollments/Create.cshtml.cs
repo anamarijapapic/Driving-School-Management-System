@@ -43,10 +43,10 @@ namespace DSMS.Frontend.Pages.Enrollments
         {
             if(!ModelState.IsValid) return Page();
 
-            var enrollment = _mapper.Map<Enrollment>(Input);
+            var enrollment = _mapper.Map<CreateEnrollmentModel>(Input);
             try
             {
-                await _enrollmentService.CreateAsync(Input);
+                await _enrollmentService.CreateAsync(enrollment);
             }
             catch (Exception ex)
             {

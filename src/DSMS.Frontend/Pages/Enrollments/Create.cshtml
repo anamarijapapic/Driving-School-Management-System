@@ -1,7 +1,62 @@
 ﻿@page
+@using DSMS.Core.Enums;
 @model DSMS.Frontend.Pages.Enrollments.CreateModel
 @{
     ViewData["Title"] = "Enrollments | Create";
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <h2>Create a new enrollment.</h2>
+    <hr />
+    <form id="create-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select asp-for="Input.Category" class="form-control"
+                            asp-items="@Html.GetEnumSelectList<Category>().Select(i=>{i.Value=((Category)int.Parse(i.Value)).ToString(); return i;})">
+                    </select>
+                    <label asp-for="Input.Category"></label>
+                    <span asp-validation-for="Input.Category" class="text-danger"></span>
+                </div>
+           @*     <div class="form-floating">
+                    <input asp-for="Input.Description" class="form-control" autocomplete="description" aria-required="true" />
+                    <label asp-for="Input.Description"></label>
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                </div>*@
+                <div class="form-floating">
+                    <select asp-for="Input.InstructorId" class="form-control">
+                        <option selected>Please select instructor</option>
+                        @foreach (var instructor in Model.Instructors)
+                        {
+                            <option value="@instructor.Id">
+                                @instructor.FirstName @instructor.LastName (@instructor.Username)
+                            </option>
+                        }
+                    </select>
+                    <label asp-for="Input.InstructorId"></label>
+                    <span asp-validation-for="Input.InstructorId" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <select asp-for="Input.StudentId" class="form-control">
+                        <option selected>Please select student</option>
+                        @foreach (var student in Model.Students)
+                        {
+                            <option value="@student.Id">
+                                @student.FirstName @student.LastName (@student.Username)
+                            </option>
+                        }
+                    </select>
+                    <label asp-for="Input.StudentId"></label>
+                    <span asp-validation-for="Input.StudentId" class="text-danger"></span>
+                </div>
+            </div>>
+            <button id="create-vehicle-button" type="submit" class="w-100 btn btn-lg btn-success mt-3">Create</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
