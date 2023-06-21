@@ -9,8 +9,6 @@ public class VehicleProfile : Profile
     public VehicleProfile()
     {
         CreateMap<CreateVehicleModel, Vehicle>();
-        CreateMap<Vehicle, CreateVehicleModel>();
-        CreateMap<VehicleResponseModel, Vehicle>();
         CreateMap<Vehicle, VehicleResponseModel>();
     }
 }

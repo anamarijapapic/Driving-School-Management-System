@@ -1,0 +1,57 @@
+﻿@page
+@using DSMS.Core.Enums;
+@model DSMS.Frontend.Pages.Enrollments.EditModel
+@{
+    ViewData["Title"] = "Enrollment | Edit";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+
+<form id="edit-form" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select asp-for="Input.Category" class="form-control"
+                        asp-items="@Html.GetEnumSelectList<Category>().Select(i=>{i.Value=((Category)int.Parse(i.Value)).ToString(); return i;})">
+                </select>
+                <label asp-for="Input.Category"></label>
+                <span asp-validation-for="Input.Category" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <select asp-for="Input.InstructorId" class="form-control">
+                    <option selected>Please select instructor</option>
+                    @foreach (var instructor in Model.Instructors)
+                    {
+                        <option value="@instructor.Id">
+                            @instructor.FirstName @instructor.LastName (@instructor.Username)
+                        </option>
+                    }
+                </select>
+                <label asp-for="Input.InstructorId"></label>
+                <span asp-validation-for="Input.InstructorId" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <select asp-for="Input.StudentId" class="form-control">
+                    <option selected>Please select student</option>
+                    @foreach (var student in Model.Students)
+                    {
+                        <option value="@student.Id">
+                            @student.FirstName @student.LastName (@student.Username)
+                        </option>
+                    }
+                </select>
+                <label asp-for="Input.StudentId"></label>
+                <span asp-validation-for="Input.StudentId" class="text-danger"></span>
+            </div>
+        </div>
+        <button id="update-enrollment-button" type="submit" class="w-100 btn btn-lg btn-success mt-3">Update</button>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

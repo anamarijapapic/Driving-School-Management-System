@@ -45,7 +45,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Enrollment", b =>
@@ -69,7 +69,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Feedback", b =>
@@ -116,7 +116,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Identity.ApplicationUser", b =>
@@ -222,7 +222,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Reactions");
+                    b.ToTable("Reactions", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.ScheduleSlot", b =>
@@ -244,7 +244,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("ScheduleSlots");
+                    b.ToTable("ScheduleSlots", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Status", b =>
@@ -257,7 +257,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
 
                     b.HasData(
                         new
@@ -320,7 +320,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("ListId");
 
-                    b.ToTable("TodoItems");
+                    b.ToTable("TodoItems", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.TodoList", b =>
@@ -348,7 +348,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoLists");
+                    b.ToTable("TodoLists", (string)null);
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Vehicle", b =>
@@ -373,7 +373,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
