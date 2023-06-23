@@ -15,7 +15,7 @@ namespace DSMS.Frontend.Pages.Users
 {
     public class DetailsModel : PageModel
     {
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFeedbackService _feedbackService;
@@ -23,7 +23,7 @@ namespace DSMS.Frontend.Pages.Users
         public DetailsModel(IUserRepository userRepository,
             UserManager<ApplicationUser> userManager,
             IFeedbackService feedbackService,
-            Mapper mapper)
+            IMapper mapper)
         {
             _userRepository = userRepository;
             _userManager = userManager;
@@ -55,13 +55,27 @@ namespace DSMS.Frontend.Pages.Users
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string Id)
         {
+            var user = await _userRepository.GetByIdAsync(Id);
+            if (user == null)
+            {
+                return base.NotFound($"Unable to load user with ID '{Id}'.");
+            }
+
+            ApplicationUser = user;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            UserRole = roles.First();
+
             if (!ModelState.IsValid) return Page();
             
             var feedback = _mapper.Map<CreateFeedbackModel>(Input);
             var student = _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
             feedback.InstructorId = ApplicationUser.Id;
+            feedback.Created = DateTime.Now;
+            feedback.IsAnonymous = false;
 
 
             try

@@ -1,0 +1,45 @@
+﻿@page
+@using DSMS.Core.Enums;
+@model DSMS.Frontend.Pages.Feedback.EditModel
+@{
+    ViewData["Title"] = "Feedback | Edit";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+<form id="edit-form" method="post" enctype="multipart/form-data">
+    <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.Title" class="form-control" autocomplete="description" aria-required="true" />
+                        <label asp-for="Input.Title"></label>
+                        <span asp-validation-for="Input.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <select asp-for="Input.Rating" class="form-control">
+                            <option selected>Please rate your instructor</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+
+                        </select>
+                        <label asp-for="Input.Rating"></label>
+                        <span asp-validation-for="Input.Rating" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <textarea asp-for="Input.Content" class="form-control" autocomplete="description" aria-required="true">Enter your review</textarea>
+                        <label asp-for="Input.Content"></label>
+                        <span asp-validation-for="Input.Content" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <button id="create-feedback-button" type="submit" class="w-100 btn btn-lg btn-success mt-3">Submit feedback</button>
+            </div>
+        </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
