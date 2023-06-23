@@ -39,7 +39,7 @@ namespace DSMS.Frontend.Pages.Feedback
             {
                 return base.NotFound($"Unable to load feedback with ID '{Id}'.");
             }
-            await LoadAsync(feedback);
+            await Load(feedback);
             return Page();
         }
 
@@ -54,7 +54,7 @@ namespace DSMS.Frontend.Pages.Feedback
 
             if(!ModelState.IsValid)
             {
-                await LoadAsync(feedback);
+                await Load(feedback);
                 return Page();
 ;           }
 
@@ -69,7 +69,7 @@ namespace DSMS.Frontend.Pages.Feedback
             return Page();
         }
 
-        private async Task LoadAsync(Core.Entities.Feedback feedback)
+        private Task Load(Core.Entities.Feedback feedback)
         {
             var title = feedback.Title;
             var rating = feedback.Rating;
@@ -81,7 +81,7 @@ namespace DSMS.Frontend.Pages.Feedback
                 Rating = rating,
                 Content = content
             };
-
+            return null;
         }
     }
 }

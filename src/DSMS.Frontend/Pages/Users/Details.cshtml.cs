@@ -40,22 +40,11 @@ namespace DSMS.Frontend.Pages.Users
 
         public async Task<IActionResult> OnGetAsync(string Id)
         {
-            var user = await _userRepository.GetByIdAsync(Id);
-            if (user == null)
-            {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
-            }
-
-            ApplicationUser = user;
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            UserRole = roles.First();
-
+            await LoadAsync(Id);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        private async Task<object> LoadAsync(string Id)
         {
             var user = await _userRepository.GetByIdAsync(Id);
             if (user == null)
@@ -68,15 +57,21 @@ namespace DSMS.Frontend.Pages.Users
             var roles = await _userManager.GetRolesAsync(user);
 
             UserRole = roles.First();
+            return null;
+            
+        }
+        public async Task<IActionResult> OnPostAsync(string Id)
+        {
+            await LoadAsync(Id);
 
             if (!ModelState.IsValid) return Page();
             
             var feedback = _mapper.Map<CreateFeedbackModel>(Input);
             var student = _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             feedback.InstructorId = ApplicationUser.Id;
             feedback.Created = DateTime.Now;
             feedback.IsAnonymous = false;
-
 
             try
             {

@@ -1,0 +1,18 @@
+﻿@page
+@model DSMS.Frontend.Pages.Feedback.DeleteModel
+@{
+    ViewData["Title"] = "Feedback | Delete";
+}
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>This action cannot be recovered, feedback will be permanently deleted.</strong>
+    </p>
+</div>
+
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete feedback</button>
+    </form>
+</div>
