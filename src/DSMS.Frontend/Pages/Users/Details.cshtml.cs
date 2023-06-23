@@ -37,6 +37,8 @@ namespace DSMS.Frontend.Pages.Users
         public ApplicationUser ApplicationUser { get; private set; }
         public string UserRole { get; private set; }
 
+        public IEnumerable<Core.Entities.Feedback> Feedbacks { get; set; }
+
 
         public async Task<IActionResult> OnGetAsync(string Id)
         {
@@ -57,6 +59,9 @@ namespace DSMS.Frontend.Pages.Users
             var roles = await _userManager.GetRolesAsync(user);
 
             UserRole = roles.First();
+
+            Feedbacks = await _feedbackService.GetByInstructorAsync(Id);
+
             return null;
             
         }

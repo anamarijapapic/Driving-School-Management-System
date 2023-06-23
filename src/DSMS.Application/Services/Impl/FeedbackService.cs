@@ -42,6 +42,13 @@ namespace DSMS.Application.Services.Impl
 
             return _mapper.Map<IEnumerable<Feedback>>(feedbacks);
         }
+
+        public async Task<IEnumerable<Feedback>> GetByInstructorAsync(string Id)
+        {
+            var feedbacks = await _feedbackRepository.GetAllAsync(f => f.Instructor.Id.ToString() == Id);
+
+            return _mapper.Map<IEnumerable<Feedback>> (feedbacks);
+        }
     }
 
     

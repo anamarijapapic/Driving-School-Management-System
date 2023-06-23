@@ -9,5 +9,6 @@ namespace DSMS.Application.Services
         Task<CreateFeedbackResponseModel> CreateAsync(CreateFeedbackModel createFeedbackModel);
 
         Task<IEnumerable<Feedback>> GetAllAsync();
+        Task<IEnumerable<Feedback>> GetByInstructorAsync(string Id);
     }
 }
