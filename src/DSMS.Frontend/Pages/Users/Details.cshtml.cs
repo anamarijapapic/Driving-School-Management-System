@@ -8,8 +8,6 @@ using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace DSMS.Frontend.Pages.Users
 {
@@ -35,18 +33,19 @@ namespace DSMS.Frontend.Pages.Users
         public CreateFeedbackModel Input { get; set; }
 
         public ApplicationUser ApplicationUser { get; private set; }
+
         public string UserRole { get; private set; }
 
-        public IEnumerable<Core.Entities.Feedback> Feedbacks { get; set; }
-
-
-        public async Task<IActionResult> OnGetAsync(string Id)
+        private async Task LoadAsync(ApplicationUser user)
         {
-            await LoadAsync(Id);
-            return Page();
+            ApplicationUser = user;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            UserRole = roles.First();
         }
 
-        private async Task<object> LoadAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string Id)
         {
             var user = await _userRepository.GetByIdAsync(Id);
             if (user == null)
@@ -54,38 +53,42 @@ namespace DSMS.Frontend.Pages.Users
                 return base.NotFound($"Unable to load user with ID '{Id}'.");
             }
 
-            ApplicationUser = user;
+            await LoadAsync(user);
 
-            var roles = await _userManager.GetRolesAsync(user);
-
-            UserRole = roles.First();
-
-            Feedbacks = await _feedbackService.GetByInstructorAsync(Id);
-
-            return null;
-            
+            return Page();
         }
+
         public async Task<IActionResult> OnPostAsync(string Id)
         {
-            await LoadAsync(Id);
+            var user = await _userRepository.GetByIdAsync(Id);
+            if (user == null)
+            {
+                return base.NotFound($"Unable to load user with ID '{Id}'.");
+            }
 
-            if (!ModelState.IsValid) return Page();
-            
-            var feedback = _mapper.Map<CreateFeedbackModel>(Input);
-            var student = _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await LoadAsync(user);
 
-            feedback.InstructorId = ApplicationUser.Id;
-            feedback.Created = DateTime.Now;
-            feedback.IsAnonymous = false;
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var student = await _userManager.GetUserAsync(User);
+
+            Input.InstructorId = ApplicationUser.Id;
+            Input.StudentId = student.Id;
+            Input.CreatedOn = DateTime.Now;
+            Input.IsAnonymous = false;
 
             try
             {
-                await _feedbackService.CreateAsync(feedback);
+                await _feedbackService.CreateAsync(Input);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
             return Redirect("~/Users/Index");
         }
     }

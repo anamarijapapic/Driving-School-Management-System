@@ -3,7 +3,6 @@ using DSMS.Application.Models.Feedback;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
 using Microsoft.AspNetCore.Identity;
 
 namespace DSMS.Application.Services.Impl
@@ -14,7 +13,9 @@ namespace DSMS.Application.Services.Impl
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public FeedbackService(IMapper mapper, IFeedbackRepository feedbackRepository, UserManager<ApplicationUser> userManager)
+        public FeedbackService(IMapper mapper,
+            IFeedbackRepository feedbackRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _feedbackRepository = feedbackRepository;
@@ -38,18 +39,16 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<Feedback>> GetAllAsync()
         {
-           var feedbacks = await _feedbackRepository.GetAllAsync();
+            var feedbacks = await _feedbackRepository.GetAllAsync();
 
             return _mapper.Map<IEnumerable<Feedback>>(feedbacks);
         }
 
         public async Task<IEnumerable<Feedback>> GetByInstructorAsync(string Id)
         {
-            var feedbacks = await _feedbackRepository.GetAllAsync(f => f.Instructor.Id.ToString() == Id);
+            var feedbacks = await _feedbackRepository.GetAllAsync(f => f.Instructor.Id == Id);
 
-            return _mapper.Map<IEnumerable<Feedback>> (feedbacks);
+            return _mapper.Map<IEnumerable<Feedback>>(feedbacks);
         }
     }
-
-    
 }

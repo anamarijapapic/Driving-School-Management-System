@@ -22,7 +22,11 @@ namespace DSMS.DataAccess.Repositories.Impl
 
         public async Task<ApplicationUser> GetByIdAsync(string id)
         {
-            return await DbSet.Include(u => u.Vehicles).Include(u => u.InstructorFeedbacks).FirstOrDefaultAsync(user => user.Id == id);
+            return await DbSet
+                .Include(u => u.Vehicles)
+                .Include(u => u.InstructorFeedbacks)
+                    .ThenInclude(u => u.Student)
+                .FirstOrDefaultAsync(user => user.Id == id);
         }
     }
 }

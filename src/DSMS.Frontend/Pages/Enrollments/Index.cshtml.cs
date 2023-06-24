@@ -1,10 +1,10 @@
 ﻿#nullable disable
 
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using DSMS.Application.Models;
 using DSMS.Application.Models.Enrollments;
 using DSMS.Application.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DSMS.Frontend.Pages.Enrollments
 {
@@ -22,11 +22,13 @@ namespace DSMS.Frontend.Pages.Enrollments
 
         public async Task<PageResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
         {
-            if (searchString!= null)
+            if (searchString != null)
             {
                 pageIndex = 1;
             }
+
             var pageSize = 5;
+
             var enrollments = await _enrollmentService.GetAllAsync();
 
             ViewData["Keyword"] = searchString;
