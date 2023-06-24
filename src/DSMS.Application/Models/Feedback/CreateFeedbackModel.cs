@@ -1,22 +1,37 @@
-﻿namespace DSMS.Application.Models.Feedback;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class CreateFeedbackModel
+namespace DSMS.Application.Models.Feedback;
+
+public class CreateFeedbackModel : BaseResponseModel
 {
-    private Guid FeedbackId { get; set; }
+    [DataType(DataType.Text)]
+    [Display(Name = "Instructor")]
+    public string InstructorId { get; set; }
 
-    private Guid InstructorId { get; set; }
+    [DataType(DataType.Text)]
+    [Display(Name = "Student")]
+    public string StudentId { get; set; }
 
-    private Guid StudentId { get; set; }
+    [Required]
+    [DataType(DataType.Text)]
+    [Display(Name = "Title")]
+    public string Title { get; set; }
 
-    private string Title { get; set; }
+    [Required]
+    [DataType(DataType.Text)]
+    [Display(Name = "Content")]
+    public string Content { get; set; }
 
-    private string Content { get; set; }
+    [Required]
+    [Display(Name = "Rating")]
+    public int Rating { get; set; }
 
-    private int Rating { get; set; }
+    [DataType(DataType.DateTime)]
+    [Display(Name = "Created On")]
+    public DateTime CreatedOn { get; set; }
 
-    private DateTime Created { get; set; }
-
-    private Boolean IsAnonymous { get; set; }
+    [Display(Name = "Is Anonymous")]
+    public bool IsAnonymous { get; set; }
 }
 
 public class CreateFeedbackResponseModel : BaseResponseModel { }

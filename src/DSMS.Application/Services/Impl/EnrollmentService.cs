@@ -13,7 +13,9 @@ namespace DSMS.Application.Services.Impl
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public EnrollmentService(IMapper mapper, IEnrollmentRepository enrollmentRepository, UserManager<ApplicationUser> userManager)
+        public EnrollmentService(IMapper mapper,
+            IEnrollmentRepository enrollmentRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _enrollmentRepository = enrollmentRepository;
@@ -33,7 +35,6 @@ namespace DSMS.Application.Services.Impl
             {
                 Id = (await _enrollmentRepository.AddAsync(enrollment)).Id,
             };
-
         }
 
         public async Task<IEnumerable<EnrollmentResponseModel>> GetAllAsync()
@@ -51,9 +52,9 @@ namespace DSMS.Application.Services.Impl
             {
                 var searchStringTrim = searchString.ToUpper().Trim();
                 searchedEnrollments = enrollments
-                    .Where(e => e.Instructor.FirstName.Contains(searchStringTrim) || 
-                    e.Instructor.LastName.ToUpper().Contains(searchStringTrim) || 
-                    e.Student.FirstName.ToUpper().Contains(searchStringTrim) || 
+                    .Where(e => e.Instructor.FirstName.Contains(searchStringTrim) ||
+                    e.Instructor.LastName.ToUpper().Contains(searchStringTrim) ||
+                    e.Student.FirstName.ToUpper().Contains(searchStringTrim) ||
                     e.Student.LastName.ToUpper().Contains(searchStringTrim));
             }
 

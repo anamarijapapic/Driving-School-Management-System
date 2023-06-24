@@ -2,13 +2,13 @@
 
 public class UpdateFeedbackModel
 {
-    private string Title { get; set; }
+    public string Title { get; set; }
 
-    private string Content { get; set; }
+    public string Content { get; set; }
 
-    private int Rating { get; set; }
+    public int Rating { get; set; }
 
-    private Boolean IsAnonymous { get; set; }
+    public bool IsAnonymous { get; set; }
 }
 
 public class UpdateFeedbackResponseModel : BaseResponseModel { }

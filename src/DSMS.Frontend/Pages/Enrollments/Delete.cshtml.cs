@@ -1,6 +1,5 @@
 ﻿#nullable disable
 
-using DSMS.Core.Entities;
 using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,7 +24,6 @@ namespace DSMS.Frontend.Pages.Enrollments
                 return base.NotFound($"Unable to find enrollment with ID '{Id}'.");
             }
 
-
             return Page();
 
         }
@@ -42,7 +40,6 @@ namespace DSMS.Frontend.Pages.Enrollments
             await _enrollmentRepository.DeleteAsync(enrollment);
 
             return Redirect("~/Enrollments/Index");
-
         }
     }
 }

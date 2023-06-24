@@ -1,4 +1,5 @@
 ﻿#nullable disable
+
 using DSMS.Application.Models.Enrollments;
 using DSMS.Application.Models.User;
 using DSMS.Application.Services;
@@ -13,6 +14,7 @@ namespace DSMS.Frontend.Pages.Enrollments
     public class CreateModel : PageModel
     {
         private readonly IEnrollmentService _enrollmentService;
+
         private readonly IUserService _userService;
 
         public IEnumerable<UserResponseModel> Instructors { get; private set; } = new List<UserResponseModel>();

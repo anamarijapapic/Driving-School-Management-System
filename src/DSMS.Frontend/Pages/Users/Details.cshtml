@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @if (Model?.ApplicationUser?.Photo != null)
+        @if (Model.ApplicationUser?.Photo != null)
         {
             <img id="photo" class="img-thumbnail d-block" 
             src="data:image/*;base64,@(Convert.ToBase64String(Model.ApplicationUser.Photo))">
@@ -19,18 +19,18 @@
         }
     </div>
     <div class="col-md-9">
-        <h3>@Model.ApplicationUser.FirstName @Model.ApplicationUser.LastName</h3>
-        <p>Email: <b>(@Model.ApplicationUser.UserName)</b></p>
+        <h3>@Model.ApplicationUser?.FirstName @Model.ApplicationUser?.LastName</h3>
+        <p>Email: <b>(@Model.ApplicationUser?.UserName)</b></p>
         <p>Role: <b>@Model.UserRole</b></p>
     </div>
 </div>
 
-@if (Model.UserRole == "Instructor")
+@if (Model?.UserRole == "Instructor")
 {
     <div class="row">
         <div class="col-md-6">
             <h4>Assigned Vehicles</h4>
-            @if (Model.ApplicationUser.Vehicles.Count() == 0)
+            @if (Model.ApplicationUser?.Vehicles.Count() == 0)
             {
                 <p class="text-muted">Instructor has no vehicles assigned.</p>
             }
@@ -60,8 +60,8 @@
                                             <img id="photo" class="img-thumbnail d-block" src="...">
                                         }
                                     </td>
-                                    <td>@vehicle.Category</td>
-                                    <td>@vehicle.Description</td>
+                                    <td>@vehicle?.Category</td>
+                                    <td>@vehicle?.Description</td>
                                 </tr>
                             }
                         </tbody>
@@ -70,11 +70,93 @@
             }
         </div>
         <div class="col-md-6">
-            <h4>Feedback</h4>
-            @if (Model.ApplicationUser.InstructorFeedbacks.Count() == 0)
-            {
-                <p class="text-muted">Instructor has no reviews yet.</p>
-            }
+            <h3>Feedback</h3>
+            <form id="create-form" method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="Input.Title" class="form-control" autocomplete="description" aria-required="true" />
+                            <label asp-for="Input.Title"></label>
+                            <span asp-validation-for="Input.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating">
+                            <select asp-for="Input.Rating" class="form-control">
+                                <option selected disabled>Please rate your instructor</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <label asp-for="Input.Rating"></label>
+                            <span asp-validation-for="Input.Rating" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating">
+                            <textarea asp-for="Input.Content" class="form-control" autocomplete="description" aria-required="true" >Enter your review</textarea>
+                            <label asp-for="Input.Content"></label>
+                            <span asp-validation-for="Input.Content" class="text-danger"></span>
+                        </div>
+                        <button id="create-feedback-button" type="submit" class="w-100 btn btn-lg btn-success my-3">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            <h3>Past Feedbacks</h3>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    @if (Model.ApplicationUser.InstructorFeedbacks.Count() == 0)
+                    {
+                        <p class="text-muted">Instructor has no reviews yet.</p>
+                    }
+                    else
+                    {
+                        @foreach (var review in Model.ApplicationUser.InstructorFeedbacks)
+                        {
+                            <div class="row mb-3 border-bottom">
+                                <div class="col-md-2">
+                                    @if (@review.Student.Photo != null)
+                                    {
+                                        <img id="photo" style="width:60px; height:60px;" class="rounded-circle"
+                                            src="data:image/*;base64,@(Convert.ToBase64String(@review.Student.Photo))">
+                                    }
+                                    else
+                                    {
+                                        <img id="photo" class="img-thumbnail d-block" src="...">
+                                    }
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="text-muted m-0">@review.Student.FirstName @review.Student.LastName</h6>
+                                    <small class="text-muted">@review.CreatedOn.ToString("dd.MM.yyyy. HH:mm")</small>
+                                    <h4 class="mt-2">@review.Title</h4>
+                                    <p>@review.Content</p>
+                                    <p>
+                                        <b>Rating:</b>
+                                        <span class="text-warning">
+                                            @for (var i = 0; i < review.Rating; i++)
+                                            {
+                                                <i class="bi bi-star-fill"></i>
+                                            }
+                                        </span>
+                                    </p>
+                                    <div class="mb-3 float-end">
+                                        @if (User.IsInRole("Administrator") || User.Identity?.Name == @review.Student.UserName)
+                                        {
+                                            <a asp-page="/Feedback/Edit" asp-route-id="@review.Id" class="btn btn-warning">
+                                                <i class="bi bi-pen"></i>
+                                                Edit
+                                            </a>
+                                            <a asp-page="/Feedback/Delete" asp-route-id="@review.Id" class="btn btn-danger">
+                                                <i class="bi bi-trash3"></i>
+                                                Delete
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
         </div>
     </div>
 }

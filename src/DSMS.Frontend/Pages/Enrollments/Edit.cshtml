@@ -8,8 +8,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
-
-<form id="edit-form" method="post" enctype="multipart/form-data">
+<form id="edit-form" method="post">
     <div class="row">
         <div class="col-md-6">
             <div class="form-floating">
@@ -49,8 +48,6 @@
         <button id="update-enrollment-button" type="submit" class="w-100 btn btn-lg btn-success mt-3">Update</button>
     </div>
 </form>
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
