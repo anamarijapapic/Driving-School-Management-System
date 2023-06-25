@@ -48,8 +48,8 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
         builder
             .Entity<Status>().HasData(
-                Enum.GetValues(typeof(StatusId))
-                    .Cast<StatusId>()
+                Enum.GetValues(typeof(AppointmentStatus))
+                    .Cast<AppointmentStatus>()
                     .Select(e => new Status()
                     {
                         Id = e,

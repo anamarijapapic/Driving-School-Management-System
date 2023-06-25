@@ -1,14 +1,21 @@
 ﻿using DSMS.Core.Common;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
 
 namespace DSMS.Core.Entities
 {
     public class Appointment : BaseEntity
     {
-        public ApplicationUser Student { get; set; } = null!;
+        public ApplicationUser Student { get; set; }
 
-        public ScheduleSlot ScheduleSlot { get; set; }
+        public ApplicationUser Instructor { get; set; }
 
-        public Status Status { get; set; }
+        public DateOnly Date { get; set; }
+
+        public TimeOnly Start { get; set; }
+
+        public TimeOnly End { get; set; }
+
+        public AppointmentStatus Status { get; set; }
     }
 }

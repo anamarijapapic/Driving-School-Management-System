@@ -4,7 +4,7 @@ namespace DSMS.Core.Entities
 {
     public class Status
     {
-        public StatusId Id { get; set; }
+        public AppointmentStatus Id { get; set; }
 
         public string Name { get; set; }
 

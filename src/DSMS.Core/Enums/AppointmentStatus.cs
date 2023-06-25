@@ -1,6 +1,6 @@
 ﻿namespace DSMS.Core.Enums
 {
-    public enum StatusId : int
+    public enum AppointmentStatus : int
     {
         Reserved = 0,
         Completed = 1,
