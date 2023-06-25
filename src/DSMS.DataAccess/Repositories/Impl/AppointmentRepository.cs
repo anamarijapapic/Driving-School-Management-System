@@ -1,12 +1,7 @@
-﻿using DSMS.DataAccess.Persistence;
-using DSMS.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
+using DSMS.DataAccess.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSMS.DataAccess.Repositories.Impl
 {
@@ -27,7 +22,19 @@ namespace DSMS.DataAccess.Repositories.Impl
             return await DbSet
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
-                .Where(a =>a.Instructor == instructor)
+                .Where(a => a.Instructor == instructor)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
+            DateOnly date)
+        {
+            return await DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a => a.Instructor == instructor)
+                .Where(a => a.Date == date)
+                .Select(a => a.Start)
                 .ToListAsync();
         }
     }

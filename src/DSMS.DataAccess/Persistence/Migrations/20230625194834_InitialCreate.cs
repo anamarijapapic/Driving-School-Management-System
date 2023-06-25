@@ -56,18 +56,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Statuses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Statuses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TodoLists",
                 columns: table => new
                 {
@@ -100,6 +88,35 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StudentId = table.Column<string>(type: "text", nullable: false),
+                    InstructorId = table.Column<string>(type: "text", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Start = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    End = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -249,25 +266,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ScheduleSlots",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstructorId = table.Column<string>(type: "text", nullable: true),
-                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ScheduleSlots", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ScheduleSlots_AspNetUsers_InstructorId",
-                        column: x => x.InstructorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Vehicles",
                 columns: table => new
                 {
@@ -336,55 +334,10 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StudentId = table.Column<string>(type: "text", nullable: true),
-                    ScheduleSlotId = table.Column<Guid>(type: "uuid", nullable: true),
-                    StatusId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Appointments_ScheduleSlots_ScheduleSlotId",
-                        column: x => x.ScheduleSlotId,
-                        principalTable: "ScheduleSlots",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Statuses_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "Statuses",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.InsertData(
-                table: "Statuses",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 0, "Reserved" },
-                    { 1, "Completed" },
-                    { 2, "Canceled" },
-                    { 3, "NoShow" }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ScheduleSlotId",
+                name: "IX_Appointments_InstructorId",
                 table: "Appointments",
-                column: "ScheduleSlotId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_StatusId",
-                table: "Appointments",
-                column: "StatusId");
+                column: "InstructorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_StudentId",
@@ -459,11 +412,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduleSlots_InstructorId",
-                table: "ScheduleSlots",
-                column: "InstructorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TodoItems_ListId",
                 table: "TodoItems",
                 column: "ListId");
@@ -505,12 +453,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
-
-            migrationBuilder.DropTable(
-                name: "ScheduleSlots");
-
-            migrationBuilder.DropTable(
-                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

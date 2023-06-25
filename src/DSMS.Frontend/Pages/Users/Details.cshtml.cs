@@ -1,6 +1,5 @@
 ﻿#nullable disable
 
-using AutoMapper;
 using DSMS.Application.Models.Feedback;
 using DSMS.Application.Services;
 using DSMS.Core.Entities.Identity;
@@ -13,20 +12,17 @@ namespace DSMS.Frontend.Pages.Users
 {
     public class DetailsModel : PageModel
     {
-        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFeedbackService _feedbackService;
 
         public DetailsModel(IUserRepository userRepository,
             UserManager<ApplicationUser> userManager,
-            IFeedbackService feedbackService,
-            IMapper mapper)
+            IFeedbackService feedbackService)
         {
             _userRepository = userRepository;
             _userManager = userManager;
             _feedbackService = feedbackService;
-            _mapper = mapper;
         }
 
         [BindProperty]

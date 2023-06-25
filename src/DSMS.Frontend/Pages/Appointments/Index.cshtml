@@ -7,3 +7,14 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<div class="row">
+    @if (User.IsInRole("Student"))
+    {
+        <div class="col-md-4">
+            <a class="btn btn-success my-3" asp-area="" asp-page="/Appointments/Create">
+                <i class="bi bi-plus-lg"></i>
+                Create New
+            </a>
+        </div>
+    }
+</div>

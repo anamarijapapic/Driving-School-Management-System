@@ -1,35 +1,41 @@
-﻿using AutoMapper;
-using DSMS.Application.Models.Appointment;
+﻿#nullable disable
+
 using DSMS.Application.Services;
 using DSMS.Core.Entities.Identity;
-using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DSMS.Frontend.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
-        private readonly IAppointmentService _appointmentService;
-        private readonly IEnrollmentService _enrollmentService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public List<string> slots = new List<string> { "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" };
 
-        public IndexModel(IAppointmentService appointmentService, 
+        private readonly IEnrollmentService _enrollmentService;
+
+        private readonly IAppointmentService _appointmentService;
+
+        public ApplicationUser ApplicationUser { get; set; }
+
+        public string UserRole { get; set; }
+
+        public IndexModel(UserManager<ApplicationUser> userManager,
             IEnrollmentService enrollmentService,
-            UserManager<ApplicationUser> userManager)
+            IAppointmentService appointmentService)
         {
-            _appointmentService = appointmentService;
-            _enrollmentService = enrollmentService;
             _userManager = userManager;
+            _enrollmentService = enrollmentService;
+            _appointmentService = appointmentService;
         }
 
         public async Task<PageResult> OnGetAsync()
         {
-            var student = await _userManager.GetUserAsync(User);
-            var enrollments = await _enrollmentService.GetByStudentAsync(student);
-            var appointmentsByInstructor = await _appointmentService.GetByInstructorAsync(enrollments.First().Instructor);
+            ApplicationUser = await _userManager.GetUserAsync(User);
+
+            var roles = await _userManager.GetRolesAsync(ApplicationUser);
+
+            UserRole = roles.First();
+
             return Page();
         }
     }

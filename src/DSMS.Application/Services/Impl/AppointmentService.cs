@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using DSMS.Application.Models.Appointment;
-using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
-using Microsoft.AspNetCore.Identity;
 
 namespace DSMS.Application.Services.Impl
 {
@@ -13,13 +10,11 @@ namespace DSMS.Application.Services.Impl
     {
         private readonly IMapper _mapper;
         private readonly IAppointmentRepository _appointmentRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AppointmentService(IMapper mapper, IAppointmentRepository appointmentRepository, UserManager<ApplicationUser> userManager)
+        public AppointmentService(IMapper mapper, IAppointmentRepository appointmentRepository)
         {
             _mapper = mapper;
             _appointmentRepository = appointmentRepository;
-            _userManager = userManager;
         }
 
         public async Task<AppointmentResponseModel> CreateAsync(AppointmentModel appointmentModel)
@@ -44,6 +39,14 @@ namespace DSMS.Application.Services.Impl
             var appointments = await _appointmentRepository.GetByInstructorAsync(instructor);
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
+        }
+
+        public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
+            DateOnly date)
+        {
+            var appointments = await _appointmentRepository.GetReservedSlotsByInstructorAndDateAsync(instructor, date);
+
+            return appointments;
         }
     }
 }

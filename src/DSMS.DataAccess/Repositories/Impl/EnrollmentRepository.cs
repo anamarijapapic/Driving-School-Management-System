@@ -21,6 +21,7 @@ namespace DSMS.DataAccess.Repositories.Impl
         {
             return await DbSet
                 .Include(e => e.Student)
+                .Include(e => e.Instructor)
                 .Where(e => e.Student == student)
                 .ToListAsync();
         }

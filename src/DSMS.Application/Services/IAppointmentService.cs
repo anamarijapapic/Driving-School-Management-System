@@ -1,10 +1,5 @@
 ﻿using DSMS.Application.Models.Appointment;
 using DSMS.Core.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DSMS.Application.Services
 {
@@ -15,5 +10,7 @@ namespace DSMS.Application.Services
         Task<IEnumerable<AppointmentResponseModel>> GetAllAsync();
 
         Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor);
+
+        Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
     }
 }
