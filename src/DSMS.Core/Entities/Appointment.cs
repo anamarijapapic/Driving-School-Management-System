@@ -19,3 +19,4 @@ namespace DSMS.Core.Entities
         public AppointmentStatus Status { get; set; }
     }
 }
+ 

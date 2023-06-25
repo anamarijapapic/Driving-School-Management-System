@@ -44,6 +44,13 @@ namespace DSMS.Application.Services.Impl
             return _mapper.Map<IEnumerable<EnrollmentResponseModel>>(enrollments);
         }
 
+        public async Task<IEnumerable<EnrollmentResponseModel>> GetByStudentAsync(ApplicationUser student)
+        {
+            var enrollments = await _enrollmentRepository.GetByStudentAsync(student);
+
+            return _mapper.Map<IEnumerable<EnrollmentResponseModel>>(enrollments);
+        }
+
         public IEnumerable<EnrollmentResponseModel> Search(IEnumerable<EnrollmentResponseModel> enrollments, string searchString)
         {
             IEnumerable<EnrollmentResponseModel> searchedEnrollments = enrollments;

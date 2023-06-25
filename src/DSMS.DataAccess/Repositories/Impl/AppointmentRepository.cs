@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.DataAccess.Repositories.Impl
 {
@@ -18,6 +19,15 @@ namespace DSMS.DataAccess.Repositories.Impl
             return await DbSet
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor)
+        {
+            return await DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a =>a.Instructor == instructor)
                 .ToListAsync();
         }
     }
