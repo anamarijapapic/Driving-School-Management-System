@@ -27,10 +27,6 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Vehicle> Vehicles { get; set; }
 
-    public DbSet<TodoItem> TodoItems { get; set; }
-
-    public DbSet<TodoList> TodoLists { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
