@@ -1,11 +1,14 @@
 ﻿using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
+using System.Runtime.InteropServices;
 
 namespace DSMS.DataAccess.Repositories
 {
     public interface IAppointmentRepository : IBaseRepository<Appointment>
     {
         Task<IEnumerable<Appointment>> GetAllAsync();
+
+        Task<IEnumerable<Appointment>> GetByIdAsync(string id);
 
         Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor);
 

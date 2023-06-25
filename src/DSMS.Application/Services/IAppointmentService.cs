@@ -9,6 +9,10 @@ namespace DSMS.Application.Services
 
         Task<IEnumerable<AppointmentResponseModel>> GetAllAsync();
 
+        Task<AppointmentResponseModel> UpdateAsync(AppointmentModel update);
+
+        Task<IEnumerable<AppointmentResponseModel>> GetByIdAsync(string id);
+
         Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor);
 
         Task<IEnumerable<AppointmentResponseModel>> GetByStudentAsync(ApplicationUser student);

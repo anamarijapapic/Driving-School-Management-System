@@ -22,14 +22,14 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <th scope="col">Date</th>
-            <th scope="col">Start</th>
-            <th scope="col">End</th>
-            <th scope="col"> Instructor name</th>
-            <th scope="col">Instructor surname</th>
-            <th scope="col">Student name</th>
-            <th scope="col">Student surname</th>
-            <th scope="col">Actions</th>
+            <td scope="col">Date</td>
+            <td scope="col">Start</td>
+            <td scope="col">End</td>
+            <td scope="col"> Instructor name</td>
+            <td scope="col">Instructor surname</td>
+            <td scope="col">Student name</td>
+            <td scope="col">Student surname</td>
+            <td scope="col">Actions</td>
 
         </thead>
         <tbody>
@@ -46,7 +46,7 @@
                         <td class="align-middle">
                             @if (appointment.Date > DateOnly.FromDateTime(DateTime.UtcNow) && (User.IsInRole("Administrator") || Model.ApplicationUser.Id == appointment.Student.Id || Model.ApplicationUser.Id == appointment.Instructor.Id))
                             {
-                                <a asp-page="/Appointments/Edit" asp-route-id="@appointment.Id" class="btn btn-warning">
+                                <a asp-page="/Appointments/Cancel" asp-route-id="@appointment.Id" class="btn btn-warning">
                                     <i class="bi bi-pen"></i>
                                     Cancel
                                 </a>
