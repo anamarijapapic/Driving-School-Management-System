@@ -14,6 +14,7 @@ namespace DSMS.DataAccess.Repositories.Impl
             return await DbSet
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
+                .OrderBy(a => a.Date)
                 .ToListAsync();
         }
 
@@ -23,6 +24,17 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
                 .Where(a => a.Instructor == instructor)
+                .OrderBy(a => a.Date)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Appointment>> GetByStudentAsync(ApplicationUser student)
+        {
+            return await DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a => a.Student == student)
+                .OrderBy(a => a.Date)
                 .ToListAsync();
         }
 
@@ -34,6 +46,7 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(a => a.Student)
                 .Where(a => a.Instructor == instructor)
                 .Where(a => a.Date == date)
+                .OrderBy(a => a.Date)
                 .Select(a => a.Start)
                 .ToListAsync();
         }

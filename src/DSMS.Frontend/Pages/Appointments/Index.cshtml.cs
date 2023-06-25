@@ -4,6 +4,8 @@ using DSMS.Application.Services;
 using DSMS.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using DSMS.Core.Entities;
+using DSMS.Application.Models.Appointment;
 
 namespace DSMS.Frontend.Pages.Appointments
 {
@@ -18,6 +20,8 @@ namespace DSMS.Frontend.Pages.Appointments
         public ApplicationUser ApplicationUser { get; set; }
 
         public string UserRole { get; set; }
+
+        public IEnumerable<AppointmentResponseModel> Appointments { get; set; }
 
         public IndexModel(UserManager<ApplicationUser> userManager,
             IEnrollmentService enrollmentService,
@@ -35,6 +39,21 @@ namespace DSMS.Frontend.Pages.Appointments
             var roles = await _userManager.GetRolesAsync(ApplicationUser);
 
             UserRole = roles.First();
+
+            if(UserRole == "Administrator")
+            {
+                Appointments = await _appointmentService.GetAllAsync();
+            }
+
+            if (UserRole == "Instructor")
+            {
+                Appointments = await _appointmentService.GetByInstructorAsync(ApplicationUser);
+            }
+
+            if (UserRole == "Student")
+            {
+                Appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
+            }
 
             return Page();
         }

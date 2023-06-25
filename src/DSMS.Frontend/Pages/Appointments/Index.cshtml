@@ -18,3 +18,45 @@
         </div>
     }
 </div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <th scope="col">Date</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col"> Instructor name</th>
+            <th scope="col">Instructor surname</th>
+            <th scope="col">Student name</th>
+            <th scope="col">Student surname</th>
+            <th scope="col">Actions</th>
+
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model.Appointments)
+                {
+                    <tr>
+                        <td>@appointment.Date</td>
+                        <td>@appointment.Start</td>
+                        <td>@appointment.End</td>
+                        <td>@appointment.Instructor.FirstName</td>
+                        <td>@appointment.Instructor.LastName</td>
+                        <td>@appointment.Student.FirstName</td>
+                        <td>@appointment.Student.LastName</td>
+                        <td class="align-middle">
+                            @if (appointment.Date > DateOnly.FromDateTime(DateTime.UtcNow) && (User.IsInRole("Administrator") || Model.ApplicationUser.Id == appointment.Student.Id || Model.ApplicationUser.Id == appointment.Instructor.Id))
+                            {
+                                <a asp-page="/Appointments/Edit" asp-route-id="@appointment.Id" class="btn btn-warning">
+                                    <i class="bi bi-pen"></i>
+                                    Cancel
+                                </a>
+                            }
+                        </td>
+
+
+                    </tr>
+                }
+        </tbody>
+    </table>
+
+

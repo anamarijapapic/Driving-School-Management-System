@@ -11,6 +11,8 @@ namespace DSMS.Application.Services
 
         Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor);
 
+        Task<IEnumerable<AppointmentResponseModel>> GetByStudentAsync(ApplicationUser student);
+
         Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
     }
 }

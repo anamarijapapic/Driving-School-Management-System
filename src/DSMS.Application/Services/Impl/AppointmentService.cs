@@ -29,14 +29,21 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetAllAsync()
         {
-            var vehicles = await _appointmentRepository.GetAllAsync();
+            var appointments = await _appointmentRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(vehicles);
+            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor)
         {
             var appointments = await _appointmentRepository.GetByInstructorAsync(instructor);
+
+            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
+        }
+
+        public async Task<IEnumerable<AppointmentResponseModel>> GetByStudentAsync(ApplicationUser student)
+        {
+            var appointments = await _appointmentRepository.GetByStudentAsync(student);
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }

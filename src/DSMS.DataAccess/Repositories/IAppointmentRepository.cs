@@ -9,6 +9,8 @@ namespace DSMS.DataAccess.Repositories
 
         Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor);
 
+        Task<IEnumerable<Appointment>> GetByStudentAsync(ApplicationUser student);
+
         Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
     }
 }

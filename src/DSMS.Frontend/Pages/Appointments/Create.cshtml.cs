@@ -89,7 +89,6 @@ namespace DSMS.Frontend.Pages.Appointments
             if (instructor == null)
             {
                 return Page();
-                //return base.NotFound($"Unable to load instructor for user with ID '{student.Id}'.");
             }
 
             StudentId = student.Id;
@@ -120,11 +119,6 @@ namespace DSMS.Frontend.Pages.Appointments
                 Console.WriteLine(ex.Message);
             }
 
-            return Redirect("~/Appointments/Index");
-        }
-
-        public async Task<IActionResult> OnPostAsyncBack()
-        {
             return Redirect("~/Appointments/Index");
         }
     }
