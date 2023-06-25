@@ -16,5 +16,14 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(f => f.Reactions)
                 .ToListAsync<Feedback>();
         }
+
+        public async Task<Feedback> GetByIdAsync(string id)
+        {
+            return await DbSet
+                .Include(f => f.Instructor)
+                .Include(f => f.Student)
+                .Include(f => f.Reactions)
+                .FirstOrDefaultAsync(feedback => feedback.Id.ToString() == id);
+        }
     }
 }

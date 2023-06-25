@@ -2,11 +2,11 @@
 
 public class CreateReactionModel
 {
-    Guid ReactionId { get; set; }
+    public string FeedbackId { get; set; }
 
-    Guid StudentId { get; set; }
+    public string StudentId { get; set; }
 
-    Boolean IsUseful { get; set; }
+    public Boolean IsUseful { get; set; }
 }
 
 public class CreateReactionResponseModel : BaseResponseModel { }
