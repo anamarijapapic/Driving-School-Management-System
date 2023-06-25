@@ -28,9 +28,8 @@ namespace DSMS.Frontend.Pages.Appointments
         public async Task<PageResult> OnGetAsync()
         {
             var student = await _userManager.GetUserAsync(User);
-            var enrollments = _enrollmentService.GetByStudentAsync(student);
-
-            //var appointments = slots.ForEach(slot => _appointmentService.GetByInstructorAsync(enrollments.Result.First().Instructor));
+            var enrollments = await _enrollmentService.GetByStudentAsync(student);
+            var appointmentsByInstructor = await _appointmentService.GetByInstructorAsync(enrollments.First().Instructor);
             return Page();
         }
     }
