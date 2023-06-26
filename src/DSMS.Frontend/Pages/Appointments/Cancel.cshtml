@@ -6,34 +6,16 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@if(Model.Appointment == null)
-{
-    <div class="alert alert-warning" role="alert">
-        <p>
-            <strong>We were unable to find your booking.</strong>
-        </p>
-    </div>
-
-    <div>
-        <a asp-page="/Appointments/Index" class="w-100 btn btn-lg btn-primary" type="submit">Go back</a>
-    </div>
-}
-
-@if(Model.Appointment != null)
-{
-    <div class="alert alert-warning" role="alert">
-        <p>
-            <strong>You are about to cancel your booking.</strong>
-        </p>
-    </div>
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>You are about to cancel your booking.</strong>
+    </p>
+</div>
 
 
-    <div>
-        <form id="delete-user" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <button class="w-100 btn btn-lg btn-danger" type="submit">Cancel</button>
-        </form>
-    </div>
-}
-
-
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Cancel</button>
+    </form>
+</div>

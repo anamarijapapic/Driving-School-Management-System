@@ -18,6 +18,7 @@ namespace DSMS.Frontend.Pages.Enrollments
         private readonly IUserService _userService;
 
         public IEnumerable<UserResponseModel> Instructors { get; private set; } = new List<UserResponseModel>();
+
         public IEnumerable<UserResponseModel> Students { get; private set; } = new List<UserResponseModel>();
 
         public CreateModel(IEnrollmentService enrollmentService, IUserService userService)

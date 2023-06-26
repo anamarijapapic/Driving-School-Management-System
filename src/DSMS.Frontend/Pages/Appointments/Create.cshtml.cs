@@ -13,11 +13,11 @@ namespace DSMS.Frontend.Pages.Appointments
     [Authorize(Roles = ("Student"))]
     public class CreateModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAppointmentService _appointmentService;
 
         private readonly IEnrollmentService _enrollmentService;
 
-        private readonly IAppointmentService _appointmentService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public string StudentId { get; set; }
 
@@ -29,18 +29,17 @@ namespace DSMS.Frontend.Pages.Appointments
 
         public IDictionary<DateOnly, IEnumerable<TimeOnly>> Schedule = new Dictionary<DateOnly, IEnumerable<TimeOnly>>();
 
-        public CreateModel(
-            UserManager<ApplicationUser> userManager,
+        public CreateModel(IAppointmentService appointmentService,
             IEnrollmentService enrollmentService,
-            IAppointmentService appointmentService)
+            UserManager<ApplicationUser> userManager)
         {
-            _userManager = userManager;
-            _enrollmentService = enrollmentService;
             _appointmentService = appointmentService;
+            _enrollmentService = enrollmentService;
+            _userManager = userManager;
         }
 
         [BindProperty]
-        public AppointmentModel Input { get; set; }
+        public CreateAppointmentModel Input { get; set; }
 
         public void InitializeDateTime()
         {
@@ -88,7 +87,7 @@ namespace DSMS.Frontend.Pages.Appointments
             var instructor = (await _enrollmentService.GetByStudentAsync(student)).FirstOrDefault()?.Instructor;
             if (instructor == null)
             {
-                return Page();
+                return base.NotFound($"Unable to load instructor for user with ID '{student.Id}'.");
             }
 
             StudentId = student.Id;

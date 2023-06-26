@@ -25,5 +25,14 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Where(e => e.Student == student)
                 .ToListAsync();
         }
+
+        public Enrollment GetById(string id)
+        {
+            return DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a => a.Id.ToString() == id)
+                .FirstOrDefault();
+        }
     }
 }

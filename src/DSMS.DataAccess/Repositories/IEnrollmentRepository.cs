@@ -8,5 +8,7 @@ namespace DSMS.DataAccess.Repositories
         Task<IEnumerable<Enrollment>> GetAllAsync();
 
         Task<IEnumerable<Enrollment>> GetByStudentAsync(ApplicationUser student);
+
+        Enrollment GetById(string id);
     }
 }

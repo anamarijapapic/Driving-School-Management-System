@@ -1,6 +1,5 @@
 ﻿using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
-using System.Runtime.InteropServices;
 
 namespace DSMS.DataAccess.Repositories
 {
@@ -8,11 +7,11 @@ namespace DSMS.DataAccess.Repositories
     {
         Task<IEnumerable<Appointment>> GetAllAsync();
 
-        Task<IEnumerable<Appointment>> GetByIdAsync(string id);
-
         Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor);
 
         Task<IEnumerable<Appointment>> GetByStudentAsync(ApplicationUser student);
+
+        Appointment GetById(string id);
 
         Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
     }

@@ -1,5 +1,6 @@
 ﻿using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
 using DSMS.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,18 +15,9 @@ namespace DSMS.DataAccess.Repositories.Impl
             return await DbSet
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
-                .OrderBy(a => a.Date)
-                .OrderBy(a => a.Start)
-                .ToListAsync();
-        }
-        public async Task<IEnumerable<Appointment>> GetByIdAsync(string id)
-        {
-            return await DbSet
-                .Include(a => a.Instructor)
-                .Include(a => a.Student)
-                .Where(a => a.Id.ToString() == id)
-                .OrderBy(a => a.Date)
-                .OrderBy(a => a.Start)
+                .OrderBy(a => a.Status)
+                    .ThenBy(a => a.Date)
+                        .ThenBy(a => a.Start)
                 .ToListAsync();
         }
 
@@ -35,8 +27,9 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
                 .Where(a => a.Instructor == instructor)
-                .OrderBy(a => a.Date)
-                .OrderBy(a => a.Start)
+                .OrderBy(a => a.Status)
+                    .ThenBy(a => a.Date)
+                        .ThenBy(a => a.Start)
                 .ToListAsync();
         }
 
@@ -46,9 +39,19 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(a => a.Instructor)
                 .Include(a => a.Student)
                 .Where(a => a.Student == student)
-                .OrderBy(a => a.Date)
-                .OrderBy(a => a.Start)
+                .OrderBy(a => a.Status)
+                    .ThenBy(a => a.Date)
+                        .ThenBy(a => a.Start)
                 .ToListAsync();
+        }
+
+        public Appointment GetById(string id)
+        {
+            return DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a => a.Id.ToString() == id)
+                .FirstOrDefault();
         }
 
         public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
@@ -59,8 +62,9 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(a => a.Student)
                 .Where(a => a.Instructor == instructor)
                 .Where(a => a.Date == date)
+                .Where(a => a.Status == AppointmentStatus.Reserved)
                 .OrderBy(a => a.Date)
-                .OrderBy (a => a.Start)
+                    .ThenBy(a => a.Start)
                 .Select(a => a.Start)
                 .ToListAsync();
         }

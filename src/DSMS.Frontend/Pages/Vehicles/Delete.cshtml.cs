@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-using DSMS.DataAccess.Repositories;
+using DSMS.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,22 +8,21 @@ namespace DSMS.Frontend.Pages.Vehicles
 {
     public class DeleteModel : PageModel
     {
-        private readonly IVehicleRepository _vehicleRepository;
+        private readonly IVehicleService _vehicleService;
 
-        public DeleteModel(IVehicleRepository vehicleRepository)
+        public DeleteModel(IVehicleService vehicleService)
         {
-            _vehicleRepository = vehicleRepository;
+            _vehicleService = vehicleService;
         }
 
         public string Description { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var result = await _vehicleRepository.GetAllAsync(v => v.Id.ToString() == Id);
-            var vehicle = result.First();
+            var vehicle = await _vehicleService.GetByIdAsync(id);
             if (vehicle == null)
             {
-                return base.NotFound($"Unable to load vehicle with ID '{Id}'.");
+                return base.NotFound($"Unable to load vehicle with ID '{id}'.");
             }
 
             Description = vehicle.Description;
@@ -31,16 +30,15 @@ namespace DSMS.Frontend.Pages.Vehicles
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var result = await _vehicleRepository.GetAllAsync(v => v.Id.ToString() == Id);
-            var vehicle = result.First();
+            var vehicle = await _vehicleService.GetByIdAsync(id);
             if (vehicle == null)
             {
-                return base.NotFound($"Unable to load vehicle with ID '{Id}'.");
+                return base.NotFound($"Unable to load vehicle with ID '{id}'.");
             }
 
-            await _vehicleRepository.DeleteAsync(vehicle);
+            await _vehicleService.DeleteAsync(vehicle);
 
             return Redirect("~/Vehicles/Index");
         }

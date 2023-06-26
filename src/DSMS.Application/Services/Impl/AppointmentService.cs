@@ -9,6 +9,7 @@ namespace DSMS.Application.Services.Impl
     public class AppointmentService : IAppointmentService
     {
         private readonly IMapper _mapper;
+
         private readonly IAppointmentRepository _appointmentRepository;
 
         public AppointmentService(IMapper mapper, IAppointmentRepository appointmentRepository)
@@ -17,9 +18,9 @@ namespace DSMS.Application.Services.Impl
             _appointmentRepository = appointmentRepository;
         }
 
-        public async Task<AppointmentResponseModel> CreateAsync(AppointmentModel appointmentModel)
+        public async Task<AppointmentResponseModel> CreateAsync(CreateAppointmentModel createAppointmentModel)
         {
-            var appointment = _mapper.Map<Appointment>(appointmentModel);
+            var appointment = _mapper.Map<Appointment>(createAppointmentModel);
 
             return new AppointmentResponseModel
             {
@@ -29,27 +30,9 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetAllAsync()
         {
-            var appointments = await _appointmentRepository.GetAllAsync();
+            var vehicles = await _appointmentRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
-        }
-
-        public async Task<AppointmentResponseModel> UpdateAsync(AppointmentModel appointment)
-        {
-            var appointmentUpdated = _mapper.Map<Appointment>(appointment);
-
-            return new AppointmentResponseModel
-            {
-                Id = (await _appointmentRepository.UpdateAsync(appointmentUpdated)).Id
-            };
-
-        }
-
-        public async Task<IEnumerable<AppointmentResponseModel>> GetByIdAsync(string id)
-        {
-            var appointments = await _appointmentRepository.GetByIdAsync(id);
-
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
+            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(vehicles);
         }
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor)
@@ -66,12 +49,24 @@ namespace DSMS.Application.Services.Impl
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }
 
+        public async Task<Appointment> GetByIdAsync(string id)
+        {
+            var appointment = (await _appointmentRepository.GetAllAsync(a => a.Id.ToString() == id)).FirstOrDefault();
+
+            return appointment;
+        }
+
         public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
             DateOnly date)
         {
             var appointments = await _appointmentRepository.GetReservedSlotsByInstructorAndDateAsync(instructor, date);
 
             return appointments;
+        }
+
+        public async Task<Appointment> UpdateAsync(Appointment appointment)
+        {
+            return await _appointmentRepository.UpdateAsync(appointment);
         }
     }
 }

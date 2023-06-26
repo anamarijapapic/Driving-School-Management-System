@@ -13,8 +13,7 @@ namespace DSMS.Frontend.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeleteModel(
-            UserManager<ApplicationUser> userManager)
+        public DeleteModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }

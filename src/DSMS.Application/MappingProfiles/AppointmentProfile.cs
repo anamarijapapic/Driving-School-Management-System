@@ -8,9 +8,8 @@ namespace DSMS.Application.MappingProfiles
     {
         public AppointmentProfile()
         {
-            CreateMap<AppointmentModel, Appointment>();
+            CreateMap<CreateAppointmentModel, Appointment>();
             CreateMap<Appointment, AppointmentResponseModel>();
-            CreateMap<AppointmentResponseModel, Appointment>();
         }
     }
 }

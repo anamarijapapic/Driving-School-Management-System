@@ -9,6 +9,12 @@ namespace DSMS.Application.Services
 
         Task<IEnumerable<Feedback>> GetAllAsync();
 
-        Task<IEnumerable<Feedback>> GetByInstructorAsync(string Id);
+        Task<IEnumerable<Feedback>> GetByInstructorAsync(string id);
+
+        Task<Feedback> GetByIdAsync(string id);
+
+        Task<Feedback> UpdateAsync(Feedback feedback);
+
+        Task<Feedback> DeleteAsync(Feedback feedback);
     }
 }

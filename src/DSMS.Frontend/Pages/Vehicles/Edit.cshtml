@@ -25,7 +25,7 @@
             </div>
             <div class="form-floating">
                 <select asp-for="Input.InstructorId" class="form-control">
-                    <option value="">Please select instructor</option>
+                    <option value=@null>Please select instructor</option>
                     @foreach (var instructor in Model.Instructors)
                     {
                         <option value="@instructor.Id" 

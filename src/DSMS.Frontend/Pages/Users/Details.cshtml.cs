@@ -3,7 +3,6 @@
 using DSMS.Application.Models.Feedback;
 using DSMS.Application.Services;
 using DSMS.Core.Entities.Identity;
-using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,17 +11,19 @@ namespace DSMS.Frontend.Pages.Users
 {
     public class DetailsModel : PageModel
     {
-        private readonly IUserRepository _userRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserService _userService;
+
         private readonly IFeedbackService _feedbackService;
 
-        public DetailsModel(IUserRepository userRepository,
-            UserManager<ApplicationUser> userManager,
-            IFeedbackService feedbackService)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public DetailsModel(IUserService userService,
+            IFeedbackService feedbackService,
+            UserManager<ApplicationUser> userManager)
         {
-            _userRepository = userRepository;
-            _userManager = userManager;
+            _userService = userService;
             _feedbackService = feedbackService;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -41,12 +42,12 @@ namespace DSMS.Frontend.Pages.Users
             UserRole = roles.First();
         }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(Id);
+            var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
+                return base.NotFound($"Unable to load user with ID '{id}'.");
             }
 
             await LoadAsync(user);
@@ -54,12 +55,12 @@ namespace DSMS.Frontend.Pages.Users
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(Id);
+            var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
+                return base.NotFound($"Unable to load user with ID '{id}'.");
             }
 
             await LoadAsync(user);

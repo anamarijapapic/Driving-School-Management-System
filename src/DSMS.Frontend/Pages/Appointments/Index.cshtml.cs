@@ -1,21 +1,18 @@
 ﻿#nullable disable
 
+using DSMS.Application.Models.Appointment;
 using DSMS.Application.Services;
 using DSMS.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using DSMS.Core.Entities;
-using DSMS.Application.Models.Appointment;
 
 namespace DSMS.Frontend.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        private readonly IEnrollmentService _enrollmentService;
-
         private readonly IAppointmentService _appointmentService;
+
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ApplicationUser ApplicationUser { get; set; }
 
@@ -23,13 +20,11 @@ namespace DSMS.Frontend.Pages.Appointments
 
         public IEnumerable<AppointmentResponseModel> Appointments { get; set; }
 
-        public IndexModel(UserManager<ApplicationUser> userManager,
-            IEnrollmentService enrollmentService,
-            IAppointmentService appointmentService)
+        public IndexModel(IAppointmentService appointmentService,
+            UserManager<ApplicationUser> userManager)
         {
-            _userManager = userManager;
-            _enrollmentService = enrollmentService;
             _appointmentService = appointmentService;
+            _userManager = userManager;
         }
 
         public async Task<PageResult> OnGetAsync()
@@ -40,17 +35,15 @@ namespace DSMS.Frontend.Pages.Appointments
 
             UserRole = roles.First();
 
-            if(UserRole == "Administrator")
+            if (UserRole == "Administrator")
             {
                 Appointments = await _appointmentService.GetAllAsync();
             }
-
-            if (UserRole == "Instructor")
+            else if (UserRole == "Instructor")
             {
                 Appointments = await _appointmentService.GetByInstructorAsync(ApplicationUser);
             }
-
-            if (UserRole == "Student")
+            else
             {
                 Appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
             }

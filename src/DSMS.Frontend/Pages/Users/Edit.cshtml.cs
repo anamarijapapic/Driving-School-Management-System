@@ -14,8 +14,7 @@ namespace DSMS.Frontend.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(
-            UserManager<ApplicationUser> userManager)
+        public EditModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }

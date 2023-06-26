@@ -17,28 +17,34 @@ namespace DSMS.Application.Services.Impl;
 public class UserService : IUserService
 {
     private readonly IConfiguration _configuration;
+
     private readonly IEmailService _emailService;
-    private readonly IMapper _mapper;
-    private readonly SignInManager<ApplicationUser> _signInManager;
+
     private readonly ITemplateService _templateService;
-    private readonly UserManager<ApplicationUser> _userManager;
+
+    private readonly IMapper _mapper;
+
     private readonly IUserRepository _userRepository;
 
-    public UserService(IMapper mapper,
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        IConfiguration configuration,
-        ITemplateService templateService,
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public UserService(IConfiguration configuration,
         IEmailService emailService,
-        IUserRepository userRepository)
+        ITemplateService templateService,
+        IMapper mapper,
+        IUserRepository userRepository,
+        SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager)
     {
-        _mapper = mapper;
-        _userManager = userManager;
-        _signInManager = signInManager;
         _configuration = configuration;
-        _templateService = templateService;
         _emailService = emailService;
+        _templateService = templateService;
+        _mapper = mapper;
         _userRepository = userRepository;
+        _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     public async Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel)
@@ -149,31 +155,6 @@ public class UserService : IUserService
         return users;
     }
 
-    public async Task<IEnumerable<UserResponseModel>> GetAllInstructorsAsync()
-    {
-        var response = await _userRepository.GetAllAsync();
-        var instructors = new List<UserResponseModel>();
-
-        foreach (var user in response)
-        {
-            var userDto = _mapper.Map<UserResponseModel>(user);
-            try
-            {
-                var role = _userManager.GetRolesAsync(user).Result.First();
-                userDto.Role = (ApplicationRole)Enum.Parse(typeof(ApplicationRole), role);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            if (userDto.Role == ApplicationRole.Instructor)
-            {
-                instructors.Add(userDto);
-            }
-        }
-        return instructors;
-    }
-
     public async Task<IEnumerable<UserResponseModel>> GetAllUsersByRoleAsync(ApplicationRole applicationRole)
     {
         var response = await _userRepository.GetAllAsync();
@@ -182,6 +163,7 @@ public class UserService : IUserService
         foreach (var user in response)
         {
             var userDto = _mapper.Map<UserResponseModel>(user);
+
             try
             {
                 var role = _userManager.GetRolesAsync(user).Result.First();
@@ -191,12 +173,18 @@ public class UserService : IUserService
             {
                 Console.WriteLine(ex.Message);
             }
+
             if (userDto.Role == applicationRole)
             {
                 filteredUsers.Add(userDto);
             }
         }
-        return filteredUsers;
 
+        return filteredUsers;
+    }
+
+    public async Task<ApplicationUser> GetByIdAsync(string id)
+    {
+        return await _userRepository.GetByIdAsync(id);
     }
 }
