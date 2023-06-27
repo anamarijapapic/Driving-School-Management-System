@@ -47,7 +47,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{id}'.");
+                return base.BadRequest($"Unable to load user with ID '{id}'.");
             }
 
             await LoadAsync(user);
@@ -60,7 +60,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{id}'.");
+                return base.BadRequest($"Unable to load user with ID '{id}'.");
             }
 
             await LoadAsync(user);

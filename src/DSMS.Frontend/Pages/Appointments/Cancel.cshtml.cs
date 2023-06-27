@@ -23,7 +23,7 @@ namespace DSMS.Frontend.Pages.Appointments
             var appointment = await _appointmentService.GetByIdAsync(id);
             if (appointment == null)
             {
-                return base.NotFound($"Unable to find appointment with ID '{id}'.");
+                return base.BadRequest($"Unable to find appointment with ID '{id}'.");
             }
 
             return Page();

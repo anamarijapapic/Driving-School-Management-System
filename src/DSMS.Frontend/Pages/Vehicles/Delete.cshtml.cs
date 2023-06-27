@@ -22,7 +22,7 @@ namespace DSMS.Frontend.Pages.Vehicles
             var vehicle = await _vehicleService.GetByIdAsync(id);
             if (vehicle == null)
             {
-                return base.NotFound($"Unable to load vehicle with ID '{id}'.");
+                return base.BadRequest($"Unable to load vehicle with ID '{id}'.");
             }
 
             Description = vehicle.Description;
@@ -35,7 +35,7 @@ namespace DSMS.Frontend.Pages.Vehicles
             var vehicle = await _vehicleService.GetByIdAsync(id);
             if (vehicle == null)
             {
-                return base.NotFound($"Unable to load vehicle with ID '{id}'.");
+                return base.BadRequest($"Unable to load vehicle with ID '{id}'.");
             }
 
             await _vehicleService.DeleteAsync(vehicle);

@@ -89,7 +89,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
+                return base.BadRequest($"Unable to load user with ID '{Id}'.");
             }
 
             await LoadAsync(user);
@@ -101,7 +101,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
+                return base.BadRequest($"Unable to load user with ID '{Id}'.");
             }
 
             if (!ModelState.IsValid)

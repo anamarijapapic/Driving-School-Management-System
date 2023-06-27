@@ -18,7 +18,7 @@ namespace DSMS.Frontend.Pages.Feedback
             var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to load feedback with ID '{id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
             return Page();
@@ -29,7 +29,7 @@ namespace DSMS.Frontend.Pages.Feedback
             var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to load feedback with ID '{id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
             await _feedbackService.DeleteAsync(feedback);

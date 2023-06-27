@@ -61,7 +61,7 @@ namespace DSMS.Frontend.Pages.Enrollments
             var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to load enrollment with ID '{id}'.");
+                return base.BadRequest($"Unable to load enrollment with ID '{id}'.");
             }
 
             await LoadAsync(enrollment);
@@ -74,7 +74,7 @@ namespace DSMS.Frontend.Pages.Enrollments
             var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to load enrollment with ID '{id}'.");
+                return base.BadRequest($"Unable to load enrollment with ID '{id}'.");
             }
 
             if (!ModelState.IsValid)

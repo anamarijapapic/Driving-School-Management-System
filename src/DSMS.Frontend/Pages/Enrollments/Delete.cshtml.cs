@@ -20,7 +20,7 @@ namespace DSMS.Frontend.Pages.Enrollments
             var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to find enrollment with ID '{id}'.");
+                return base.BadRequest($"Unable to find enrollment with ID '{id}'.");
             }
 
             return Page();
@@ -32,7 +32,7 @@ namespace DSMS.Frontend.Pages.Enrollments
             var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to find enrollment with ID '{id}'.");
+                return base.BadRequest($"Unable to find enrollment with ID '{id}'.");
             }
 
             await _enrollmentService.DeleteAsync(enrollment);
