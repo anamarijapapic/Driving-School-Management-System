@@ -47,14 +47,14 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<EnrollmentResponseModel>> GetAllAsync()
         {
-            var enrollments = await _enrollmentRepository.GetAllAsync();
+            var enrollments = await _enrollmentRepository.GetAll().ToListAsync();
 
             return _mapper.Map<IEnumerable<EnrollmentResponseModel>>(enrollments);
         }
 
         public async Task<IEnumerable<EnrollmentResponseModel>> GetByStudentAsync(ApplicationUser student)
         {
-            var enrollments = await _enrollmentRepository.GetByStudentAsync(student);
+            var enrollments = await _enrollmentRepository.GetByStudent(student).ToListAsync();
 
             return _mapper.Map<IEnumerable<EnrollmentResponseModel>>(enrollments);
         }

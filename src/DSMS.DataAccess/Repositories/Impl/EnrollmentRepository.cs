@@ -9,12 +9,7 @@ namespace DSMS.DataAccess.Repositories.Impl
     {
         public EnrollmentRepository(DatabaseContext context) : base(context) { }
 
-        public async Task<IEnumerable<Enrollment>> GetAllAsync()
-        { 
-            return await GetAll().ToListAsync();
-        }
-
-        private IQueryable<Enrollment> GetAll()
+        public IQueryable<Enrollment> GetAll()
         {
             return DbSet
                .Include(e => e.Instructor)
@@ -22,18 +17,13 @@ namespace DSMS.DataAccess.Repositories.Impl
                .AsQueryable();
         }
 
-        private IQueryable<Enrollment> GetByStudent(ApplicationUser student)
+        public IQueryable<Enrollment> GetByStudent(ApplicationUser student)
         {
             return DbSet
                 .Include(e => e.Student)
                 .Include(e => e.Instructor)
                 .Where(e => e.Student == student)
                 .AsQueryable();
-        }
-
-        public async Task<IEnumerable<Enrollment>> GetByStudentAsync(ApplicationUser student)
-        {
-            return await GetByStudent(student).ToListAsync();
         }
 
         public Enrollment GetById(string id)

@@ -4,6 +4,6 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IFeedbackRepository : IBaseRepository<Feedback>
     {
-        Task<IEnumerable<Feedback>> GetAllAsync();
+        IQueryable<Feedback> GetAll();
     }
 }

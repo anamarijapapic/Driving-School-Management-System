@@ -4,6 +4,7 @@ using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSMS.Application.Services.Impl
 {
@@ -39,7 +40,7 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<VehicleResponseModel>> GetAllAsync()
         {
-            var vehicles = await _vehicleRepository.GetAllAsync();
+            var vehicles = await _vehicleRepository.GetAll().ToListAsync();
 
             return _mapper.Map<IEnumerable<VehicleResponseModel>>(vehicles);
         }

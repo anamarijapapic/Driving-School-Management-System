@@ -55,7 +55,7 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .FirstOrDefault();
         }
 
-        private IQueryable<TimeOnly> GetReservedSlotsByInstructorAndDate(ApplicationUser instructor,
+        public IQueryable<TimeOnly> GetReservedSlotsByInstructorAndDate(ApplicationUser instructor,
             DateOnly date)
         {
             return DbSet
@@ -68,13 +68,6 @@ namespace DSMS.DataAccess.Repositories.Impl
                     .ThenBy(a => a.Start)
                 .Select(a => a.Start)
                 .AsQueryable();
-        }
-
-        public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
-            DateOnly date)
-        {
-            
-               return await GetReservedSlotsByInstructorAndDate(instructor, date).ToListAsync();
         }
     }
 }

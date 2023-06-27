@@ -5,9 +5,9 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IEnrollmentRepository : IBaseRepository<Enrollment>
     {
-        Task<IEnumerable<Enrollment>> GetAllAsync();
+        IQueryable<Enrollment> GetAll();
 
-        Task<IEnumerable<Enrollment>> GetByStudentAsync(ApplicationUser student);
+        IQueryable<Enrollment> GetByStudent(ApplicationUser student);
 
         Enrollment GetById(string id);
     }

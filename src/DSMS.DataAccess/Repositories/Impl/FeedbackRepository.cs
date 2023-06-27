@@ -8,13 +8,7 @@ namespace DSMS.DataAccess.Repositories.Impl
     {
         public FeedbackRepository(DatabaseContext context) : base(context) { }
 
-        public async Task<IEnumerable<Feedback>> GetAllAsync()
-        {
-            
-                return await GetAll().ToListAsync();
-        }
-
-        private IQueryable<Feedback> GetAll()
+        public IQueryable<Feedback> GetAll()
         {
             return DbSet
                 .Include(f => f.Instructor)
