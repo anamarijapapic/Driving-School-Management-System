@@ -10,7 +10,7 @@ namespace DSMS.DataAccess.Repositories.Impl
     {
         public AppointmentRepository(DatabaseContext context) : base(context) { }
 
-        private IQueryable<Appointment> GetAll()
+        public IQueryable<Appointment> GetAll()
         {
             return DbSet
              .Include(a => a.Instructor)
@@ -21,12 +21,8 @@ namespace DSMS.DataAccess.Repositories.Impl
              .AsQueryable();
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllAsync()
-        {
-            return await GetAll().ToListAsync();
-        }
 
-        private IQueryable<Appointment> GetByInstructor(ApplicationUser instructor)
+        public IQueryable<Appointment> GetByInstructor(ApplicationUser instructor)
         {
             return DbSet
                 .Include(a => a.Instructor)
@@ -38,12 +34,7 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .AsQueryable();
         }
 
-        public async Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor)
-        {
-            return await GetByInstructor(instructor).ToListAsync();
-        }
-
-        private IQueryable<Appointment> GetByStudent(ApplicationUser student)
+        public IQueryable<Appointment> GetByStudent(ApplicationUser student)
         {
             return DbSet
                 .Include(a => a.Instructor)
@@ -53,11 +44,6 @@ namespace DSMS.DataAccess.Repositories.Impl
                     .ThenBy(a => a.Date)
                         .ThenBy(a => a.Start)
                 .AsQueryable();
-        }
-
-        public async Task<IEnumerable<Appointment>> GetByStudentAsync(ApplicationUser student)
-        {
-            return await GetByStudent(student).ToListAsync();
         }
 
         public Appointment GetById(string id)

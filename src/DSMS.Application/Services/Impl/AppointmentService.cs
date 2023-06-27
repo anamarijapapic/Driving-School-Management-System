@@ -3,6 +3,7 @@ using DSMS.Application.Models.Appointment;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSMS.Application.Services.Impl
 {
@@ -30,21 +31,21 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetAllAsync()
         {
-            var vehicles = await _appointmentRepository.GetAllAsync();
+            var vehicles = await _appointmentRepository.GetAll().ToListAsync();
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(vehicles);
         }
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor)
         {
-            var appointments = await _appointmentRepository.GetByInstructorAsync(instructor);
+            var appointments = await _appointmentRepository.GetByInstructor(instructor).ToListAsync();
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetByStudentAsync(ApplicationUser student)
         {
-            var appointments = await _appointmentRepository.GetByStudentAsync(student);
+            var appointments = await _appointmentRepository.GetByStudent(student).ToListAsync();
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }
@@ -59,7 +60,7 @@ namespace DSMS.Application.Services.Impl
         public async Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor,
             DateOnly date)
         {
-            var appointments = await _appointmentRepository.GetReservedSlotsByInstructorAndDateAsync(instructor, date);
+            var appointments = await _appointmentRepository.GetReservedSlotsByInstructorAndDate(instructor, date).ToListAsync();
 
             return appointments;
         }

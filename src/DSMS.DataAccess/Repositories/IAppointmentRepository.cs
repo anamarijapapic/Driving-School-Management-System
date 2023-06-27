@@ -5,14 +5,15 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IAppointmentRepository : IBaseRepository<Appointment>
     {
-        Task<IEnumerable<Appointment>> GetAllAsync();
 
-        Task<IEnumerable<Appointment>> GetByInstructorAsync(ApplicationUser instructor);
+        IQueryable<Appointment> GetAll();
 
-        Task<IEnumerable<Appointment>> GetByStudentAsync(ApplicationUser student);
+        IQueryable<Appointment> GetByInstructor(ApplicationUser instructor);
+
+        IQueryable<Appointment> GetByStudent(ApplicationUser student);
 
         Appointment GetById(string id);
 
-        Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
+        IQueryable<TimeOnly> GetReservedSlotsByInstructorAndDate(ApplicationUser instructor, DateOnly date);
     }
 }

@@ -5,6 +5,7 @@ using DSMS.Core.Entities.Identity;
 using DSMS.Core.Enums;
 using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSMS.Application.Services.Impl
 {
@@ -73,7 +74,7 @@ namespace DSMS.Application.Services.Impl
         public async Task<Enrollment> DeleteAsync(Enrollment enrollment)
         {
             var fullEnrollment = _enrollmentRepository.GetById(enrollment.Id.ToString());
-            var studentAppointments = await _appointmentRepository.GetByStudentAsync(fullEnrollment.Student);
+            var studentAppointments = await _appointmentRepository.GetByStudent(fullEnrollment.Student).ToListAsync();
 
             foreach (var appointment in studentAppointments)
             {
