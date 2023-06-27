@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using DSMS.Application.Models.Appointment;
-using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
-using DSMS.Core.Enums;
 using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
 using DSMS.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -95,7 +94,7 @@ namespace DSMS.Application.Services.Impl
             if (!string.IsNullOrEmpty(searchString))
             {
                 var searchStringTrim = searchString.ToLower().Trim();
-                searchedAppointments = appointments.Where(a => 
+                searchedAppointments = appointments.Where(a =>
                     a.Instructor.FirstName.ToLower().Contains(searchStringTrim) ||
                     a.Instructor.LastName.ToLower().Contains(searchStringTrim) ||
                     a.Student.FirstName.ToLower().Contains(searchStringTrim) ||

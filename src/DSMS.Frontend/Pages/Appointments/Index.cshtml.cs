@@ -1,13 +1,12 @@
 ﻿#nullable disable
 
+using AutoMapper;
+using DSMS.Application.Models;
 using DSMS.Application.Models.Appointment;
-using DSMS.Core.Enums;
 using DSMS.Application.Services;
-using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using AutoMapper;
 
 namespace DSMS.Frontend.Pages.Appointments
 {
@@ -18,12 +17,13 @@ namespace DSMS.Frontend.Pages.Appointments
         private readonly IMapper _mapper;
 
         private readonly UserManager<ApplicationUser> _userManager;
+        private IEnumerable<AppointmentResponseModel> appointments;
 
         public ApplicationUser ApplicationUser { get; set; }
 
         public string UserRole { get; set; }
 
-        public IEnumerable<AppointmentResponseModel> Appointments { get; set; }
+        public PaginatedList<AppointmentResponseModel> Appointments { get; set; }
 
         public IndexModel(IAppointmentService appointmentService,
             UserManager<ApplicationUser> userManager,
@@ -34,8 +34,15 @@ namespace DSMS.Frontend.Pages.Appointments
             _userManager = userManager;
         }
 
-        public async Task<PageResult> OnGetAsync(string searchString, string currentFilter)
+        public async Task<PageResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
         {
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+
+            var pageSize = 3;
+
             ApplicationUser = await _userManager.GetUserAsync(User);
 
             var roles = await _userManager.GetRolesAsync(ApplicationUser);
@@ -46,25 +53,26 @@ namespace DSMS.Frontend.Pages.Appointments
 
             if (UserRole == "Administrator")
             {
-                Appointments = await _appointmentService.GetAllAsync();
+                appointments = await _appointmentService.GetAllAsync();
             }
             else if (UserRole == "Instructor")
             {
-                Appointments = await _appointmentService.GetByInstructorAsync(ApplicationUser);
+                appointments = await _appointmentService.GetByInstructorAsync(ApplicationUser);
             }
             else
             {
-                Appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
+                appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
             }
 
-
             ViewData["Keyword"] = searchString;
-            Appointments = _appointmentService.Search(Appointments, searchString);
+            appointments = _appointmentService.Search(Appointments, searchString);
 
             ViewData["CurrentFilter"] = currentFilter;
-            Appointments = _appointmentService.Filter(Appointments, currentFilter);
-          
-            
+            appointments = _appointmentService.Filter(Appointments, currentFilter);
+
+            Appointments = PaginatedList<AppointmentResponseModel>.Create(appointments, pageIndex ?? 1, pageSize);
+
+
             return Page();
         }
 

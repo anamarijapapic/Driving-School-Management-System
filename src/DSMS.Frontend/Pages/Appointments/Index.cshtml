@@ -6,6 +6,8 @@
 
     var keyword = ViewData["Keyword"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
+    var previous = Model.Appointments.HasPreviousPage ? "" : "disabled";
+    var next = Model.Appointments.HasNextPage ? "" : "disabled";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -94,3 +96,38 @@
         </tbody>
     </table>
 </div>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-page="./Index"
+                asp-route-pageIndex="@(Model.Appointments.PageIndex - 1)"
+                asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                class="page-link btn @previous"
+                role="button">
+                Previous
+            </a>
+        </li>
+        @for (var i = 1; i <= Model.Appointments.TotalPages; i++)
+        {
+                <li class="page-item @(i == Model.Appointments.PageIndex ? "active" : "")">
+                    <a asp-page="./Index"
+                    asp-route-pageIndex="@i"
+                    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                    class="page-link">
+                    @i
+                    </a>
+                </li>
+        }
+        <li class="page-item">
+            <a asp-page="./Index"
+                asp-route-pageIndex="@(Model.Appointments.PageIndex + 1)"
+                asp-route-currentFilter="@ViewData["CurrentFilter"]" 
+                class="page-link btn @next"
+                role="button">
+                Next
+            </a>
+        </li>
+    </ul>
+</div>
+
