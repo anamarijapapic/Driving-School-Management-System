@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using AutoMapper;
 using DSMS.Application.Models.Feedback;
 using DSMS.Application.Models.Reaction;
 using DSMS.Application.Services;
@@ -18,14 +19,15 @@ namespace DSMS.Frontend.Pages.Users
         private readonly IMapper _mapper;
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly IReactionRepository _reactionRepository;
+        private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFeedbackService _feedbackService;
         private readonly IReactionService _reactionService;
 
-        private readonly UserManager<ApplicationUser> _userManager;
-
         public DetailsModel(IUserService userService,
+            IUserRepository userRepository,
+            UserManager<ApplicationUser> userManager,
             IFeedbackService feedbackService,
             IFeedbackRepository feedbackRepository, 
             IReactionService reactionService,
@@ -33,6 +35,7 @@ namespace DSMS.Frontend.Pages.Users
             IMapper mapper)
         {
             _userService = userService;
+            _userRepository = userRepository;
             _feedbackService = feedbackService;
             _userManager = userManager;
             _feedbackService = feedbackService;

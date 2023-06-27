@@ -1,6 +1,7 @@
 ﻿using DSMS.Core.Entities;
 using DSMS.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace DSMS.DataAccess.Repositories.Impl
 {
@@ -15,6 +16,15 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(f => f.Student)
                 .Include(f => f.Reactions)
                 .AsQueryable();
+        }
+
+        public async Task<IEnumerable<Feedback>> GetAllAsync()
+        {
+            return await DbSet
+                .Include(f => f.Instructor)
+                .Include(f => f.Student)
+                .Include(f => f.Reactions)
+                .ToListAsync();
         }
 
         public async Task<Feedback> GetByIdAsync(string id)
