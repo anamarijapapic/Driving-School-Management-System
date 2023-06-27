@@ -26,6 +26,7 @@ namespace DSMS.DataAccess.Repositories.Impl
                 .Include(u => u.Vehicles)
                 .Include(u => u.InstructorFeedbacks)
                     .ThenInclude(u => u.Student)
+                    .ThenInclude(u => u.Reactions)
                 .FirstOrDefaultAsync(user => user.Id == id);
         }
     }
