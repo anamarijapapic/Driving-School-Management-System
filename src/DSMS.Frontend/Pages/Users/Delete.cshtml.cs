@@ -39,7 +39,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{Id}'.");
+                return base.BadRequest($"Unable to load user with ID '{Id}'.");
             }
 
             var result = await _userManager.DeleteAsync(user);

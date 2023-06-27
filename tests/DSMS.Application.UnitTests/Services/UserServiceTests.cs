@@ -1,48 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FizzWare.NBuilder;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using MockQueryable.NSubstitute;
-using DSMS.Application.Common.Email;
+﻿using DSMS.Application.Common.Email;
 using DSMS.Application.Exceptions;
 using DSMS.Application.Models.User;
 using DSMS.Application.Services;
 using DSMS.Application.Services.Impl;
 using DSMS.Core.Entities.Identity;
-using NSubstitute;
-using Xunit;
 using DSMS.DataAccess.Repositories;
+using FizzWare.NBuilder;
+using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using MockQueryable.NSubstitute;
+using NSubstitute;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace DSMS.Application.UnitTests.Services;
 
 public class UserServiceTests : BaseServiceTestConfiguration
 {
-    private readonly IEmailService _emailService;
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserService _sut;
+
+    private readonly IEmailService _emailService;
+
     private readonly ITemplateService _templateService;
-    private readonly UserManager<ApplicationUser> _userManager;
+
     private readonly IUserRepository _userRepository;
+
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public UserServiceTests()
     {
-        var userStore = Substitute.For<IUserStore<ApplicationUser>>();
-        _userManager =
-            Substitute.For<UserManager<ApplicationUser>>(userStore, null, null, null, null, null, null, null, null);
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
+
+        var userStore = Substitute.For<IUserStore<ApplicationUser>>();
+
         var userPrincipalFactory = Substitute.For<IUserClaimsPrincipalFactory<ApplicationUser>>();
-        _signInManager = Substitute.For<SignInManager<ApplicationUser>>(_userManager, contextAccessor,
-            userPrincipalFactory, null, null, null, null);
-        _templateService = Substitute.For<ITemplateService>();
+
         _emailService = Substitute.For<IEmailService>();
+
+        _templateService = Substitute.For<ITemplateService>();
+
         _userRepository = Substitute.For<IUserRepository>();
 
-        _sut = new UserService(Mapper, _userManager, _signInManager, Configuration, _templateService,
-            _emailService, _userRepository);
+        _signInManager = Substitute.For<SignInManager<ApplicationUser>>(_userManager,
+            contextAccessor,
+            userPrincipalFactory,
+            null,
+            null,
+            null,
+            null);
+
+        _userManager = Substitute.For<UserManager<ApplicationUser>>(userStore,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
+
+        _sut = new UserService(Configuration,
+            _emailService,
+            _templateService,
+            Mapper,
+            _userRepository,
+            _signInManager,
+            _userManager);
     }
 
     [Fact]
