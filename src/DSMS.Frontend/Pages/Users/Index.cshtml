@@ -1,10 +1,30 @@
 ﻿@page
+@using DSMS.Core.Enums
 @model DSMS.Frontend.Pages.Users.IndexModel
 @{
     ViewData["Title"] = "Users | Index";
+    var keyword = ViewData["Keyword"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<form asp-action="OnGetAsync" method="get">
+    <div class="row">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
+            <select class="form-select" name="currentFilter">
+                <option value="">All categories</option>
+                @foreach (var catefory in Enum.GetNames(typeof(ApplicationRole)))
+                {
+                    <option value="@category" selected="@(category == currentFilter)">@category</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+            <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+        </div>
+    </div>
+</form>
 
 <div class="table-responsive">
     <table class="table table-striped">

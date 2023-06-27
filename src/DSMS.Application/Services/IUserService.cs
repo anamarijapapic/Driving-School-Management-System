@@ -20,4 +20,8 @@ public interface IUserService
     Task<IEnumerable<UserResponseModel>> GetAllUsersByRoleAsync(ApplicationRole applicationRole);
 
     Task<ApplicationUser> GetByIdAsync(string id);
+
+    IEnumerable<UserResponseModel> Search(IEnumerable<UserResponseModel> users, string searchString);
+
+    IEnumerable<UserResponseModel> Filter(IEnumerable<UserResponseModel> users, string currentFilter);
 }
