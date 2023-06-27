@@ -30,7 +30,7 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetAllAsync()
         {
-            var vehicles = _appointmentRepository.GetAllAsync();
+            var vehicles = await _appointmentRepository.GetAllAsync();
 
             return _mapper.Map<IEnumerable<AppointmentResponseModel>>(vehicles);
         }

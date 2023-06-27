@@ -10,11 +10,17 @@ namespace DSMS.DataAccess.Repositories.Impl
 
         public async Task<IEnumerable<Feedback>> GetAllAsync()
         {
-            return await DbSet
+            
+                return await GetAll().ToListAsync();
+        }
+
+        private IQueryable<Feedback> GetAll()
+        {
+            return DbSet
                 .Include(f => f.Instructor)
                 .Include(f => f.Student)
                 .Include(f => f.Reactions)
-                .ToListAsync<Feedback>();
+                .AsQueryable();
         }
     }
 }

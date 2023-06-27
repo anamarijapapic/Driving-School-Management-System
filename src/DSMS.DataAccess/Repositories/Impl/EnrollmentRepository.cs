@@ -10,20 +10,30 @@ namespace DSMS.DataAccess.Repositories.Impl
         public EnrollmentRepository(DatabaseContext context) : base(context) { }
 
         public async Task<IEnumerable<Enrollment>> GetAllAsync()
+        { 
+            return await GetAll().ToListAsync();
+        }
+
+        private IQueryable<Enrollment> GetAll()
         {
-            return await DbSet
-                .Include(e => e.Instructor)
+            return DbSet
+               .Include(e => e.Instructor)
+               .Include(e => e.Student)
+               .AsQueryable();
+        }
+
+        private IQueryable<Enrollment> GetByStudent(ApplicationUser student)
+        {
+            return DbSet
                 .Include(e => e.Student)
-                .ToListAsync();
+                .Include(e => e.Instructor)
+                .Where(e => e.Student == student)
+                .AsQueryable();
         }
 
         public async Task<IEnumerable<Enrollment>> GetByStudentAsync(ApplicationUser student)
         {
-            return await DbSet
-                .Include(e => e.Student)
-                .Include(e => e.Instructor)
-                .Where(e => e.Student == student)
-                .ToListAsync();
+            return await GetByStudent(student).ToListAsync();
         }
 
         public Enrollment GetById(string id)

@@ -10,7 +10,13 @@ namespace DSMS.DataAccess.Repositories.Impl
 
         public async Task<IEnumerable<Vehicle>> GetAllAsync()
         {
-            return await DbSet.Include(v => v.Instructor).ToListAsync();
+            return await GetAll().ToListAsync();
+        }
+
+        private IQueryable<Vehicle> GetAll()
+        {
+            return DbSet.Include(v => v.Instructor).AsQueryable();
+
         }
     }
 }
