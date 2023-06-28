@@ -87,7 +87,7 @@ namespace DSMS.Frontend.Pages.Appointments
             var instructor = (await _enrollmentService.GetByStudentAsync(student)).FirstOrDefault()?.Instructor;
             if (instructor == null)
             {
-                return base.BadRequest($"Unable to load instructor for user with ID '{student.Id}'.");
+                return Page();
             }
 
             StudentId = student.Id;

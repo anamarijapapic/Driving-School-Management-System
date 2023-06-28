@@ -32,9 +32,9 @@ namespace DSMS.Application.Services.Impl
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetAllAsync()
         {
-            var vehicles = await _appointmentRepository.GetAll().ToListAsync();
+            var appointments = await _appointmentRepository.GetAll().ToListAsync();
 
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(vehicles);
+            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(appointments);
         }
 
         public async Task<IEnumerable<AppointmentResponseModel>> GetByInstructorAsync(ApplicationUser instructor)
