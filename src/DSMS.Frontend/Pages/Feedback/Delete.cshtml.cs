@@ -1,4 +1,4 @@
-﻿using DSMS.DataAccess.Repositories;
+﻿using DSMS.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,35 +6,33 @@ namespace DSMS.Frontend.Pages.Feedback
 {
     public class DeleteModel : PageModel
     {
-        private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IFeedbackService _feedbackService;
 
-        public DeleteModel(IFeedbackRepository feedbackRepository)
+        public DeleteModel(IFeedbackService feedbackService)
         {
-            _feedbackRepository = feedbackRepository;
+            _feedbackService = feedbackService;
         }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var result = await _feedbackRepository.GetAllAsync(f => f.Id.ToString() == Id);
-            var feedback = result.First();
+            var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to find feedback with ID '{Id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var result = await _feedbackRepository.GetAllAsync(f => f.Id.ToString() == Id);
-            var feedback = result.First();
+            var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to find feedback with ID '{Id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
-            await _feedbackRepository.DeleteAsync(feedback);
+            await _feedbackService.DeleteAsync(feedback);
 
             return Redirect("~/Users/Index");
         }

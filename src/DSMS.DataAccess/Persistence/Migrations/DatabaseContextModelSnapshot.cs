@@ -28,24 +28,33 @@ namespace DSMS.DataAccess.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ScheduleSlotId")
-                        .HasColumnType("uuid");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<TimeOnly>("End")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeOnly>("Start")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<string>("StudentId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduleSlotId");
-
-                    b.HasIndex("StatusId");
+                    b.HasIndex("InstructorId");
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Enrollment", b =>
@@ -69,7 +78,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Feedback", b =>
@@ -116,7 +125,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Feedbacks", (string)null);
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Identity.ApplicationUser", b =>
@@ -222,133 +231,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Reactions", (string)null);
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.ScheduleSlot", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("InstructorId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InstructorId");
-
-                    b.ToTable("ScheduleSlots", (string)null);
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Statuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "Reserved"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "Completed"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Canceled"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "NoShow"
-                        });
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.TodoItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("ListId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListId");
-
-                    b.ToTable("TodoItems", (string)null);
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.TodoList", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TodoLists", (string)null);
+                    b.ToTable("Reactions");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Vehicle", b =>
@@ -373,7 +256,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -510,21 +393,19 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("DSMS.Core.Entities.Appointment", b =>
                 {
-                    b.HasOne("DSMS.Core.Entities.ScheduleSlot", "ScheduleSlot")
-                        .WithMany("Appointments")
-                        .HasForeignKey("ScheduleSlotId");
-
-                    b.HasOne("DSMS.Core.Entities.Status", "Status")
-                        .WithMany("Appointments")
-                        .HasForeignKey("StatusId");
+                    b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", "Instructor")
+                        .WithMany("InstructorAppointments")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", "Student")
-                        .WithMany("Appointments")
-                        .HasForeignKey("StudentId");
+                        .WithMany("StudentAppointments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ScheduleSlot");
-
-                    b.Navigation("Status");
+                    b.Navigation("Instructor");
 
                     b.Navigation("Student");
                 });
@@ -578,25 +459,6 @@ namespace DSMS.DataAccess.Persistence.Migrations
                     b.Navigation("Feedback");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.ScheduleSlot", b =>
-                {
-                    b.HasOne("DSMS.Core.Entities.Identity.ApplicationUser", "Instructor")
-                        .WithMany("ScheduleSlots")
-                        .HasForeignKey("InstructorId");
-
-                    b.Navigation("Instructor");
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.TodoItem", b =>
-                {
-                    b.HasOne("DSMS.Core.Entities.TodoList", "List")
-                        .WithMany("Items")
-                        .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("List");
                 });
 
             modelBuilder.Entity("DSMS.Core.Entities.Vehicle", b =>
@@ -666,7 +528,7 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("DSMS.Core.Entities.Identity.ApplicationUser", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("InstructorAppointments");
 
                     b.Navigation("InstructorEnrollments");
 
@@ -674,28 +536,13 @@ namespace DSMS.DataAccess.Persistence.Migrations
 
                     b.Navigation("Reactions");
 
-                    b.Navigation("ScheduleSlots");
+                    b.Navigation("StudentAppointments");
 
                     b.Navigation("StudentEnrollments");
 
                     b.Navigation("StudentFeedbacks");
 
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.ScheduleSlot", b =>
-                {
-                    b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.Status", b =>
-                {
-                    b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("DSMS.Core.Entities.TodoList", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

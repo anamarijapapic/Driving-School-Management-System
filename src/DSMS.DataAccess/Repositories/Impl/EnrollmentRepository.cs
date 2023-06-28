@@ -1,4 +1,5 @@
 ﻿using DSMS.Core.Entities;
+using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,12 +9,30 @@ namespace DSMS.DataAccess.Repositories.Impl
     {
         public EnrollmentRepository(DatabaseContext context) : base(context) { }
 
-        public async Task<IEnumerable<Enrollment>> GetAllAsync()
+        public IQueryable<Enrollment> GetAll()
         {
-            return await DbSet
-                .Include(e => e.Instructor)
+            return DbSet
+               .Include(e => e.Instructor)
+               .Include(e => e.Student)
+               .AsQueryable();
+        }
+
+        public IQueryable<Enrollment> GetByStudent(ApplicationUser student)
+        {
+            return DbSet
                 .Include(e => e.Student)
-                .ToListAsync();
+                .Include(e => e.Instructor)
+                .Where(e => e.Student == student)
+                .AsQueryable();
+        }
+
+        public Enrollment GetById(string id)
+        {
+            return DbSet
+                .Include(a => a.Instructor)
+                .Include(a => a.Student)
+                .Where(a => a.Id.ToString() == id)
+                .FirstOrDefault();
         }
     }
 }

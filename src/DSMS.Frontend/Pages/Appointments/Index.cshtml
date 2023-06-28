@@ -1,0 +1,133 @@
+﻿@page
+@using DSMS.Core.Enums;
+@model DSMS.Frontend.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Appointments | Index";
+
+    var keyword = ViewData["Keyword"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
+    var previous = Model.Appointments.HasPreviousPage ? "" : "disabled";
+    var next = Model.Appointments.HasNextPage ? "" : "disabled";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="OnGetAsync" method="get">
+    <div class="row">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Search..."
+                   name="searchString" value="@keyword">
+            <select class="form-select" name="currentFilter">
+                <option value="">All times</option>
+                @foreach (var category in Enum.GetNames(typeof(Times)))
+                {
+                    <option value="@category" selected="@(category == currentFilter)">@category</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+            <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    @if (User.IsInRole("Student"))
+    {
+        <div class="col-md-4">
+            <a class="btn btn-success my-3" asp-area="" asp-page="/Appointments/Create">
+                <i class="bi bi-plus-lg"></i>
+                Create New
+            </a>
+        </div>
+    }
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+                <th scope="col">Instructor Name</th>
+                <th scope="col">Instructor Surname</>
+                <th scope="col">Student Name</th>
+                <th scope="col">Student Surname</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model.Appointments)
+                {
+                    <tr>
+                        <td class="align-middle">@appointment.Date.ToString("dd.MM.yyyy.")</td>
+                        <td class="align-middle">@appointment.Start</td>
+                        <td class="align-middle">@appointment.End</td>
+                        <td class="align-middle">@appointment.Instructor.FirstName</td>
+                        <td class="align-middle">@appointment.Instructor.LastName</td>
+                        <td class="align-middle">@appointment.Student.FirstName</td>
+                        <td class="align-middle">@appointment.Student.LastName</td>
+                        <td class="align-middle text-center">
+                            @if (appointment.Date > DateOnly.FromDateTime(DateTime.UtcNow) 
+                                && appointment.Status == AppointmentStatus.Reserved
+                                && (User.IsInRole("Administrator") 
+                                || Model.ApplicationUser.Id == appointment.Student.Id
+                                || Model.ApplicationUser.Id == appointment.Instructor.Id))
+                            {
+                                <a asp-page="/Appointments/Cancel" asp-route-id="@appointment.Id" class="btn btn-danger">
+                                    <i class="bi bi-x-lg"></i>
+                                    Cancel
+                            </a>
+                        }
+                        else
+                        {
+                            @if(appointment.Status == AppointmentStatus.Canceled)
+                            {
+                                <b class="text-danger">@appointment.Status</b>
+                            } else
+                            {
+                                <b class="text-success">@appointment.Status</b>
+                            }
+
+                    }
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-page="./Index"
+                asp-route-pageIndex="@(Model.Appointments.PageIndex - 1)"
+                asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                class="page-link btn @previous"
+                role="button">
+                Previous
+            </a>
+        </li>
+        @for (var i = 1; i <= Model.Appointments.TotalPages; i++)
+        {
+                <li class="page-item @(i == Model.Appointments.PageIndex ? "active" : "")">
+                    <a asp-page="./Index"
+                    asp-route-pageIndex="@i"
+                    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                    class="page-link">
+                    @i
+                    </a>
+                </li>
+        }
+        <li class="page-item">
+            <a asp-page="./Index"
+                asp-route-pageIndex="@(Model.Appointments.PageIndex + 1)"
+                asp-route-currentFilter="@ViewData["CurrentFilter"]" 
+                class="page-link btn @next"
+                role="button">
+                Next
+            </a>
+        </li>
+    </ul>
+</div>
+

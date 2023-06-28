@@ -1,7 +1,7 @@
 ﻿#nullable disable
 
 using DSMS.Application.Models.Feedback;
-using DSMS.DataAccess.Repositories;
+using DSMS.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,11 +9,11 @@ namespace DSMS.Frontend.Pages.Feedback
 {
     public class EditModel : PageModel
     {
-        private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IFeedbackService _feedbackService;
 
-        public EditModel(IFeedbackRepository feedbackRepository)
+        public EditModel(IFeedbackService feedbackService)
         {
-            _feedbackRepository = feedbackRepository;
+            _feedbackService = feedbackService;
         }
 
         [TempData]
@@ -36,13 +36,12 @@ namespace DSMS.Frontend.Pages.Feedback
             };
         }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var result = await _feedbackRepository.GetAllAsync(f => f.Id.ToString() == Id);
-            var feedback = result.First();
+            var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to load feedback with ID '{Id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
             Load(feedback);
@@ -50,13 +49,12 @@ namespace DSMS.Frontend.Pages.Feedback
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var result = await _feedbackRepository.GetAllAsync(f => f.Id.ToString() == Id);
-            var feedback = result.First();
+            var feedback = await _feedbackService.GetByIdAsync(id);
             if (feedback == null)
             {
-                return base.NotFound($"Unable to load feedback with Id '{Id}'.");
+                return base.BadRequest($"Unable to load feedback with ID '{id}'.");
             }
 
             if (!ModelState.IsValid)
@@ -69,7 +67,7 @@ namespace DSMS.Frontend.Pages.Feedback
             feedback.Content = Input.Content;
             feedback.Rating = Input.Rating;
 
-            await _feedbackRepository.UpdateAsync(feedback);
+            await _feedbackService.UpdateAsync(feedback);
 
             StatusMessage = "Feedback details have been sucessfully updated.";
 

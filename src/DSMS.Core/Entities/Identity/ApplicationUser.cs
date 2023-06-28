@@ -16,8 +16,6 @@ public class ApplicationUser : IdentityUser
 
     public string IdCardNumber { get; set; }
 
-    public ICollection<Appointment> Appointments { get; } = new List<Appointment>();
-
     public ICollection<Enrollment> StudentEnrollments { get; } = new List<Enrollment>();
 
     public ICollection<Enrollment> InstructorEnrollments { get; } = new List<Enrollment>();
@@ -26,9 +24,11 @@ public class ApplicationUser : IdentityUser
 
     public ICollection<Feedback> InstructorFeedbacks { get; } = new List<Feedback>();
 
-    public ICollection<Reaction> Reactions { get; } = new List<Reaction>();
+    public ICollection<Appointment> StudentAppointments { get; } = new List<Appointment>();
 
-    public ICollection<ScheduleSlot> ScheduleSlots { get; } = new List<ScheduleSlot>();
+    public ICollection<Appointment> InstructorAppointments { get; } = new List<Appointment>();
+
+    public ICollection<Reaction> Reactions { get; } = new List<Reaction>();
 
     public ICollection<Vehicle> Vehicles { get; } = new List<Vehicle>();
 }

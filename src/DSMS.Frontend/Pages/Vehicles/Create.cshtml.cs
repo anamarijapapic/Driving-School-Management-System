@@ -1,9 +1,9 @@
 ﻿#nullable disable
 
-using AutoMapper;
 using DSMS.Application.Models.User;
 using DSMS.Application.Models.Vehicle;
 using DSMS.Application.Services;
+using DSMS.Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,13 +14,12 @@ namespace DSMS.Frontend.Pages.Vehicles
     public class CreateModel : PageModel
     {
         private readonly IVehicleService _vehicleService;
+
         private readonly IUserService _userService;
 
         public IEnumerable<UserResponseModel> Instructors { get; private set; } = new List<UserResponseModel>();
 
-
-        public CreateModel(
-            IVehicleService vehicleService,
+        public CreateModel(IVehicleService vehicleService,
             IUserService userService)
         {
             _vehicleService = vehicleService;
@@ -32,7 +31,7 @@ namespace DSMS.Frontend.Pages.Vehicles
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Instructors = await _userService.GetAllInstructorsAsync();
+            Instructors = await _userService.GetAllUsersByRoleAsync(ApplicationRole.Instructor);
 
             return Page();
         }

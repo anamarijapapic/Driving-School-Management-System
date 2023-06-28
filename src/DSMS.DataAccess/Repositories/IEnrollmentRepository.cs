@@ -1,9 +1,14 @@
 ﻿using DSMS.Core.Entities;
+using DSMS.Core.Entities.Identity;
 
 namespace DSMS.DataAccess.Repositories
 {
     public interface IEnrollmentRepository : IBaseRepository<Enrollment>
     {
-        Task<IEnumerable<Enrollment>> GetAllAsync();
+        IQueryable<Enrollment> GetAll();
+
+        IQueryable<Enrollment> GetByStudent(ApplicationUser student);
+
+        Enrollment GetById(string id);
     }
 }

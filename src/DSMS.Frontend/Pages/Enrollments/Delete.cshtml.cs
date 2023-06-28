@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-using DSMS.DataAccess.Repositories;
+using DSMS.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,36 +8,34 @@ namespace DSMS.Frontend.Pages.Enrollments
 {
     public class DeleteModel : PageModel
     {
-        private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly IEnrollmentService _enrollmentService;
 
-        public DeleteModel(IEnrollmentRepository enrollmentRepository)
+        public DeleteModel(IEnrollmentService enrollmentService)
         {
-            _enrollmentRepository = enrollmentRepository;
+            _enrollmentService = enrollmentService;
         }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var repoEnrollment = await _enrollmentRepository.GetAllAsync(e => e.Id.ToString() == Id);
-            var enrollment = repoEnrollment.First();
+            var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to find enrollment with ID '{Id}'.");
+                return base.BadRequest($"Unable to find enrollment with ID '{id}'.");
             }
 
             return Page();
 
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var repoEnrollment = await _enrollmentRepository.GetAllAsync(e => e.Id.ToString() == Id);
-            var enrollment = repoEnrollment.First();
+            var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to find enrollment with ID '{Id}'.");
+                return base.BadRequest($"Unable to find enrollment with ID '{id}'.");
             }
 
-            await _enrollmentRepository.DeleteAsync(enrollment);
+            await _enrollmentService.DeleteAsync(enrollment);
 
             return Redirect("~/Enrollments/Index");
         }

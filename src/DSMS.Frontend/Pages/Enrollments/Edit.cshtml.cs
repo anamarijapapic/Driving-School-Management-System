@@ -5,7 +5,6 @@ using DSMS.Application.Services;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using DSMS.Core.Enums;
-using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +15,7 @@ namespace DSMS.Frontend.Pages.Enrollments
     [Authorize(Roles = ("Administrator"))]
     public class EditModel : PageModel
     {
-        private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly IEnrollmentService _enrollmentService;
 
         private readonly IUserService _userService;
 
@@ -25,11 +24,11 @@ namespace DSMS.Frontend.Pages.Enrollments
         public IEnumerable<UserResponseModel> Instructors { get; set; } = new List<UserResponseModel>();
         public IEnumerable<UserResponseModel> Students { get; set; } = new List<UserResponseModel>();
 
-        public EditModel(IEnrollmentRepository enrollmentRepository,
+        public EditModel(IEnrollmentService enrollmentService,
             IUserService userService,
             UserManager<ApplicationUser> userManager)
         {
-            _enrollmentRepository = enrollmentRepository;
+            _enrollmentService = enrollmentService;
             _userService = userService;
             _userManager = userManager;
         }
@@ -38,7 +37,7 @@ namespace DSMS.Frontend.Pages.Enrollments
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public CreateEnrollmentModel Input { get; set; }
+        public UpdateEnrollmentModel Input { get; set; }
 
         private async Task LoadAsync(Enrollment enrollment)
         {
@@ -49,7 +48,7 @@ namespace DSMS.Frontend.Pages.Enrollments
             var category = enrollment.Category;
             var studentId = enrollment.Student?.Id;
 
-            Input = new CreateEnrollmentModel
+            Input = new UpdateEnrollmentModel
             {
                 InstructorId = instructorId,
                 Category = category,
@@ -57,13 +56,12 @@ namespace DSMS.Frontend.Pages.Enrollments
             };
         }
 
-        public async Task<IActionResult> OnGetAsync(string Id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            var result = await _enrollmentRepository.GetAllAsync(e => e.Id.ToString() == Id);
-            var enrollment = result.First();
+            var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to load enrollment with ID '{Id}'.");
+                return base.BadRequest($"Unable to load enrollment with ID '{id}'.");
             }
 
             await LoadAsync(enrollment);
@@ -71,13 +69,12 @@ namespace DSMS.Frontend.Pages.Enrollments
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string Id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var result = await _enrollmentRepository.GetAllAsync(e => e.Id.ToString() == Id);
-            var enrollment = result.First();
+            var enrollment = await _enrollmentService.GetByIdAsync(id);
             if (enrollment == null)
             {
-                return base.NotFound($"Unable to load enrollment with ID '{Id}'.");
+                return base.BadRequest($"Unable to load enrollment with ID '{id}'.");
             }
 
             if (!ModelState.IsValid)
@@ -106,7 +103,7 @@ namespace DSMS.Frontend.Pages.Enrollments
                 enrollment.Category = Input.Category;
             }
 
-            await _enrollmentRepository.UpdateAsync(enrollment);
+            await _enrollmentService.UpdateAsync(enrollment);
 
             StatusMessage = "Enrollment details have been updated";
 

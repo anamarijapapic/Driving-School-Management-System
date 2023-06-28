@@ -4,6 +4,6 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IVehicleRepository : IBaseRepository<Vehicle>
     {
-        Task<IEnumerable<Vehicle>> GetAllAsync();
+        IQueryable<Vehicle> GetAll();
     }
 }

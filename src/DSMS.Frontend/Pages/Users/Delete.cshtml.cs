@@ -13,8 +13,7 @@ namespace DSMS.Frontend.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeleteModel(
-            UserManager<ApplicationUser> userManager)
+        public DeleteModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -26,7 +25,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return base.NotFound($"Unable to load user with ID '{Id}'.");
+                return base.BadRequest($"Unable to load user with ID '{Id}'.");
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
@@ -40,7 +39,7 @@ namespace DSMS.Frontend.Pages.Users
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{Id}'.");
+                return base.BadRequest($"Unable to load user with ID '{Id}'.");
             }
 
             var result = await _userManager.DeleteAsync(user);

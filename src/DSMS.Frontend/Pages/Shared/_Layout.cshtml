@@ -62,6 +62,15 @@
                                 </a>
                             </li>
                         }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Appointments/Index">
+                                    <i class="bi bi-calendar-week"></i>
+                                    Appointments
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

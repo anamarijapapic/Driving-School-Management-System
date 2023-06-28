@@ -1,0 +1,60 @@
+﻿@page
+@model DSMS.Frontend.Pages.Appointments.CreateModel
+@{
+    ViewData["Title"] = "Appointments | Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <h2>Create a new appointment.</h2>
+    <hr />
+    @if (Model.InstructorId == null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <p>
+                <strong>Missing enrollment, contact administrator.</strong>
+            </p>
+        </div>
+
+        <div>
+            <a asp-page="/Appointments/Index" class="w-100 btn btn-lg btn-primary mt-3" type="submit">Go back</a>
+        </div>
+    }
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    @foreach (var date in Model.Dates)
+                    {
+                        <th scope="col" class="text-center">@date.ToString("dddd, dd.MM.yyyy.")</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var date in Model.Schedule)
+                    {
+                        <td>
+                            @foreach (var timeSlot in date.Value)
+                            {
+
+                                <form method="post" class="mb-3 d-flex justify-content-center">
+                                    <input type="hidden" name="studentId" value="@Model.StudentId">
+                                    <input type="hidden" name="instructorId" value="@Model.InstructorId">
+                                    <input type="hidden" name="date" value="@date.Key">
+                                    <input type="hidden" name="slot" value="@timeSlot">
+                                    <button type="submit" class="btn btn-primary">@timeSlot</button>
+                                </form>
+                            }
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

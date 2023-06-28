@@ -1,14 +1,34 @@
-﻿namespace DSMS.Application.Models.Appointment;
+﻿using DSMS.Core.Entities.Identity;
+using DSMS.Core.Enums;
+using System.ComponentModel.DataAnnotations;
 
-public class CreateAppointmentModel
+namespace DSMS.Application.Models.Appointment
 {
-    private Guid AppointmentId { get; set; }
+    public class CreateAppointmentModel
+    {
+        [Display(Name = "Instructor")]
+        [DataType(DataType.Text)]
+        public ApplicationUser Instructor { get; set; }
 
-    private Guid StudentId  { get; set; }
+        [Display(Name = "Student")]
+        [DataType(DataType.Text)]
+        public ApplicationUser Student { get; set; }
 
-    private Guid SlotId { get; set; }
+        [Display(Name = "Date")]
+        [DataType(DataType.Date)]
+        public DateOnly Date { get; set; }
 
-    private Guid StatusId { get; set; }
+        [Required]
+        [DataType(DataType.Time)]
+        [Display(Name = "Start")]
+        public TimeOnly Start { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        [Display(Name = "End")]
+        public TimeOnly End { get; set; }
+
+        [Display(Name = "Status")]
+        public AppointmentStatus Status { get; set; }
+    }
 }
-
-public class CreateAppointmentResponseModel : BaseResponseModel { }

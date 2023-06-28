@@ -10,5 +10,6 @@ public class EnrollmentProfile : Profile
     {
         CreateMap<CreateEnrollmentModel, Enrollment>();
         CreateMap<Enrollment, EnrollmentResponseModel>();
+        CreateMap<UpdateEnrollmentModel, Enrollment>();
     }
 }

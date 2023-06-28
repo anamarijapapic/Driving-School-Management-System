@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @model DSMS.Frontend.Pages.Users.DetailsModel
 @{
     ViewData["Title"] = "Users | Details";
@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-floating">
                             <select asp-for="Input.Rating" class="form-control">
-                                <option selected disabled>Please rate your instructor</option>
+                                <option value="" selected disabled>Please rate your instructor</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -138,7 +138,59 @@
                                             }
                                         </span>
                                     </p>
-                                    <div class="mb-3 float-end">
+                                    <div class="mb-4 float-start">
+                                        @if (@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == true).ToList().Count() < 1)
+                                        {
+                                            <form asp-page-handler="like" method="post">
+                                                <input type="hidden" name="likeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == true).ToList().Count()" />
+                                                <input type="hidden" name="dislikeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == false).ToList().Count()" />
+                                                <input type="hidden" name="feedbackId" value="@review.Id" />
+                                                <button class="btn btn-light">
+                                                    <i class="bi bi-hand-thumbs-up"></i>
+                                                    @review.Reactions.Where(r => r.IsUseful == true).ToList().Count()
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-page-handler="like" method="post">
+                                                <input type="hidden" name="feedbackId" value="@review.Id" />
+                                                <input type="hidden" name="likeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == true).ToList().Count()" />
+                                                <input type="hidden" name="dislikeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == false).ToList().Count()" />
+                                                <button class="btn btn-light">
+                                                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                                                    @review.Reactions.Where(r => r.IsUseful == true).ToList().Count()
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                    <div class="mb-4 float-md-start">
+                                        @if (@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == false).ToList().Count() < 1)
+                                        {
+                                            <form asp-page-handler="dislike" method="post">
+                                                <input type="hidden" name="likeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == true).ToList().Count()" />
+                                                <input type="hidden" name="dislikeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == false).ToList().Count()" />
+                                                <input type="hidden" name="feedbackId" value="@review.Id" />
+                                                <button class="btn btn-light">
+                                                    <i class="bi bi-hand-thumbs-down"></i>
+                                                    @review.Reactions.Where(r => r.IsUseful == false).ToList().Count()
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-page-handler="dislike" method="post">
+                                                <input type="hidden" name="likeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == true).ToList().Count()" />
+                                                <input type="hidden" name="dislikeCount" value="@review.Reactions.Where(r => r.Student.UserName == User.Identity?.Name).Where(r => r.IsUseful == false).ToList().Count()" />
+                                                <input type="hidden" name="feedbackId" value="@review.Id" />
+                                                <button class="btn btn-light">
+                                                    <i class="bi bi-hand-thumbs-down-fill"></i>
+                                                    @review.Reactions.Where(r => r.IsUseful == false).ToList().Count()
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                    <div class="mb-4 float-end">
                                         @if (User.IsInRole("Administrator") || User.Identity?.Name == @review.Student.UserName)
                                         {
                                             <a asp-page="/Feedback/Edit" asp-route-id="@review.Id" class="btn btn-warning">

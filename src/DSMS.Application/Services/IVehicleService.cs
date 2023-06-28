@@ -1,5 +1,5 @@
-﻿using DSMS.Application.Models.TodoList;
-using DSMS.Application.Models.Vehicle;
+﻿using DSMS.Application.Models.Vehicle;
+using DSMS.Core.Entities;
 
 namespace DSMS.Application.Services
 {
@@ -8,6 +8,12 @@ namespace DSMS.Application.Services
         Task<CreateVehicleResponseModel> CreateAsync(CreateVehicleModel createVehicleModel);
 
         Task<IEnumerable<VehicleResponseModel>> GetAllAsync();
+
+        Task<Vehicle> GetByIdAsync(string id);
+
+        Task<Vehicle> UpdateAsync(Vehicle vehicle);
+
+        Task<Vehicle> DeleteAsync(Vehicle vehicle);
 
         IEnumerable<VehicleResponseModel> Search(IEnumerable<VehicleResponseModel> vehicles, string searchString);
 

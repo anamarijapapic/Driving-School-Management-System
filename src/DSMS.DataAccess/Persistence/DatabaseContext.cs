@@ -1,7 +1,6 @@
 ﻿using DSMS.Core.Common;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
-using DSMS.Core.Enums;
 using DSMS.Shared.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,36 +25,12 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Reaction> Reactions { get; set; }
 
-    public DbSet<ScheduleSlot> ScheduleSlots { get; set; }
-
-    public DbSet<Status> Statuses { get; set; }
-
     public DbSet<Vehicle> Vehicles { get; set; }
-
-    public DbSet<TodoItem> TodoItems { get; set; }
-
-    public DbSet<TodoList> TodoLists { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
-
-        builder
-            .Entity<Status>()
-            .Property(e => e.Id)
-            .HasConversion<int>();
-
-        builder
-            .Entity<Status>().HasData(
-                Enum.GetValues(typeof(StatusId))
-                    .Cast<StatusId>()
-                    .Select(e => new Status()
-                    {
-                        Id = e,
-                        Name = e.ToString()
-                    })
-            );
 
         builder.Entity<Enrollment>()
             .HasOne(e => e.Student)
@@ -74,6 +49,16 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<ApplicationUser>()
             .HasMany(e => e.InstructorFeedbacks)
+            .WithOne(e => e.Instructor)
+            .IsRequired();
+
+        builder.Entity<ApplicationUser>()
+            .HasMany(e => e.StudentAppointments)
+            .WithOne(e => e.Student)
+            .IsRequired();
+
+        builder.Entity<ApplicationUser>()
+            .HasMany(e => e.InstructorAppointments)
             .WithOne(e => e.Instructor)
             .IsRequired();
     }

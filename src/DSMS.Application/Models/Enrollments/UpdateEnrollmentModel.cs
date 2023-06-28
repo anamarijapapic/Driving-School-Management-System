@@ -1,11 +1,23 @@
-﻿
+﻿using DSMS.Core.Enums;
+using System.ComponentModel.DataAnnotations;
+
 namespace DSMS.Application.Models.Enrollments
 {
-    public class UpdateEnrollmentModel
+    public class UpdateEnrollmentModel : BaseResponseModel
     {
-        private Guid InstructorId { get; set; }
-        private Guid StudentId { get; set; }
-        private Guid CategoryId { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Instructor")]
+        public string InstructorId { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Student")]
+        public string StudentId { get; set; }
+
+        [Required]
+        [Display(Name = "Category")]
+        public Category Category { get; set; }
     }
-    public class UpdateEnrollmentResponseModel: BaseResponseModel { }
+    public class UpdateEnrollmentResponseModel : BaseResponseModel { }
 }

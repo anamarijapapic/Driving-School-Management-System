@@ -8,9 +8,10 @@ namespace DSMS.DataAccess.Repositories.Impl
     {
         public VehicleRepository(DatabaseContext context) : base(context) { }
 
-        public async Task<IEnumerable<Vehicle>> GetAllAsync()
+        public IQueryable<Vehicle> GetAll()
         {
-            return await DbSet.Include(v => v.Instructor).ToListAsync();
+            return DbSet.Include(v => v.Instructor).AsQueryable();
+
         }
     }
 }

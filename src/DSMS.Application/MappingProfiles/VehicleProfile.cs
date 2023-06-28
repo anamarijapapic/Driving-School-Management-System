@@ -10,5 +10,6 @@ public class VehicleProfile : Profile
     {
         CreateMap<CreateVehicleModel, Vehicle>();
         CreateMap<Vehicle, VehicleResponseModel>();
+        CreateMap<UpdateVehicleModel, Vehicle>();
     }
 }

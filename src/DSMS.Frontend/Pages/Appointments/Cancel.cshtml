@@ -1,0 +1,21 @@
+﻿@page
+@model DSMS.Frontend.Pages.Appointments.CancelModel
+@{
+    ViewData["Title"] = "Appointments | Cancel";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>You are about to cancel your booking.</strong>
+    </p>
+</div>
+
+
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Cancel</button>
+    </form>
+</div>
