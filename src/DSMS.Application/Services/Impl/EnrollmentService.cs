@@ -94,7 +94,7 @@ namespace DSMS.Application.Services.Impl
             {
                 var searchStringTrim = searchString.ToUpper().Trim();
                 searchedEnrollments = enrollments
-                    .Where(e => e.Instructor.FirstName.Contains(searchStringTrim) ||
+                    .Where(e => e.Instructor.FirstName.ToUpper().Contains(searchStringTrim) ||
                     e.Instructor.LastName.ToUpper().Contains(searchStringTrim) ||
                     e.Student.FirstName.ToUpper().Contains(searchStringTrim) ||
                     e.Student.LastName.ToUpper().Contains(searchStringTrim));

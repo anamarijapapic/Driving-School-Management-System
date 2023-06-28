@@ -14,10 +14,7 @@ namespace DSMS.Frontend.Pages.Appointments
     {
         private readonly IAppointmentService _appointmentService;
 
-        private readonly IMapper _mapper;
-
         private readonly UserManager<ApplicationUser> _userManager;
-        private IEnumerable<AppointmentResponseModel> appointments;
 
         public ApplicationUser ApplicationUser { get; set; }
 
@@ -26,11 +23,9 @@ namespace DSMS.Frontend.Pages.Appointments
         public PaginatedList<AppointmentResponseModel> Appointments { get; set; }
 
         public IndexModel(IAppointmentService appointmentService,
-            UserManager<ApplicationUser> userManager,
-            IMapper mapper)
+            UserManager<ApplicationUser> userManager)
         {
             _appointmentService = appointmentService;
-            _mapper = mapper;
             _userManager = userManager;
         }
 
@@ -41,7 +36,7 @@ namespace DSMS.Frontend.Pages.Appointments
                 pageIndex = 1;
             }
 
-            var pageSize = 3;
+            var pageSize = 10;
 
             ApplicationUser = await _userManager.GetUserAsync(User);
 
@@ -50,6 +45,8 @@ namespace DSMS.Frontend.Pages.Appointments
             UserRole = roles.First();
 
             await _appointmentService.AppointmentsToCompleteAsync();
+
+            IEnumerable<AppointmentResponseModel> appointments;
 
             if (UserRole == "Administrator")
             {
@@ -65,13 +62,12 @@ namespace DSMS.Frontend.Pages.Appointments
             }
 
             ViewData["Keyword"] = searchString;
-            appointments = _appointmentService.Search(Appointments, searchString);
+            appointments = _appointmentService.Search(appointments, searchString);
 
             ViewData["CurrentFilter"] = currentFilter;
-            appointments = _appointmentService.Filter(Appointments, currentFilter);
+            appointments = _appointmentService.Filter(appointments, currentFilter);
 
             Appointments = PaginatedList<AppointmentResponseModel>.Create(appointments, pageIndex ?? 1, pageSize);
-
 
             return Page();
         }

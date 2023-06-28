@@ -14,8 +14,8 @@
         <div class="input-group">
             <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
             <select class="form-select" name="currentFilter">
-                <option value="">All categories</option>
-                @foreach (var catefory in Enum.GetNames(typeof(ApplicationRole)))
+                <option value="">All user roles</option>
+                @foreach (var category in Enum.GetNames(typeof(ApplicationRole)))
                 {
                     <option value="@category" selected="@(category == currentFilter)">@category</option>
                 }

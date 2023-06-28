@@ -3,7 +3,7 @@
     public enum AppointmentStatus : int
     {
         Reserved = 0,
-        Canceled  = 1,
-        Completed = 2,
+        Completed = 1,
+        Canceled  = 2,
     }
 }

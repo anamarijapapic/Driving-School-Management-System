@@ -76,13 +76,12 @@ namespace DSMS.Application.Services.Impl
             var appointments = await _appointmentRepository.GetAll().ToListAsync();
             foreach (var appointment in appointments)
             {
-                if (appointment.Date <= DateOnly.FromDateTime(DateTime.Now))
+                if (appointment.Status == AppointmentStatus.Reserved 
+                    && appointment.Date <= DateOnly.FromDateTime(DateTime.Now)
+                    && appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
                 {
-                    if (appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
-                    {
-                        appointment.Status = AppointmentStatus.Completed;
-                        await _appointmentRepository.UpdateAsync(appointment);
-                    }
+                    appointment.Status = AppointmentStatus.Completed;
+                    await _appointmentRepository.UpdateAsync(appointment);
                 }
             }
         }
@@ -93,12 +92,12 @@ namespace DSMS.Application.Services.Impl
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var searchStringTrim = searchString.ToLower().Trim();
-                searchedAppointments = appointments.Where(a =>
-                    a.Instructor.FirstName.ToLower().Contains(searchStringTrim) ||
-                    a.Instructor.LastName.ToLower().Contains(searchStringTrim) ||
-                    a.Student.FirstName.ToLower().Contains(searchStringTrim) ||
-                    a.Student.LastName.ToLower().Contains(searchStringTrim));
+                var searchStringTrim = searchString.ToUpper().Trim();
+                searchedAppointments = appointments
+                    .Where(a => a.Instructor.FirstName.ToUpper().Contains(searchStringTrim) ||
+                    a.Instructor.LastName.ToUpper().Contains(searchStringTrim) ||
+                    a.Student.FirstName.ToUpper().Contains(searchStringTrim) ||
+                    a.Student.LastName.ToUpper().Contains(searchStringTrim));
             }
 
             return searchedAppointments;
@@ -112,11 +111,15 @@ namespace DSMS.Application.Services.Impl
             {
                 if (currentFilter == Times.Past.ToString())
                 {
-                    filteredAppointments = appointments.Where(a => a.Date < DateOnly.FromDateTime(DateTime.Now));
+                    filteredAppointments = appointments
+                        .Where(a => a.Date < DateOnly.FromDateTime(DateTime.Now))
+                        .Where(a => a.End < TimeOnly.FromDateTime(DateTime.Now));
                 }
                 else if (currentFilter == Times.Future.ToString())
                 {
-                    filteredAppointments = appointments.Where(a => a.Date > DateOnly.FromDateTime(DateTime.Now));
+                    filteredAppointments = appointments
+                        .Where(a => a.Date > DateOnly.FromDateTime(DateTime.Now))
+                        .Where(a => a.Start > TimeOnly.FromDateTime(DateTime.Now)); ;
                 }
             }
 
