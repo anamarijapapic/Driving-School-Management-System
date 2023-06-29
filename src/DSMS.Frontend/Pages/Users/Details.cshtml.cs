@@ -44,7 +44,7 @@ namespace DSMS.Frontend.Pages.Users
 
         public ApplicationUser ApplicationUser { get; private set; }
 
-        public DSMS.Core.Entities.Feedback Feedback { get; private set; }
+        public Core.Entities.Feedback Feedback { get; private set; }
 
         public string UserRole { get; private set; }
 
@@ -106,8 +106,6 @@ namespace DSMS.Frontend.Pages.Users
 
         public async Task<IActionResult> OnPostLike(string Id, string feedbackId, int likeCount, int dislikeCount)
         {
-
-
             var student = await _userManager.GetUserAsync(User);
 
             ReactionInput.IsUseful = true;
@@ -137,8 +135,9 @@ namespace DSMS.Frontend.Pages.Users
                 }
                 else
                 {
+                    var feedback = _feedbackService.GetByIdAsync(feedbackId);
                     var result = await _reactionRepository.GetAllAsync();
-                    var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name).First();
+                    var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name && r.Feedback.Id.ToString() == feedbackId).First();
                     if (reaction == null)
                     {
                         return base.NotFound("Unable to load reaction");
@@ -158,8 +157,9 @@ namespace DSMS.Frontend.Pages.Users
             }
             else
             {
+                var feedback = _feedbackService.GetByIdAsync(feedbackId);
                 var result = await _reactionRepository.GetAllAsync();
-                var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name).First();
+                var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name && r.Feedback.Id.ToString() == feedbackId).First();
                 if (reaction == null)
                 {
                     return base.NotFound("Unable to load reaction");
@@ -201,8 +201,9 @@ namespace DSMS.Frontend.Pages.Users
                 }
                 else
                 {
+                    var feedback = _feedbackService.GetByIdAsync(feedbackId);
                     var result = await _reactionRepository.GetAllAsync();
-                    var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name).First();
+                    var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name && r.Feedback.Id.ToString() == feedbackId).First();
                     if (reaction == null)
                     {
                         return base.NotFound("Unable to load reaction");
@@ -222,8 +223,9 @@ namespace DSMS.Frontend.Pages.Users
             }
             else
             {
+                var feedback = _feedbackService.GetByIdAsync(feedbackId);
                 var result = await _reactionRepository.GetAllAsync();
-                var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name).First();
+                var reaction = result.Where(r => r.Student.UserName == User.Identity?.Name && r.Feedback.Id.ToString() == feedbackId).First();
                 if (reaction == null)
                 {
                     return base.NotFound("Unable to load reaction");

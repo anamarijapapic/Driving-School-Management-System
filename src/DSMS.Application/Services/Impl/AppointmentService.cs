@@ -77,8 +77,9 @@ namespace DSMS.Application.Services.Impl
             foreach (var appointment in appointments)
             {
                 if (appointment.Status == AppointmentStatus.Reserved
-                    && appointment.Date <= DateOnly.FromDateTime(DateTime.Now)
-                    && appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
+                    && (appointment.Date < DateOnly.FromDateTime(DateTime.Now)
+                        || (appointment.Date == DateOnly.FromDateTime(DateTime.Now) 
+                            && appointment.End < TimeOnly.FromDateTime(DateTime.Now))))
                 {
                     appointment.Status = AppointmentStatus.Completed;
                     await _appointmentRepository.UpdateAsync(appointment);
