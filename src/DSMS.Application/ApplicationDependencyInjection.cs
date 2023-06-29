@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using DSMS.Application.Common.Email;
+﻿using DSMS.Application.Common.Email;
 using DSMS.Application.MappingProfiles;
 using DSMS.Application.Services;
 using DSMS.Application.Services.DevImpl;
 using DSMS.Application.Services.Impl;
+using DSMS.DataAccess.Repositories;
+using DSMS.DataAccess.Repositories.Impl;
 using DSMS.Shared.Services;
 using DSMS.Shared.Services.Impl;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace DSMS.Application;
 
@@ -28,9 +30,11 @@ public static class ApplicationDependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IClaimService, ClaimService>();
         services.AddScoped<ITemplateService, TemplateService>();
-        services.AddScoped<IEnrollmentService, EnrollmentService>();
-        services.AddScoped<IFeedbackService, FeedbackService>();
-        services.AddScoped<IAppointmentService, AppointmentService>();
+        services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+        services.AddScoped<IReactionRepository, ReactionRepository>();
 
         if (env.IsDevelopment())
             services.AddScoped<IEmailService, DevEmailService>();

@@ -1,6 +1,5 @@
 ﻿#nullable disable
 
-using AutoMapper;
 using DSMS.Application.Models;
 using DSMS.Application.Models.Appointment;
 using DSMS.Application.Services;
@@ -71,7 +70,5 @@ namespace DSMS.Frontend.Pages.Appointments
 
             return Page();
         }
-
-
     }
 }

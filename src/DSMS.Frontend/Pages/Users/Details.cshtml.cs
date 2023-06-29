@@ -1,13 +1,10 @@
 ﻿#nullable disable
 
-using AutoMapper;
 using DSMS.Application.Models.Feedback;
 using DSMS.Application.Models.Reaction;
 using DSMS.Application.Services;
-using DSMS.Application.Services.Impl;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
-using DSMS.DataAccess.Repositories.Impl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,8 +13,6 @@ namespace DSMS.Frontend.Pages.Users
 {
     public class DetailsModel : PageModel
     {
-        private readonly IMapper _mapper;
-        private readonly IFeedbackRepository _feedbackRepository;
         private readonly IReactionRepository _reactionRepository;
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
@@ -29,25 +24,21 @@ namespace DSMS.Frontend.Pages.Users
             IUserRepository userRepository,
             UserManager<ApplicationUser> userManager,
             IFeedbackService feedbackService,
-            IFeedbackRepository feedbackRepository, 
             IReactionService reactionService,
-            IReactionRepository reactionRepository,
-            IMapper mapper)
+            IReactionRepository reactionRepository)
         {
             _userService = userService;
             _userRepository = userRepository;
             _feedbackService = feedbackService;
             _userManager = userManager;
             _feedbackService = feedbackService;
-            _feedbackRepository = feedbackRepository;
             _reactionService = reactionService;
             _reactionRepository = reactionRepository;
-            _mapper = mapper;
         }
 
         [BindProperty]
         public CreateFeedbackModel Input { get; set; }
-        
+
         [BindProperty]
         public CreateReactionModel ReactionInput { get; set; }
 

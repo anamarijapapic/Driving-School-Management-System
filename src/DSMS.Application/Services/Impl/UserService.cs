@@ -4,7 +4,6 @@ using DSMS.Application.Exceptions;
 using DSMS.Application.Helpers;
 using DSMS.Application.Models;
 using DSMS.Application.Models.User;
-using DSMS.Application.Models.Vehicle;
 using DSMS.Application.Templates;
 using DSMS.Core.Entities.Identity;
 using DSMS.Core.Enums;
@@ -133,7 +132,7 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserResponseModel>> GetAllAsync()
     {
-        var response = await _userRepository.GetAllAsync();
+        var response = await _userRepository.GetAll().ToListAsync();
         var users = new List<UserResponseModel>();
 
         foreach (var user in response)
@@ -158,7 +157,7 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserResponseModel>> GetAllUsersByRoleAsync(ApplicationRole applicationRole)
     {
-        var response = await _userRepository.GetAllAsync();
+        var response = await _userRepository.GetAll().ToListAsync();
         var filteredUsers = new List<UserResponseModel>();
 
         foreach (var user in response)
@@ -196,7 +195,7 @@ public class UserService : IUserService
         if (!string.IsNullOrEmpty(searchString))
         {
             var searchStringTrim = searchString.ToLower().Trim();
-            searchedUsers = users.Where(u => 
+            searchedUsers = users.Where(u =>
                 u.FirstName.ToLower().Contains(searchStringTrim) ||
                 u.LastName.ToLower().Contains(searchStringTrim));
         }

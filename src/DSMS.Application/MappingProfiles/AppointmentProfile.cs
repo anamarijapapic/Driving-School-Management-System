@@ -2,15 +2,14 @@
 using DSMS.Application.Models.Appointment;
 using DSMS.Core.Entities;
 
-namespace DSMS.Application.MappingProfiles
+namespace DSMS.Application.MappingProfiles;
+
+public class AppointmentProfile : Profile
 {
-    public class AppointmentProfile : Profile
+    public AppointmentProfile()
     {
-        public AppointmentProfile()
-        {
-            CreateMap<CreateAppointmentModel, Appointment>();
-            CreateMap<Appointment, AppointmentResponseModel>();
-            CreateMap<AppointmentResponseModel, Appointment>();
-        }
+        CreateMap<CreateAppointmentModel, Appointment>();
+        CreateMap<Appointment, AppointmentResponseModel>();
+        CreateMap<AppointmentResponseModel, Appointment>();
     }
 }

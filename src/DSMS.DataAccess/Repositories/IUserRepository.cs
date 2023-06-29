@@ -4,7 +4,7 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<ApplicationUser>> GetAllAsync();
+        IQueryable<ApplicationUser> GetAll();
 
         Task<ApplicationUser> GetByIdAsync(string id);
     }

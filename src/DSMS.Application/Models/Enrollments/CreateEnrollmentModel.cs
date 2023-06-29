@@ -19,5 +19,6 @@ namespace DSMS.Application.Models.Enrollments
         [Display(Name = "Category")]
         public Category Category { get; set; }
     }
+
     public class CreateEnrollmentResponseModel : BaseResponseModel { }
 }

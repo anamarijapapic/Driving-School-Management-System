@@ -5,7 +5,6 @@ namespace DSMS.DataAccess.Repositories
 {
     public interface IAppointmentRepository : IBaseRepository<Appointment>
     {
-
         IQueryable<Appointment> GetAll();
 
         IQueryable<Appointment> GetByInstructor(ApplicationUser instructor);

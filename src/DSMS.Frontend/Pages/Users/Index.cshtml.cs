@@ -1,7 +1,5 @@
 ﻿using DSMS.Application.Models.User;
 using DSMS.Application.Services;
-using DSMS.Application.Services.Impl;
-using DSMS.Core.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DSMS.Frontend.Pages.Users

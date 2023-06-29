@@ -6,7 +6,7 @@ public class CreateReactionModel
 
     public string StudentId { get; set; }
 
-    public Boolean IsUseful { get; set; }
+    public bool IsUseful { get; set; }
 }
 
 public class CreateReactionResponseModel : BaseResponseModel { }

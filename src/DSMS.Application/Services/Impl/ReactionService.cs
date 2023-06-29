@@ -1,22 +1,20 @@
 ﻿using AutoMapper;
 using DSMS.Application.Models.Reaction;
-using DSMS.Core.Entities.Identity;
 using DSMS.Core.Entities;
+using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DSMS.Application.Services.Impl
 {
     public class ReactionService : IReactionService
     {
         private readonly IMapper _mapper;
+
         private readonly IReactionRepository _reactionRepository;
+
         private readonly IFeedbackRepository _feedbackRepository;
+
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ReactionService(IMapper mapper,

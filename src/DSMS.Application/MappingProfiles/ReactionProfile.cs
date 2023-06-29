@@ -9,7 +9,6 @@ public class ReactionProfile : Profile
     public ReactionProfile()
     {
         CreateMap<CreateReactionModel, Reaction>();
-        CreateMap<UpdateReactionModel, Reaction>();
         CreateMap<Reaction, ReactionResponseModel>();
     }
 }

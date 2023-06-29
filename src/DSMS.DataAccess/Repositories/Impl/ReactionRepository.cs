@@ -1,11 +1,6 @@
 ﻿using DSMS.Core.Entities;
 using DSMS.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DSMS.DataAccess.Repositories.Impl
 {
@@ -18,7 +13,7 @@ namespace DSMS.DataAccess.Repositories.Impl
             return await DbSet
                 .Include(r => r.Student)
                 .Include(r => r.Feedback)
-                .ToListAsync<Reaction>();
+                .ToListAsync();
         }
 
         public Task<Reaction> GetByIdAsync(string id)

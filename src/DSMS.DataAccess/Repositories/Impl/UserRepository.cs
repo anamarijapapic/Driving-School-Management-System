@@ -1,4 +1,5 @@
-﻿using DSMS.Core.Entities.Identity;
+﻿using DSMS.Core.Entities;
+using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +16,9 @@ namespace DSMS.DataAccess.Repositories.Impl
             DbSet = context.Set<ApplicationUser>();
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
+        public IQueryable<ApplicationUser> GetAll()
         {
-            return await DbSet.ToListAsync();
+            return DbSet.AsQueryable();
         }
 
         public async Task<ApplicationUser> GetByIdAsync(string id)

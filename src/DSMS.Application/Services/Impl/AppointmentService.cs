@@ -76,7 +76,7 @@ namespace DSMS.Application.Services.Impl
             var appointments = await _appointmentRepository.GetAll().ToListAsync();
             foreach (var appointment in appointments)
             {
-                if (appointment.Status == AppointmentStatus.Reserved 
+                if (appointment.Status == AppointmentStatus.Reserved
                     && appointment.Date <= DateOnly.FromDateTime(DateTime.Now)
                     && appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
                 {
@@ -112,14 +112,16 @@ namespace DSMS.Application.Services.Impl
                 if (currentFilter == Times.Past.ToString())
                 {
                     filteredAppointments = appointments
-                        .Where(a => a.Date < DateOnly.FromDateTime(DateTime.Now))
-                        .Where(a => a.End < TimeOnly.FromDateTime(DateTime.Now));
+                        .Where(a => (a.Date < DateOnly.FromDateTime(DateTime.Now))
+                            || (a.Date == DateOnly.FromDateTime(DateTime.Now)
+                                && a.End < TimeOnly.FromDateTime(DateTime.Now)));
                 }
                 else if (currentFilter == Times.Future.ToString())
                 {
                     filteredAppointments = appointments
-                        .Where(a => a.Date > DateOnly.FromDateTime(DateTime.Now))
-                        .Where(a => a.Start > TimeOnly.FromDateTime(DateTime.Now)); ;
+                        .Where(a => (a.Date > DateOnly.FromDateTime(DateTime.Now))
+                            || (a.Date == DateOnly.FromDateTime(DateTime.Now)
+                                && a.Start > TimeOnly.FromDateTime(DateTime.Now)));
                 }
             }
 

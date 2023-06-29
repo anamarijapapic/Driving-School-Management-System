@@ -1,5 +1,4 @@
 ﻿using DSMS.Application.Models.Appointment;
-using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 

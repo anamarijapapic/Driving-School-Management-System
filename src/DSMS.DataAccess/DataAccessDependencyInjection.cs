@@ -30,6 +30,7 @@ public static class DataAccessDependencyInjection
         services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+        services.AddScoped<IReactionRepository, ReactionRepository>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
