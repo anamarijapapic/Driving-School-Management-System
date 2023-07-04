@@ -1,16 +1,21 @@
 ﻿#nullable disable
 
 using DSMS.Application.Models.Appointment;
+using DSMS.Core.Enums;
 using DSMS.Application.Services;
+using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using AutoMapper;
 
 namespace DSMS.Frontend.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
         private readonly IAppointmentService _appointmentService;
+
+        private readonly IMapper _mapper;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -21,13 +26,15 @@ namespace DSMS.Frontend.Pages.Appointments
         public IEnumerable<AppointmentResponseModel> Appointments { get; set; }
 
         public IndexModel(IAppointmentService appointmentService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IMapper mapper)
         {
             _appointmentService = appointmentService;
+            _mapper = mapper;
             _userManager = userManager;
         }
 
-        public async Task<PageResult> OnGetAsync()
+        public async Task<PageResult> OnGetAsync(string searchString, string currentFilter)
         {
             ApplicationUser = await _userManager.GetUserAsync(User);
 
@@ -48,7 +55,31 @@ namespace DSMS.Frontend.Pages.Appointments
                 Appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
             }
 
+            ViewData["Keyword"] = searchString;
+            Appointments = _appointmentService.Search(Appointments, searchString);
+
+            ViewData["CurrentFilter"] = currentFilter;
+            Appointments = _appointmentService.Filter(Appointments, currentFilter);
+          
+            //await CompleteAppointments();
             return Page();
         }
+
+        private async Task CompleteAppointments()
+        {
+            foreach (var appointment in Appointments)
+            {
+                //&& appointment.End > TimeOnly.FromDateTime(DateTime.Now)
+                if (appointment.Date <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    if (appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
+                    {
+
+                        await _appointmentService.AppointmentToCompleteAsync(appointment);
+                    }
+                }
+            }
+        }
+
     }
 }

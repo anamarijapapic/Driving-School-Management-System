@@ -3,9 +3,30 @@
 @model DSMS.Frontend.Pages.Appointments.IndexModel
 @{
     ViewData["Title"] = "Appointments | Index";
+
+    var keyword = ViewData["Keyword"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<form asp-action="OnGetAsync" method="get">
+    <div class="row">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Search..."
+                   name="searchString" value="@keyword">
+            <select class="form-select" name="currentFilter">
+                <option value="">All times</option>
+                @foreach (var category in Enum.GetNames(typeof(Times)))
+                {
+                    <option value="@category" selected="@(category == currentFilter)">@category</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+            <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+        </div>
+    </div>
+</form>
 
 <div class="row">
     @if (User.IsInRole("Student"))
@@ -58,7 +79,7 @@
                             }
                             else
                             {
-                                <b class="text-danger">Canceled</b>
+                                <b class="text-danger">@appointment.Status</b>
                             }
                         </td>
                     </tr>

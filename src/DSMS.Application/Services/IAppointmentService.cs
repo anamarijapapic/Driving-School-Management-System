@@ -1,4 +1,5 @@
 ﻿using DSMS.Application.Models.Appointment;
+using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
 using DSMS.Core.Entities.Identity;
 
@@ -19,5 +20,11 @@ namespace DSMS.Application.Services
         Task<IEnumerable<TimeOnly>> GetReservedSlotsByInstructorAndDateAsync(ApplicationUser instructor, DateOnly date);
 
         Task<Appointment> UpdateAsync(Appointment appointment);
+
+        Task<Appointment> AppointmentToCompleteAsync(AppointmentResponseModel appointment);
+
+        IEnumerable<AppointmentResponseModel> Search(IEnumerable<AppointmentResponseModel> appointments, string searchString);
+
+        IEnumerable<AppointmentResponseModel> Filter(IEnumerable<AppointmentResponseModel> appointments, string currentFilter);
     }
 }

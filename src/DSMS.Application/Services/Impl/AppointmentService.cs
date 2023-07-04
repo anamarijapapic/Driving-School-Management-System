@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DSMS.Application.Models.Appointment;
+using DSMS.Application.Models.Vehicle;
 using DSMS.Core.Entities;
+using DSMS.Core.Enums;
 using DSMS.Core.Entities.Identity;
 using DSMS.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -69,5 +71,57 @@ namespace DSMS.Application.Services.Impl
         {
             return await _appointmentRepository.UpdateAsync(appointment);
         }
+
+        public async Task<Appointment> AppointmentToCompleteAsync(AppointmentResponseModel appointment)
+        {
+            Appointment appointment1 = new Appointment()
+            {
+                Id = appointment.Id,
+                Date= appointment.Date,
+                End= appointment.End,
+                Instructor= appointment.Instructor,
+                Start= appointment.Start,
+                Status= Core.Enums.AppointmentStatus.Completed,
+                Student = appointment.Student,
+            };
+            return await _appointmentRepository.UpdateAsync(appointment1);
+        }
+
+        public IEnumerable<AppointmentResponseModel> Search(IEnumerable<AppointmentResponseModel> appointments, string searchString)
+        {
+            IEnumerable<AppointmentResponseModel> searchedAppointments = appointments;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchStringTrim = searchString.ToLower().Trim();
+                searchedAppointments = appointments.Where(a => 
+                    a.Instructor.FirstName.ToLower().Contains(searchStringTrim) ||
+                    a.Instructor.LastName.ToLower().Contains(searchStringTrim) ||
+                    a.Student.FirstName.ToLower().Contains(searchStringTrim) ||
+                    a.Student.LastName.ToLower().Contains(searchStringTrim));
+            }
+
+            return searchedAppointments;
+        }
+
+        public IEnumerable<AppointmentResponseModel> Filter(IEnumerable<AppointmentResponseModel> appointments, string currentFilter)
+        {
+            IEnumerable<AppointmentResponseModel> filteredAppointments = appointments;
+
+            if (!string.IsNullOrEmpty(currentFilter))
+            {
+                if (currentFilter == Times.Past.ToString())
+                {
+                    filteredAppointments = appointments.Where(a => a.Date < DateOnly.FromDateTime(DateTime.Now));
+                }
+                else if (currentFilter == Times.Future.ToString())
+                {
+                    filteredAppointments = appointments.Where(a => a.Date > DateOnly.FromDateTime(DateTime.Now));
+                }
+            }
+
+            return filteredAppointments;
+        }
+
     }
 }
