@@ -72,19 +72,20 @@ namespace DSMS.Application.Services.Impl
             return await _appointmentRepository.UpdateAsync(appointment);
         }
 
-        public async Task<Appointment> AppointmentToCompleteAsync(AppointmentResponseModel appointment)
+        public async Task AppointmentsToCompleteAsync()
         {
-            Appointment appointment1 = new Appointment()
+            var appointments = await _appointmentRepository.GetAll().ToListAsync();
+            foreach (var appointment in appointments)
             {
-                Id = appointment.Id,
-                Date= appointment.Date,
-                End= appointment.End,
-                Instructor= appointment.Instructor,
-                Start= appointment.Start,
-                Status= Core.Enums.AppointmentStatus.Completed,
-                Student = appointment.Student,
-            };
-            return await _appointmentRepository.UpdateAsync(appointment1);
+                if (appointment.Date <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    if (appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
+                    {
+                        appointment.Status = AppointmentStatus.Completed;
+                        await _appointmentRepository.UpdateAsync(appointment);
+                    }
+                }
+            }
         }
 
         public IEnumerable<AppointmentResponseModel> Search(IEnumerable<AppointmentResponseModel> appointments, string searchString)

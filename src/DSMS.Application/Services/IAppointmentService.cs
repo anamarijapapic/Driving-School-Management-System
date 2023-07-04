@@ -21,7 +21,7 @@ namespace DSMS.Application.Services
 
         Task<Appointment> UpdateAsync(Appointment appointment);
 
-        Task<Appointment> AppointmentToCompleteAsync(AppointmentResponseModel appointment);
+        Task AppointmentsToCompleteAsync();
 
         IEnumerable<AppointmentResponseModel> Search(IEnumerable<AppointmentResponseModel> appointments, string searchString);
 

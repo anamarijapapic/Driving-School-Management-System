@@ -76,11 +76,18 @@
                                     <i class="bi bi-x-lg"></i>
                                     Cancel
                             </a>
-                            }
-                            else
+                        }
+                        else
+                        {
+                            @if(appointment.Status == AppointmentStatus.Canceled)
                             {
                                 <b class="text-danger">@appointment.Status</b>
+                            } else
+                            {
+                                <b class="text-success">@appointment.Status</b>
                             }
+
+                    }
                         </td>
                     </tr>
                 }

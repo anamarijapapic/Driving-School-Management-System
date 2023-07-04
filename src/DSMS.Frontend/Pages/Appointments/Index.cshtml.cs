@@ -42,6 +42,8 @@ namespace DSMS.Frontend.Pages.Appointments
 
             UserRole = roles.First();
 
+            await _appointmentService.AppointmentsToCompleteAsync();
+
             if (UserRole == "Administrator")
             {
                 Appointments = await _appointmentService.GetAllAsync();
@@ -55,31 +57,17 @@ namespace DSMS.Frontend.Pages.Appointments
                 Appointments = await _appointmentService.GetByStudentAsync(ApplicationUser);
             }
 
+
             ViewData["Keyword"] = searchString;
             Appointments = _appointmentService.Search(Appointments, searchString);
 
             ViewData["CurrentFilter"] = currentFilter;
             Appointments = _appointmentService.Filter(Appointments, currentFilter);
           
-            //await CompleteAppointments();
+            
             return Page();
         }
 
-        private async Task CompleteAppointments()
-        {
-            foreach (var appointment in Appointments)
-            {
-                //&& appointment.End > TimeOnly.FromDateTime(DateTime.Now)
-                if (appointment.Date <= DateOnly.FromDateTime(DateTime.Now))
-                {
-                    if (appointment.End <= TimeOnly.FromDateTime(DateTime.Now))
-                    {
-
-                        await _appointmentService.AppointmentToCompleteAsync(appointment);
-                    }
-                }
-            }
-        }
 
     }
 }
